@@ -899,6 +899,49 @@
             font-weight: 300;
         }
 
+        /* SVG Animated Portfolio Cube (Launch Button) */
+        .portfolio-icon-svg {
+            width: 28px;
+            height: 28px;
+            color: var(--text-primary);
+            overflow: visible;
+        }
+
+        .cube-path {
+            stroke-dasharray: 120;
+            stroke-dashoffset: 120;
+        }
+
+        .cube-path.inner {
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+        }
+
+        /* Only animate when the button's parent is visible to emulate the checkmark */
+        #ready-state.visible .cube-path.outer {
+            animation: draw-cube-outer 1.2s var(--ease-out) 1.5s forwards,
+                       pulse-cube-stroke 4s var(--ease-out) 3s infinite alternate;
+        }
+
+        #ready-state.visible .cube-path.inner {
+            animation: draw-cube-inner 1.2s var(--ease-out) 1.8s forwards,
+                       pulse-cube-stroke 4s var(--ease-out) 3s infinite alternate-reverse;
+        }
+
+        @keyframes draw-cube-outer {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes draw-cube-inner {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes pulse-cube-stroke {
+            0%, 20% { opacity: 1; }
+            50% { opacity: 0.5; }
+            80%, 100% { opacity: 1; }
+        }
+
         /* ========================================
            LAUNCH BUTTON — Conceptual Redesign (Precision Glass)
            ======================================== */
@@ -912,28 +955,28 @@
         .launch-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 36px;
+            justify-content: center;
+            padding: 16px; /* Icon only sizing */
+            border-radius: 50%; /* Circle shape instead of rounded rect */
             background: linear-gradient(180deg, rgba(28, 28, 36, 0.6) 0%, rgba(18, 18, 24, 0.8) 100%);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 6px;
             /* Precision OS corner */
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
                 0 4px 15px rgba(0, 0, 0, 0.2);
             color: var(--text-primary);
-            font-family: var(--font-mono);
-            /* Technical aesthetic */
-            font-size: 0.75rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
             cursor: none;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .launch-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         /* Subtle light sweep effect */
@@ -950,37 +993,9 @@
             z-index: 0;
         }
 
-        .launch-btn span,
-        .launch-btn i {
-            position: relative;
-            z-index: 1;
-        }
-
-        .launch-btn:hover {
-            background: linear-gradient(180deg, rgba(38, 38, 48, 0.8) 0%, rgba(22, 22, 30, 0.9) 100%);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 8px 30px rgba(0, 0, 0, 0.4),
-                0 0 20px rgba(160, 160, 184, 0.08);
-            transform: translateY(-2px);
-            letter-spacing: 0.2em;
-            /* Expands outwards */
-            padding: 16px 42px;
-        }
-
         .launch-btn:hover::before {
             transform: translateX(100%);
-        }
-
-        .launch-btn .material-symbols-outlined {
-            font-size: 16px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0.6;
-        }
-
-        .launch-btn:hover .material-symbols-outlined {
-            transform: translateX(6px);
-            opacity: 1;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* ========================================
@@ -1074,11 +1089,6 @@
 
             .ready-title {
                 font-size: 1.2rem;
-            }
-
-            .launch-btn {
-                padding: 12px 30px;
-                font-size: 0.8rem;
             }
 
             html,
@@ -1176,9 +1186,13 @@
                     Your immersive 3D portfolio experience is loaded and ready to explore.
                 </p>
                 <div class="launch-btn-wrapper">
-                    <a href="scene.html" class="launch-btn">
-                        Launch Experience
-                        <span class="material-symbols-outlined">arrow_forward</span>
+                    <a href="scene.html" class="launch-btn" aria-label="Launch Experience">
+                        <svg class="portfolio-icon-svg" viewBox="0 0 52 52">
+                            <!-- Outer Hexagon -->
+                            <polygon class="cube-path outer" points="26,6 43.3,16 43.3,36 26,46 8.7,36 8.7,16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                            <!-- Inner lines (Y shape) -->
+                            <path class="cube-path inner" d="M26,26 L26,6 M26,26 L43.3,36 M26,26 L8.7,36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
                     </a>
                 </div>
             </div>
