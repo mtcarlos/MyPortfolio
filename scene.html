@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Portfolio Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="/src/main.js"></script>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+        <p>Cargando experiencia...</p>
+    </div>
+
+    <!-- UI Overlay for Portfolio Content -->
+    <!-- UI Overlay for Portfolio Content (MacOS Style) -->
+    <!-- Top Menu Bar REMOVED -->
+    <!-- <div id="top-bar"></div> -->
+
+    <!-- Notifications -->
+    <div id="notification-area"></div>
+
+    <!-- Dock -->
+    <div id="dock-container">
+        <div class="dock">
+            <!-- Collapsed Trigger Icon (Visible only when collapsed) -->
+            <div class="dock-trigger">
+                <span class="material-symbols-outlined">apps</span>
+            </div>
+
+            <!-- Dock Items (Hidden when collapsed) -->
+            <div class="dock-items">
+                <div class="dock-item" data-path="about" data-tooltip="Sobre Mí">
+                    <span class="material-symbols-outlined dock-icon">person</span>
+                </div>
+                <div class="dock-item" data-path="projects" data-tooltip="Proyectos">
+                    <span class="material-symbols-outlined dock-icon">folder_open</span>
+                </div>
+                <div class="dock-item" data-path="skills" data-tooltip="Habilidades">
+                    <span class="material-symbols-outlined dock-icon">school</span>
+                </div>
+                <div class="dock-item" data-path="contact" data-tooltip="Contacto">
+                    <span class="material-symbols-outlined dock-icon">mail</span>
+                </div>
+                <div class="dock-separator"
+                    style="width: 1px; height: 30px; background: rgba(255,255,255,0.2); margin: 0 5px;"></div>
+                <div class="dock-item" data-path="settings" data-tooltip="Ajustes">
+                    <span class="material-symbols-outlined dock-icon">settings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dock Toggle Removed -->
+
+    <div id="ui-layer" class="">
+        <div class="mac-window">
+            <!-- Title Bar -->
+            <div class="title-bar">
+                <div class="window-controls">
+                    <div class="control-btn close-btn" id="close-window"></div>
+                    <div class="control-btn minimize-btn"></div>
+                    <div class="control-btn maximize-btn"></div>
+                </div>
+                <div class="navigation-controls">
+                    <button class="nav-btn" id="nav-back"><span
+                            class="material-symbols-outlined">arrow_back</span></button>
+                    <button class="nav-btn lang-toggle" id="lang-toggle">ES</button>
+                    <!-- <button class="nav-btn"><span class="material-symbols-outlined">arrow_forward</span></button> -->
+                </div>
+                <div class="window-title">Finder - Portfolio</div>
+            </div>
+
+            <!-- Body -->
+            <div class="window-body">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-item active" data-path="root">
+                        <span class="material-symbols-outlined">home</span> Inicio
+                    </div>
+                    <div class="sidebar-item" data-path="about">
+                        <span class="material-symbols-outlined">person</span> Sobre Mí
+                    </div>
+                    <div class="sidebar-item" data-path="projects">
+                        <span class="material-symbols-outlined">folder_open</span> Proyectos
+                    </div>
+                    <div class="sidebar-item" data-path="contact">
+                        <span class="material-symbols-outlined">mail</span> Contacto
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="finder-content" id="finder-content">
+                    <!-- Dynamic Items will be injected here -->
+                </div>
+
+                <!-- Preview Pane (Sidebar Right) -->
+                <div class="preview-pane" id="preview-pane">
+                    <span class="material-symbols-outlined preview-icon" id="preview-icon">description</span>
+                    <div class="preview-title" id="preview-title">Nombre del Archivo</div>
+                    <div class="preview-content" id="preview-content">
+                        <!-- Content goes here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal">
+        <div class="settings-header">
+            <span>Preferencias del Sistema</span>
+            <div class="close-settings" id="close-settings"><span class="material-symbols-outlined">close</span></div>
+        </div>
+        <div class="settings-body">
+            <div class="setting-item">
+                <div class="setting-label">
+                    <span class="material-symbols-outlined">volume_up</span>
+                    <span>Sonido</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="mute-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Crosshair -->
+    <div id="crosshair"></div>
+
+
+    <!-- 3D Scene -->
+    <a-scene shadow="type: pcfsoft" renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;">
+
+        <!-- Asset Management -->
+        <a-assets>
+            <img id="floor-texture" src="assets/images/suelo.avif">
+            <img id="wall-texture" src="assets/images/pared.jpg">
+            <!-- Loading character here ensures it's preloaded for the loading screen event -->
+            <a-asset-item id="character-model" src="assets/characters/personaje.glb"></a-asset-item>
+            <a-asset-item id="desk-model" src="assets/models/Desk.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- Player Controller (Rig) -->
+        <!-- Physics Body Container -->
+        <a-entity id="rig" position="0 2 0"
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 60; angularDamping: 1.0;" character-controller
+            smart-camera="target: #rig">
+
+            <!-- Character Model -->
+            <!-- We rotate this visual model independently inside the rig -->
+            <a-entity id="character" gltf-model="#character-model" rotation="0 180 0" position="0 -0.5 0"
+                animation-mixer="clip: Idle; loop: repeat" shadow="receive: true; cast: true">
+            </a-entity>
+
+            <!-- Camera (3rd Person View) -->
+            <!-- Camera Boom (Orbit Control) -->
+            <a-entity id="camera-boom" position="0 1.5 0" look-controls="pointerLockEnabled: true">
+                <!-- Camera (View) -->
+                <a-entity id="main-camera" camera position="0 0 2.5">
+                    <a-cursor color="white" raycaster="objects: .clickable" visible="false"></a-cursor>
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+        <!-- Environment: Room -->
+        <!-- Floor -->
+        <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#FFFFFF" src="#floor-texture"
+            repeat="4 4" shadow="receive: true" static-body></a-plane>
+
+        <!-- Ceiling / Techo -->
+        <a-entity id="ceiling-group" position="0 4 0">
+            <!-- Techo base oscuro -->
+            <a-plane rotation="90 0 0" width="10" height="10" color="#0a0a14" shadow="receive: true"
+                static-body></a-plane>
+
+            <!-- Panel central flotante (usa textura de pared para dar coherencia) -->
+            <a-plane position="0 -0.3 0" rotation="90 0 0" width="7" height="7" color="#FFFFFF" src="#wall-texture"
+                repeat="3 3"></a-plane>
+
+            <!-- Tiras de Neón (Cyan) alrededor del panel central -->
+            <!-- Borde Arriba/Abajo -->
+            <a-plane position="0 -0.29 -3.6" rotation="90 0 0" width="7.4" height="0.2"
+                material="shader: flat; color: #00e5ff"></a-plane>
+            <a-plane position="0 -0.29 3.6" rotation="90 0 0" width="7.4" height="0.2"
+                material="shader: flat; color: #00e5ff"></a-plane>
+            <!-- Borde Izquierda/Derecha -->
+            <a-plane position="-3.6 -0.29 0" rotation="90 0 0" width="0.2" height="7"
+                material="shader: flat; color: #00e5ff"></a-plane>
+            <a-plane position="3.6 -0.29 0" rotation="90 0 0" width="0.2" height="7"
+                material="shader: flat; color: #00e5ff"></a-plane>
+
+            <!-- Luz suave de relleno que emiten los neones -->
+            <a-light type="point" color="#00e5ff" intensity="0.3" position="0 -1 0" distance="6"></a-light>
+        </a-entity>
+
+        <!-- Walls -->
+        <a-box position="0 2 -5" width="10" height="4" depth="0.1" color="#FFFFFF" src="#wall-texture" repeat="4 2"
+            shadow="receive: true; cast: true" static-body></a-box> <!-- Back -->
+        <a-box position="0 2 5" width="10" height="4" depth="0.1" color="#FFFFFF" src="#wall-texture" repeat="4 2"
+            shadow="receive: true; cast: true" static-body></a-box> <!-- Front -->
+        <a-box position="-5 2 0" width="0.1" height="4" depth="10" color="#FFFFFF" src="#wall-texture" repeat="4 2"
+            shadow="receive: true; cast: true" static-body></a-box> <!-- Left -->
+        <a-box position="5 2 0" width="0.1" height="4" depth="10" color="#FFFFFF" src="#wall-texture" repeat="4 2"
+            shadow="receive: true; cast: true" static-body></a-box> <!-- Right -->
+
+        <!-- Lighting -->
+        <!-- Ambient Light (softer) -->
+        <a-light type="ambient" color="#BBB" intensity="0.4"></a-light>
+        <!-- Directional Light (Sun/Key Light) with Shadows -->
+        <a-light type="directional" color="#FFF" intensity="1.2" position="-2 4 4" cast-shadow="true"
+            shadow-bias="-0.0001" shadow-map-width="2048" shadow-map-height="2048"></a-light>
+
+        <!-- Interactive Objects -->
+
+        <!-- Desk Physics (Transparent for collision) -->
+        <a-box position="-0.237 0.75 -3.385" width="0.77" height="0.88" depth="2.83"
+            material="opacity: 0; transparent: true" static-body rotation="0 -90 0"></a-box>
+
+        <!-- Interaction Label (Floating Text) -->
+        <a-entity id="desk-label" position="0.133 2.086 -2.38"
+            text="value: Portfolio; align: center; width: 4; color: #FFF; shader: msdf; font: https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json"
+            visible="false" look-at="#main-camera"></a-entity>
+
+        <!-- Desk Model (Clickable) -->
+        <a-entity class="clickable" data-path="root" data-label="desk-label" gltf-model="assets/models/Desk.glb"
+            position="-4.73808 -0.2107 -2.38374" rotation="0 -90 0" scale="1 1 1"
+            shadow="cast: true; receive: true"></a-entity>
+
+    </a-scene>
+</body>
+
+</html>

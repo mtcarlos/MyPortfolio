@@ -1,0 +1,25 @@
+# A-Frame 3D Portfolio Tasks
+
+- [ ] Project Setup <!-- id: 0 -->
+    - [ ] Check existing files <!-- id: 1 -->
+    - [ ] Create/Update [index.html](file:///c:/Users/mtcar/OneDrive/Documentos/VS/PERSONAL/Portfolio/index.html) with A-Frame boilerplate <!-- id: 2 -->
+    - [ ] Set up asset management (images, models if needed) <!-- id: 3 -->
+- [ ] Environment Construction <!-- id: 4 -->
+    - [ ] Create room geometry (Floor, Walls, Ceiling) <!-- id: 5 -->
+    - [ ] Add lighting (Ambient, Directional/Point lights) <!-- id: 6 -->
+- [ ] Player Controller <!-- id: 7 -->
+    - [ ] Implement camera rig with movement controls (WASD) <!-- id: 8 -->
+    - [ ] Add look controls <!-- id: 9 -->
+    - [ ] Add cursor/raycaster for interaction <!-- id: 10 -->
+- [ ] Interactive Objects (Portfolio Items) <!-- id: 11 -->
+    - [ ] "About Me" object (e.g., Photo Frame/Diploma) <!-- id: 12 -->
+    - [ ] "Projects" object (e.g., Computer/Monitor) <!-- id: 13 -->
+    - [ ] "Skills" object (e.g., Bookshelf/Tech stacks) <!-- id: 14 -->
+    - [ ] "Contact" object (e.g., Phone/Mailbox) <!-- id: 15 -->
+- [ ] Interaction & UI Logic <!-- id: 16 -->
+    - [ ] Create 2D UI overlay for displaying content <!-- id: 17 -->
+    - [ ] Write JavaScript for click handling <!-- id: 18 -->
+    - [ ] Animate camera or show modals on interaction <!-- id: 19 -->
+- [ ] Polish & Assets <!-- id: 20 -->
+    - [ ] Add textures/colors <!-- id: 21 -->
+    - [ ] Refine movement and collision <!-- id: 22 -->
