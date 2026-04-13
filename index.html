@@ -12,41 +12,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&family=Bodoni+Moda+SC:ital,opsz@1,6..96&family=Bodoni+Moda:opsz@6..96&family=Cinzel+Decorative:wght@400;700;900&family=Fleur+De+Leah&family=Jacquard+12&family=Rock+3D&family=Rock+Salt&family=Uncial+Antiqua&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
-        /* ========================================
-           DESIGN SYSTEM — Portfolio OS Landing v3
-           Next-Level Cinematic Experience
-           ======================================== */
-
-        @property --border-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
+        /* ==========================================
+           DESIGN SYSTEM — Portfolio OS Landing
+           Unified with Finder aesthetic
+           ========================================== */
 
         :root {
             --bg-deep: #08080a;
-            --bg-surface: rgba(18, 18, 24, 0.72);
-            --bg-surface-hover: rgba(28, 28, 36, 0.8);
-            --text-primary: #e8e8ed;
-            --text-secondary: #6e6e80;
-            --text-tertiary: #44445a;
-            --accent: #a0a0b8;
-            --accent-warm: #b8a898;
-            --accent-cool: #8898b8;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --glass-blur: 40px;
+            --dark-mac-bg: rgba(30, 30, 32, 0.88);
+            --dark-mac-sidebar: rgba(38, 38, 40, 0.75);
+            --dark-mac-text: #f5f5f7;
+            --dark-mac-border: rgba(255, 255, 255, 0.08);
+            --dark-mac-border-strong: rgba(255, 255, 255, 0.14);
+            --text-secondary: rgba(255, 255, 255, 0.4);
+            --text-tertiary: rgba(255, 255, 255, 0.2);
+            --mac-accent: #007AFF;
             --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-hero: 'Rock 3D', system-ui;
             --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
             --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --ease-out: cubic-bezier(0.25, 0.8, 0.25, 1);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -66,104 +56,40 @@
         body {
             background: var(--bg-deep);
             font-family: var(--font-display);
-            color: var(--text-primary);
+            color: var(--dark-mac-text);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ========================================
-           VIGNETTE OVERLAY
-           ======================================== */
-
-        .vignette {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(8, 8, 10, 0.65) 100%);
-        }
-
-        /* ========================================
-           CORNER COORDINATES — Artistic Flair
-           ======================================== */
-
-        .corner-coord {
-            position: fixed;
-            z-index: 50;
-            font-family: var(--font-mono);
-            font-size: 0.6rem;
-            font-weight: 300;
-            color: var(--text-tertiary);
-            letter-spacing: 0.1em;
-            opacity: 0;
-            transition: opacity 2s ease 2s;
-        }
-
-        body.loaded .corner-coord {
-            opacity: 0.35;
-        }
-
-        .corner-coord.top-left {
-            top: 24px;
-            left: 24px;
-        }
-
-        .corner-coord.top-right {
-            top: 24px;
-            right: 24px;
-            text-align: right;
-        }
-
-        /* ========================================
-           CUSTOM CURSOR — Spring Physics + Trail
-           ======================================== */
+        /* ==========================================
+           CUSTOM CURSOR — Minimal, matches scene crosshair
+           ========================================== */
 
         #custom-cursor {
             position: fixed;
-            width: 8px;
-            height: 8px;
-            background: rgba(232, 232, 237, 0.6);
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             pointer-events: none;
             z-index: 99999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s var(--ease-out),
-                height 0.3s var(--ease-out),
-                background 0.3s ease;
-            mix-blend-mode: difference;
+            transition: width 0.25s ease,
+                height 0.25s ease,
+                background 0.25s ease,
+                border 0.25s ease;
         }
 
         #custom-cursor.hover {
-            width: 36px;
-            height: 36px;
-            background: rgba(232, 232, 237, 0.1);
-            border: 1px solid rgba(232, 232, 237, 0.25);
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        #cursor-glow {
-            position: fixed;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(160, 160, 184, 0.035) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-trail {
-            position: fixed;
-            background: rgba(232, 232, 237, 0.25);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-
-        /* ========================================
+        /* ==========================================
            THREE.JS CANVAS
-           ======================================== */
+           ========================================== */
 
         #bg-canvas {
             position: fixed;
@@ -173,9 +99,9 @@
             z-index: 0;
         }
 
-        /* ========================================
-           HERO OVERLAY — Kinetic Typography
-           ======================================== */
+        /* ==========================================
+           HERO OVERLAY — Clean OS Name Reveal
+           ========================================== */
 
         #hero-overlay {
             position: fixed;
@@ -185,181 +111,49 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.2s var(--ease-out);
+            transition: opacity 0.8s ease;
             pointer-events: none;
-        }
-
-        /* Ambient breathing glow behind name */
-        #hero-overlay::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 250px;
-            background: radial-gradient(ellipse, rgba(160, 160, 184, 0.06) 0%, transparent 70%);
-            animation: breathe-glow 5s ease-in-out infinite;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -60%);
-            pointer-events: none;
-        }
-
-        @keyframes breathe-glow {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: translate(-50%, -60%) scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -60%) scale(1.2);
-            }
         }
 
         #hero-overlay.fade-out {
             opacity: 0;
         }
 
-        /* Per-letter hero name — 3D Perspective Container */
+        /* Hero Name — Inter ultralight, wide tracking */
         #hero-name {
-            font-family: var(--font-hero);
-            font-size: clamp(3rem, 7.5vw, 6.5rem);
-            font-weight: 300;
-            letter-spacing: 0.12em;
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 200;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--text-primary);
+            color: var(--dark-mac-text);
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             position: relative;
-            perspective: 1200px;
-            transform-style: preserve-3d;
-        }
-
-        /* Shooting star trail canvas */
-        #star-trails-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9;
-            pointer-events: none;
+            min-height: 1.2em;
         }
 
         .letter {
             display: inline-block;
             opacity: 0;
             position: relative;
-            will-change: transform, opacity, filter;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
+            will-change: opacity, filter;
+            transition: opacity 0.4s ease, filter 0.4s ease;
+        }
+
+        .letter.revealed {
+            opacity: 1;
+            filter: blur(0);
+        }
+
+        .letter.scrambling {
+            opacity: 0.4;
+            color: var(--text-secondary);
         }
 
         .letter.space {
-            width: 0.35em;
-        }
-
-        /* Impact shockwave ring when letter lands */
-        .letter.landed::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 60px;
-            height: 60px;
-            border: 1px solid rgba(180, 200, 255, 0.4);
-            transform: translate(-50%, -50%) scale(0);
-            border-radius: 50%;
-            animation: impact-ring 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
-            pointer-events: none;
-        }
-
-        /* Impact radial glow when letter lands */
-        .letter.landed::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle,
-                    rgba(200, 215, 255, 0.6) 0%,
-                    rgba(160, 180, 230, 0.2) 30%,
-                    transparent 70%);
-            transform: translate(-50%, -50%) scale(0);
-            border-radius: 50%;
-            animation: impact-glow 0.7s var(--ease-out) forwards;
-            pointer-events: none;
-        }
-
-        @keyframes impact-ring {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(3.5);
-                opacity: 0;
-            }
-        }
-
-        @keyframes impact-glow {
-            0% {
-                transform: translate(-50%, -50%) scale(0);
-                opacity: 1;
-            }
-
-            40% {
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: translate(-50%, -50%) scale(3);
-                opacity: 0;
-            }
-        }
-
-        /* Material Light Texture & Zero Gravity Float (Points 2 & 4) */
-        .letter.floating-stone {
-            color: transparent;
-            /* Monolithic stone/metal texture with warm and cool reflections */
-            background-image: linear-gradient(
-                110deg,
-                #b0b5c0 0%,
-                #626c82 20%,
-                #ffffff 35%,
-                #cbbbaa 50%,
-                #b0b5c0 65%,
-                #626c82 80%,
-                #ffffff 100%
-            );
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            /* This ensures the gradient shows through the text while allowing text-shadow to sit behind */
-            -webkit-text-fill-color: transparent;
-            
-            animation: 
-                stone-shine 10s var(--shine-del) infinite linear,
-                zero-gravity var(--float-dur) var(--float-del) infinite cubic-bezier(0.45, 0.05, 0.55, 0.95) alternate;
-        }
-
-        @keyframes stone-shine {
-            0% { background-position: 300% 0; }
-            100% { background-position: 0% 0; }
-        }
-
-        @keyframes zero-gravity {
-            0% { 
-                transform: translate3d(calc(var(--float-x) * -1), -6px, 15px) 
-                           rotateX(4deg) rotateY(-3deg) rotateZ(calc(var(--float-r) * -1)); 
-            }
-            100% { 
-                transform: translate3d(var(--float-x), 6px, -15px) 
-                           rotateX(-4deg) rotateY(3deg) rotateZ(var(--float-r)); 
-            }
+            width: 0.3em;
         }
 
         /* Decorative reveal line */
@@ -367,34 +161,337 @@
             width: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--text-secondary), transparent);
-            margin: 20px auto 0;
-            transition: width 2s var(--ease-out);
+            margin: 24px auto 0;
+            transition: width 1.5s var(--ease-out-expo);
         }
 
         .hero-line.visible {
-            width: 140px;
+            width: 100px;
         }
 
-        /* Subtitle with typewriter effect */
+        /* Subtitle */
         #hero-subtitle {
-            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+            font-size: 0.72rem;
             font-weight: 300;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--text-secondary);
             margin-top: 16px;
-            min-height: 1.5em;
+            min-height: 1.3em;
             font-family: var(--font-mono);
+            opacity: 0;
+            transition: opacity 0.8s ease;
         }
 
-        #hero-subtitle .typewriter-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background: var(--text-secondary);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: blink-cursor 0.8s step-end infinite;
+        #hero-subtitle.visible {
+            opacity: 1;
+        }
+
+        /* ==========================================
+           SKIP / CONTINUE HINT
+           ========================================== */
+
+        #skip-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            font-size: 0.68rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            color: var(--text-tertiary);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #skip-hint.visible {
+            opacity: 1;
+        }
+
+        .skip-chevron {
+            font-size: 0.85rem;
+            animation: bob-chevron 2s ease-in-out infinite;
+        }
+
+        @keyframes bob-chevron {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translateY(3px);
+                opacity: 0.8;
+            }
+        }
+
+        /* ==========================================
+           AUDIO TOGGLE
+           ========================================== */
+
+        #audio-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 50;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--dark-mac-border);
+            background: rgba(18, 18, 22, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+            transition: all 0.25s ease;
+        }
+
+        #audio-toggle:hover {
+            border-color: var(--dark-mac-border-strong);
+            color: var(--text-secondary);
+        }
+
+        #audio-toggle.active {
+            color: var(--dark-mac-text);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        #audio-toggle .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        /* ==========================================
+           macOS WINDOW — Identical to Finder
+           ========================================== */
+
+        .mac-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, calc(-50% + 40px)) scale(0.94);
+            width: min(680px, 90vw);
+            min-height: 340px;
+            background: var(--dark-mac-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--dark-mac-border-strong);
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 20;
+
+            /* Multi-layer shadow — identical to Finder */
+            box-shadow:
+                0 0 0 0.5px rgba(255, 255, 255, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.04),
+                0 8px 16px rgba(0, 0, 0, 0.12),
+                0 24px 48px rgba(0, 0, 0, 0.24),
+                0 48px 80px rgba(0, 0, 0, 0.16);
+
+            /* Hidden initially */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease,
+                transform 0.7s var(--ease-out-expo);
+        }
+
+        /* Inner top-edge highlight */
+        .mac-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent 5%,
+                    rgba(255, 255, 255, 0.12) 30%,
+                    rgba(255, 255, 255, 0.15) 50%,
+                    rgba(255, 255, 255, 0.12) 70%,
+                    transparent 95%);
+            z-index: 10;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .mac-window.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+            transition: opacity 0.5s ease,
+                transform 0.7s var(--spring);
+        }
+
+        /* Title Bar */
+        .title-bar {
+            height: 38px;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            user-select: none;
+            cursor: grab;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--dark-mac-border);
+        }
+
+        .title-bar:active {
+            cursor: grabbing;
+        }
+
+        /* Traffic Lights */
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            margin-right: 16px;
+        }
+
+        .control-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn::after {
+            font-size: 8px;
+            font-weight: 700;
+            line-height: 1;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+            color: rgba(0, 0, 0, 0.55);
+        }
+
+        .window-controls:hover .control-btn::after {
+            opacity: 1;
+        }
+
+        .close-btn {
+            background: #FF5F56;
+            box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+        }
+
+        .close-btn::after {
+            content: '×';
+            font-size: 10px;
+            margin-top: -0.5px;
+        }
+
+        .minimize-btn {
+            background: #FFBD2E;
+            box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+        }
+
+        .minimize-btn::after {
+            content: '−';
+            font-size: 11px;
+            margin-top: -1px;
+        }
+
+        .maximize-btn {
+            background: #27C93F;
+            box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+        }
+
+        .maximize-btn::after {
+            content: '↗';
+            font-size: 7px;
+        }
+
+        .window-title {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.82rem;
+            color: var(--dark-mac-text);
+            opacity: 0.55;
+            letter-spacing: 0.01em;
+        }
+
+        /* Window Body */
+        .window-body {
+            padding: 28px 32px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* ==========================================
+           BOOT SEQUENCE
+           ========================================== */
+
+        #boot-section {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #boot-section.complete {
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        #boot-log {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-height: 180px;
+        }
+
+        .boot-line {
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            line-height: 1.8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .boot-line.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .boot-timestamp {
+            color: var(--text-tertiary);
+            font-size: 0.62rem;
+            flex-shrink: 0;
+        }
+
+        .boot-prefix {
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .boot-text {
+            flex: 1;
+        }
+
+        .boot-text.typing::after {
+            content: '█';
+            animation: blink-cursor 0.6s step-end infinite;
+            color: var(--text-secondary);
+            font-size: 0.65em;
+            margin-left: 1px;
         }
 
         @keyframes blink-cursor {
@@ -409,343 +506,10 @@
             }
         }
 
-        /* ========================================
-           SKIP / CONTINUE HINT
-           ======================================== */
-
-        #skip-hint {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 15;
-            font-size: 0.75rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--text-tertiary);
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            animation: float-hint 3s ease-in-out infinite;
-        }
-
-        #skip-hint.visible {
-            opacity: 1;
-        }
-
-        .skip-chevron {
-            font-size: 0.9rem;
-            animation: bob-chevron 1.5s ease-in-out infinite;
-        }
-
-        @keyframes float-hint {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-4px);
-            }
-        }
-
-        @keyframes bob-chevron {
-
-            0%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.5;
-            }
-
-            50% {
-                transform: translateY(3px);
-                opacity: 1;
-            }
-        }
-
-        /* ========================================
-           AUDIO TOGGLE
-           ======================================== */
-
-        #audio-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 50;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: rgba(18, 18, 24, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: var(--text-tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: none;
-            transition: all 0.3s ease;
-        }
-
-        #audio-toggle:hover {
-            border-color: var(--border-hover);
-            color: var(--text-secondary);
-        }
-
-        #audio-toggle.active {
-            color: var(--text-primary);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        #audio-toggle .material-symbols-outlined {
-            font-size: 18px;
-        }
-
-        /* ========================================
-           macOS WINDOW — Premium Glassmorphism
-           ======================================== */
-
-        .mac-window {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, calc(-50% + 60px)) scale(0.92) perspective(800px) rotateX(2deg);
-            width: min(720px, 90vw);
-            min-height: 380px;
-            background: var(--bg-surface);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            z-index: 20;
-
-            /* Multi-layer shadow with colored underglow */
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.03),
-                0 25px 60px rgba(0, 0, 0, 0.5),
-                0 0 120px rgba(100, 100, 140, 0.06),
-                0 0 80px rgba(136, 152, 184, 0.03);
-
-            /* Hidden initially */
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.7s var(--ease-out),
-                transform 0.8s var(--spring);
-        }
-
-        /* Inner glow on top edge */
-        .mac-window::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 10%, rgba(255, 255, 255, 0.08) 50%, transparent 90%);
-            z-index: 5;
-        }
-
-        /* Shine sweep on appearance */
-        .mac-window::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(105deg,
-                    transparent 40%,
-                    rgba(255, 255, 255, 0.03) 44%,
-                    rgba(255, 255, 255, 0.06) 50%,
-                    rgba(255, 255, 255, 0.03) 56%,
-                    transparent 60%);
-            transform: translateX(-200%);
-            pointer-events: none;
-            border-radius: 14px;
-            z-index: 4;
-        }
-
-        .mac-window.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translate(-50%, -50%) scale(1) perspective(800px) rotateX(0deg);
-        }
-
-        .mac-window.active::after {
-            animation: window-shine 1.5s ease-out 0.3s forwards;
-        }
-
-        @keyframes window-shine {
-            0% {
-                transform: translateX(-200%);
-            }
-
-            100% {
-                transform: translateX(200%);
-                opacity: 0;
-            }
-        }
-
-        /* Title Bar */
-        .title-bar {
-            height: 42px;
-            display: flex;
-            align-items: center;
-            padding: 0 18px;
-            user-select: none;
-            cursor: grab;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .title-bar:active {
-            cursor: grabbing;
-        }
-
-        .window-controls {
-            display: flex;
-            gap: 8px;
-            margin-right: 16px;
-        }
-
-        .control-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-
-        .control-btn:hover {
-            transform: scale(1.15);
-        }
-
-        .close-btn {
-            background: #ff5f56;
-            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
-            opacity: 0.75;
-        }
-
-        .minimize-btn {
-            background: #ffbd2e;
-            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
-            opacity: 0.75;
-        }
-
-        .maximize-btn {
-            background: #27c93f;
-            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
-            opacity: 0.75;
-        }
-
-        .control-btn:hover {
-            opacity: 1;
-        }
-
-        .window-title {
-            flex: 1;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            letter-spacing: 0.03em;
-        }
-
-        /* Window Body */
-        .window-body {
-            padding: 32px 36px 36px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            position: relative;
-        }
-
-        /* Ultra-subtle scanline overlay */
-        .window-body::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(0deg,
-                    transparent,
-                    transparent 3px,
-                    rgba(255, 255, 255, 0.008) 3px,
-                    rgba(255, 255, 255, 0.008) 4px);
-            pointer-events: none;
-            z-index: 2;
-            border-radius: 0 0 14px 14px;
-        }
-
-        /* ========================================
-           BOOT SEQUENCE — Terminal Feel
-           ======================================== */
-
-        #boot-section {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        #boot-section.complete {
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            position: absolute;
-        }
-
-        #boot-log {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            min-height: 200px;
-        }
-
-        .boot-line {
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            line-height: 1.9;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .boot-line.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .boot-timestamp {
-            color: var(--text-tertiary);
-            font-size: 0.65rem;
-            opacity: 0.5;
-            flex-shrink: 0;
-        }
-
-        .boot-prefix {
-            color: var(--accent);
-            flex-shrink: 0;
-        }
-
-        .boot-text {
-            flex: 1;
-        }
-
-        /* Blinking block cursor at end of typing line */
-        .boot-text.typing::after {
-            content: '█';
-            animation: blink-cursor 0.6s step-end infinite;
-            color: var(--accent);
-            font-size: 0.7em;
-            margin-left: 1px;
-        }
-
         .boot-status {
             opacity: 0;
-            color: rgba(39, 201, 63, 0.7);
-            font-size: 0.75rem;
+            color: rgba(52, 199, 89, 0.7);
+            font-size: 0.72rem;
             transition: opacity 0.3s ease;
             flex-shrink: 0;
         }
@@ -754,13 +518,13 @@
             opacity: 1;
         }
 
-        /* Progress Bar with Glow */
+        /* Progress Bar */
         .boot-progress {
             width: 100%;
             height: 2px;
             background: rgba(255, 255, 255, 0.04);
             border-radius: 1px;
-            margin-top: 16px;
+            margin-top: 14px;
             overflow: visible;
             position: relative;
         }
@@ -768,27 +532,26 @@
         #boot-progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--text-tertiary), var(--accent));
+            background: linear-gradient(90deg, var(--text-tertiary), var(--text-secondary));
             border-radius: 1px;
-            transition: width 0.6s var(--ease-out);
+            transition: width 0.5s var(--ease-out-expo);
             position: relative;
         }
 
-        /* Leading glow on progress bar */
         #boot-progress-fill::after {
             content: '';
             position: absolute;
-            right: -2px;
-            top: -5px;
-            width: 30px;
-            height: 12px;
-            background: radial-gradient(ellipse at right, rgba(160, 160, 184, 0.35), transparent);
+            right: -1px;
+            top: -4px;
+            width: 20px;
+            height: 10px;
+            background: radial-gradient(ellipse at right, rgba(255, 255, 255, 0.15), transparent);
             border-radius: 50%;
         }
 
-        /* ========================================
+        /* ==========================================
            READY STATE
-           ======================================== */
+           ========================================== */
 
         #ready-state {
             display: flex;
@@ -796,11 +559,11 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            gap: 24px;
+            gap: 20px;
             opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
-            padding: 30px 0;
+            transform: translateY(10px);
+            transition: opacity 0.7s ease, transform 0.7s var(--ease-out-expo);
+            padding: 24px 0;
         }
 
         #ready-state.visible {
@@ -808,20 +571,20 @@
             transform: translateY(0);
         }
 
-        /* SVG Animated Checkmark */
+        /* SVG Checkmark */
         .ready-icon {
             position: relative;
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .checkmark-svg {
-            width: 52px;
-            height: 52px;
-            color: var(--accent);
+            width: 48px;
+            height: 48px;
+            color: var(--text-secondary);
         }
 
         .checkmark-circle {
@@ -830,7 +593,7 @@
         }
 
         #ready-state.visible .checkmark-circle {
-            animation: draw-stroke 0.8s var(--ease-out) forwards;
+            animation: draw-stroke 0.8s var(--ease-out-expo) forwards;
         }
 
         .checkmark-path {
@@ -839,7 +602,7 @@
         }
 
         #ready-state.visible .checkmark-path {
-            animation: draw-stroke 0.4s var(--ease-out) 0.5s forwards;
+            animation: draw-stroke 0.4s ease 0.5s forwards;
         }
 
         @keyframes draw-stroke {
@@ -848,13 +611,12 @@
             }
         }
 
-        /* Concentric pulse rings */
         .pulse-ring {
             position: absolute;
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            border: 1px solid rgba(160, 160, 184, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
@@ -862,7 +624,7 @@
         }
 
         #ready-state.visible .pulse-ring {
-            animation: pulse-expand 1.5s var(--ease-out) forwards;
+            animation: pulse-expand 1.5s var(--ease-out-expo) forwards;
         }
 
         #ready-state.visible .pulse-ring:nth-child(3) {
@@ -876,7 +638,7 @@
         @keyframes pulse-expand {
             0% {
                 transform: translate(-50%, -50%) scale(1);
-                opacity: 0.5;
+                opacity: 0.3;
             }
 
             100% {
@@ -886,24 +648,53 @@
         }
 
         .ready-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 300;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
         }
 
         .ready-desc {
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
             line-height: 1.6;
-            max-width: 380px;
+            max-width: 340px;
             font-weight: 300;
         }
 
-        /* SVG Animated Portfolio Cube (Launch Button) */
+        /* Launch Button — Circle with SVG icon */
+        .launch-btn-wrapper {
+            position: relative;
+            display: inline-flex;
+            margin-top: 10px;
+        }
+
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--dark-mac-border);
+            color: var(--dark-mac-text);
+            cursor: none;
+            transition: all 0.35s var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.06);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--dark-mac-border-strong);
+        }
+
         .portfolio-icon-svg {
-            width: 28px;
-            height: 28px;
-            color: var(--text-primary);
+            width: 24px;
+            height: 24px;
+            color: var(--dark-mac-text);
             overflow: visible;
         }
 
@@ -917,90 +708,17 @@
             stroke-dashoffset: 60;
         }
 
-        /* Only animate when the button's parent is visible to emulate the checkmark */
         #ready-state.visible .cube-path.outer {
-            animation: draw-cube-outer 1.2s var(--ease-out) 1.5s forwards,
-                       pulse-cube-stroke 4s var(--ease-out) 3s infinite alternate;
+            animation: draw-stroke 1.2s var(--ease-out-expo) 1.5s forwards;
         }
 
         #ready-state.visible .cube-path.inner {
-            animation: draw-cube-inner 1.2s var(--ease-out) 1.8s forwards,
-                       pulse-cube-stroke 4s var(--ease-out) 3s infinite alternate-reverse;
+            animation: draw-stroke 1.2s var(--ease-out-expo) 1.8s forwards;
         }
 
-        @keyframes draw-cube-outer {
-            to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes draw-cube-inner {
-            to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes pulse-cube-stroke {
-            0%, 20% { opacity: 1; }
-            50% { opacity: 0.5; }
-            80%, 100% { opacity: 1; }
-        }
-
-        /* ========================================
-           LAUNCH BUTTON — Conceptual Redesign (Precision Glass)
-           ======================================== */
-
-        .launch-btn-wrapper {
-            position: relative;
-            display: inline-flex;
-            margin-top: 15px;
-        }
-
-        .launch-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px; /* Icon only sizing */
-            border-radius: 50%; /* Circle shape instead of rounded rect */
-            background: linear-gradient(180deg, rgba(28, 28, 36, 0.6) 0%, rgba(18, 18, 24, 0.8) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            /* Precision OS corner */
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
-                0 4px 15px rgba(0, 0, 0, 0.2);
-            color: var(--text-primary);
-            cursor: none;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        
-        .launch-btn:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 8px 25px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        /* Subtle light sweep effect */
-        .launch-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.05) 50%,
-                    transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 0;
-        }
-
-        .launch-btn:hover::before {
-            transform: translateX(100%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* ========================================
+        /* ==========================================
            VERSION TAG + LIVE CLOCK
-           ======================================== */
+           ========================================== */
 
         .version-area {
             position: fixed;
@@ -1008,19 +726,36 @@
             left: 30px;
             z-index: 50;
             font-family: var(--font-mono);
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 300;
             color: var(--text-tertiary);
-            letter-spacing: 0.1em;
-            opacity: 0.5;
+            letter-spacing: 0.08em;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
-        /* ========================================
+        /* ==========================================
+           TRANSITION OVERLAY
+           ========================================== */
+
+        #transition-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-deep);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        #transition-overlay.active {
+            opacity: 1;
+        }
+
+        /* ==========================================
            REDUCED MOTION
-           ======================================== */
+           ========================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
@@ -1056,9 +791,9 @@
             }
         }
 
-        /* ========================================
+        /* ==========================================
            RESPONSIVE
-           ======================================== */
+           ========================================== */
 
         @media (max-width: 640px) {
             .mac-window {
@@ -1067,16 +802,11 @@
             }
 
             .window-body {
-                padding: 20px 24px 28px;
+                padding: 20px 22px 24px;
             }
 
             #hero-name {
-                letter-spacing: 0.08em;
-                font-size: clamp(2.2rem, 10vw, 3.5rem);
-            }
-
-            #hero-subtitle {
-                letter-spacing: 0.2em;
+                letter-spacing: 0.15em;
             }
 
             #boot-log {
@@ -1088,7 +818,7 @@
             }
 
             .ready-title {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             html,
@@ -1096,48 +826,45 @@
                 cursor: auto;
             }
 
-            #custom-cursor,
-            .cursor-trail,
-            #cursor-glow {
+            #custom-cursor {
                 display: none;
             }
+        }
 
-            .corner-coord {
-                display: none;
-            }
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Vignette Overlay -->
-    <div class="vignette"></div>
-
-    <!-- Corner Coordinates -->
-    <div class="corner-coord top-left">40.4168° N</div>
-    <div class="corner-coord top-right">SYS.2026</div>
-
-    <!-- Custom Cursor System -->
+    <!-- Custom Cursor -->
     <div id="custom-cursor"></div>
-    <div id="cursor-glow"></div>
 
     <!-- Three.js Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Shooting Star Trail Canvas -->
-    <canvas id="star-trails-canvas"></canvas>
-
-    <!-- Hero Overlay — Cinematic Name Reveal -->
+    <!-- Hero Overlay — Clean Name Reveal -->
     <div id="hero-overlay">
-        <h1 id="hero-name">Carlos Malagon</h1>
+        <h1 id="hero-name">Carlos Malagón</h1>
         <div class="hero-line" id="hero-line"></div>
-        <p id="hero-subtitle"></p>
+        <p id="hero-subtitle">Telecommunications Engineer</p>
     </div>
 
     <!-- Skip / Continue Hint -->
     <div id="skip-hint">
-        <span>click anywhere to continue</span>
+        <span>click to continue</span>
         <span class="skip-chevron">▾</span>
     </div>
 
@@ -1155,7 +882,7 @@
                 <div class="control-btn minimize-btn"></div>
                 <div class="control-btn maximize-btn"></div>
             </div>
-            <div class="window-title">Portfolio OS — System Boot</div>
+            <div class="window-title">Sistema — Inicio</div>
         </div>
 
         <!-- Window Body -->
@@ -1168,7 +895,7 @@
                 </div>
             </div>
 
-            <!-- Ready State (appears after boot) -->
+            <!-- Ready State -->
             <div id="ready-state">
                 <div class="ready-icon">
                     <svg class="checkmark-svg" viewBox="0 0 52 52">
@@ -1181,17 +908,17 @@
                     <div class="pulse-ring"></div>
                     <div class="pulse-ring"></div>
                 </div>
-                <h2 class="ready-title">All Systems Ready</h2>
+                <h2 class="ready-title">Sistema Preparado</h2>
                 <p class="ready-desc">
-                    Your immersive 3D portfolio experience is loaded and ready to explore.
+                    Tu experiencia inmersiva de portfolio 3D está lista para explorar.
                 </p>
                 <div class="launch-btn-wrapper">
                     <a href="scene.html" class="launch-btn" aria-label="Launch Experience">
                         <svg class="portfolio-icon-svg" viewBox="0 0 52 52">
-                            <!-- Outer Hexagon -->
-                            <polygon class="cube-path outer" points="26,6 43.3,16 43.3,36 26,46 8.7,36 8.7,16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                            <!-- Inner lines (Y shape) -->
-                            <path class="cube-path inner" d="M26,26 L26,6 M26,26 L43.3,36 M26,26 L8.7,36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            <polygon class="cube-path outer" points="26,6 43.3,16 43.3,36 26,46 8.7,36 8.7,16"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                            <path class="cube-path inner" d="M26,26 L26,6 M26,26 L43.3,36 M26,26 L8.7,36" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                         </svg>
                     </a>
                 </div>
@@ -1205,7 +932,10 @@
         <span id="live-clock"></span>
     </div>
 
-    <!-- Import Map para Three.js -->
+    <!-- Transition Overlay -->
+    <div id="transition-overlay"></div>
+
+    <!-- Import Map for Three.js -->
     <script type="importmap">
         {
             "imports": {

@@ -28,11 +28,6 @@
         <p>Cargando experiencia...</p>
     </div>
 
-    <!-- UI Overlay for Portfolio Content -->
-    <!-- UI Overlay for Portfolio Content (MacOS Style) -->
-    <!-- Top Menu Bar REMOVED -->
-    <!-- <div id="top-bar"></div> -->
-
     <!-- Notifications -->
     <div id="notification-area"></div>
 
@@ -58,15 +53,12 @@
                 <div class="dock-item" data-path="contact" data-tooltip="Contacto">
                     <span class="material-symbols-outlined dock-icon">mail</span>
                 </div>
-                <div class="dock-separator"
-                    style="width: 1px; height: 30px; background: rgba(255,255,255,0.2); margin: 0 5px;"></div>
                 <div class="dock-item" data-path="settings" data-tooltip="Ajustes">
                     <span class="material-symbols-outlined dock-icon">settings</span>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Dock Toggle Removed -->
 
     <div id="ui-layer" class="">
         <div class="mac-window">
@@ -81,15 +73,15 @@
                     <button class="nav-btn" id="nav-back"><span
                             class="material-symbols-outlined">arrow_back</span></button>
                     <button class="nav-btn lang-toggle" id="lang-toggle">ES</button>
-                    <!-- <button class="nav-btn"><span class="material-symbols-outlined">arrow_forward</span></button> -->
                 </div>
-                <div class="window-title">Finder - Portfolio</div>
+                <div class="window-title">Finder — Portfolio</div>
             </div>
 
             <!-- Body -->
             <div class="window-body">
                 <!-- Sidebar -->
                 <div class="sidebar">
+                    <div class="sidebar-header">Favoritos</div>
                     <div class="sidebar-item active" data-path="root">
                         <span class="material-symbols-outlined">home</span> Inicio
                     </div>
@@ -102,6 +94,13 @@
                     <div class="sidebar-item" data-path="contact">
                         <span class="material-symbols-outlined">mail</span> Contacto
                     </div>
+                    <div class="sidebar-header">Utilidades</div>
+                    <div class="sidebar-item" data-path="skills">
+                        <span class="material-symbols-outlined">school</span> Habilidades
+                    </div>
+                    <div class="sidebar-item" data-path="arcade">
+                        <span class="material-symbols-outlined">stadia_controller</span> Arcade
+                    </div>
                 </div>
 
                 <!-- Main Content Area -->
@@ -113,6 +112,8 @@
                 <div class="preview-pane" id="preview-pane">
                     <span class="material-symbols-outlined preview-icon" id="preview-icon">description</span>
                     <div class="preview-title" id="preview-title">Nombre del Archivo</div>
+                    <div class="preview-meta" id="preview-meta"></div>
+                    <div class="preview-separator"></div>
                     <div class="preview-content" id="preview-content">
                         <!-- Content goes here -->
                     </div>
@@ -140,7 +141,6 @@
             </div>
         </div>
     </div>
-    </div>
 
     <!-- Crosshair -->
     <div id="crosshair"></div>
@@ -165,12 +165,10 @@
             smart-camera="target: #rig">
 
             <!-- Character Model -->
-            <!-- We rotate this visual model independently inside the rig -->
             <a-entity id="character" gltf-model="#character-model" rotation="0 180 0" position="0 -0.5 0"
                 animation-mixer="clip: Idle; loop: repeat" shadow="receive: true; cast: true">
             </a-entity>
 
-            <!-- Camera (3rd Person View) -->
             <!-- Camera Boom (Orbit Control) -->
             <a-entity id="camera-boom" position="0 1.5 0" look-controls="pointerLockEnabled: true">
                 <!-- Camera (View) -->
@@ -185,30 +183,18 @@
         <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#FFFFFF" src="#floor-texture"
             repeat="4 4" shadow="receive: true" static-body></a-plane>
 
-        <!-- Ceiling / Techo -->
+        <!-- Ceiling / Techo — Clean & Elegant -->
         <a-entity id="ceiling-group" position="0 4 0">
-            <!-- Techo base oscuro -->
-            <a-plane rotation="90 0 0" width="10" height="10" color="#0a0a14" shadow="receive: true"
+            <!-- Base ceiling - neutral white -->
+            <a-plane rotation="90 0 0" width="10" height="10" color="#F0F0F2" shadow="receive: true"
                 static-body></a-plane>
 
-            <!-- Panel central flotante (usa textura de pared para dar coherencia) -->
-            <a-plane position="0 -0.3 0" rotation="90 0 0" width="7" height="7" color="#FFFFFF" src="#wall-texture"
-                repeat="3 3"></a-plane>
+            <!-- Central light diffuser panel -->
+            <a-plane position="0 -0.05 0" rotation="90 0 0" width="5" height="5" color="#FFFFFF"
+                material="shader: flat"></a-plane>
 
-            <!-- Tiras de Neón (Cyan) alrededor del panel central -->
-            <!-- Borde Arriba/Abajo -->
-            <a-plane position="0 -0.29 -3.6" rotation="90 0 0" width="7.4" height="0.2"
-                material="shader: flat; color: #00e5ff"></a-plane>
-            <a-plane position="0 -0.29 3.6" rotation="90 0 0" width="7.4" height="0.2"
-                material="shader: flat; color: #00e5ff"></a-plane>
-            <!-- Borde Izquierda/Derecha -->
-            <a-plane position="-3.6 -0.29 0" rotation="90 0 0" width="0.2" height="7"
-                material="shader: flat; color: #00e5ff"></a-plane>
-            <a-plane position="3.6 -0.29 0" rotation="90 0 0" width="0.2" height="7"
-                material="shader: flat; color: #00e5ff"></a-plane>
-
-            <!-- Luz suave de relleno que emiten los neones -->
-            <a-light type="point" color="#00e5ff" intensity="0.3" position="0 -1 0" distance="6"></a-light>
+            <!-- Soft fill light from the panel -->
+            <a-light type="point" color="#FFFFFF" intensity="0.2" position="0 -0.5 0" distance="8"></a-light>
         </a-entity>
 
         <!-- Walls -->
@@ -221,12 +207,14 @@
         <a-box position="5 2 0" width="0.1" height="4" depth="10" color="#FFFFFF" src="#wall-texture" repeat="4 2"
             shadow="receive: true; cast: true" static-body></a-box> <!-- Right -->
 
-        <!-- Lighting -->
-        <!-- Ambient Light (softer) -->
-        <a-light type="ambient" color="#BBB" intensity="0.4"></a-light>
-        <!-- Directional Light (Sun/Key Light) with Shadows -->
-        <a-light type="directional" color="#FFF" intensity="1.2" position="-2 4 4" cast-shadow="true"
+        <!-- Lighting (Elegant Studio) -->
+        <!-- Ambient Light — Clean neutral fill -->
+        <a-light type="ambient" color="#F2F2F5" intensity="0.5"></a-light>
+        <!-- Key Light — Soft directional with shadows -->
+        <a-light type="directional" color="#FFFFFF" intensity="0.9" position="-2 4 4" cast-shadow="true"
             shadow-bias="-0.0001" shadow-map-width="2048" shadow-map-height="2048"></a-light>
+        <!-- Fill Light — Opposite side, no shadow -->
+        <a-light type="directional" color="#EAEAF0" intensity="0.3" position="4 2 -3"></a-light>
 
         <!-- Interactive Objects -->
 

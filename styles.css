@@ -1,21 +1,28 @@
+/* ==========================================
+   DESIGN SYSTEM — Portfolio OS (macOS Finder)
+   Pixel-Perfect Professional Finish
+   ========================================== */
+
 :root {
     --mac-bg: rgba(245, 245, 247, 0.85);
-    /* Light mode frosted glass */
     --mac-sidebar-bg: rgba(230, 230, 235, 0.7);
     --mac-border: rgba(0, 0, 0, 0.1);
     --mac-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     --mac-text: #333;
     --mac-accent: #007AFF;
-    /* System Blue */
     --mac-selected: rgba(0, 122, 255, 0.15);
 
-    --dark-mac-bg: rgba(30, 30, 32, 0.85);
-    --dark-mac-sidebar: rgba(40, 40, 42, 0.7);
-    --dark-mac-text: #fff;
-    --dark-mac-border: rgba(255, 255, 255, 0.1);
+    --dark-mac-bg: rgba(30, 30, 32, 0.88);
+    --dark-mac-sidebar: rgba(38, 38, 40, 0.75);
+    --dark-mac-text: #f5f5f7;
+    --dark-mac-border: rgba(255, 255, 255, 0.08);
+    --dark-mac-border-strong: rgba(255, 255, 255, 0.14);
 
-    --font-heading: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    --font-body: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-heading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body {
@@ -23,20 +30,24 @@ body {
     overflow: hidden;
     font-family: var(--font-body);
     color: var(--dark-mac-text);
-    /* Default to dark mode for game feel */
     background: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Icons */
 .material-symbols-outlined {
     font-variation-settings:
         'FILL' 0,
-        'wght' 400,
+        'wght' 300,
         'GRAD' 0,
         'opsz' 24
 }
 
-/* Loading Screen */
+/* ==========================================
+   LOADING SCREEN
+   ========================================== */
+
 #loading-screen {
     position: absolute;
     top: 0;
@@ -59,28 +70,26 @@ body {
 }
 
 .loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #FFF;
-    border-bottom-color: transparent;
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
-    animation: rotation 1s linear infinite;
+    animation: rotation 0.8s linear infinite;
     margin-bottom: 20px;
 }
 
 @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* UI Layer - Interaction Blocker */
+/* ==========================================
+   UI LAYER — Interaction Blocker
+   ========================================== */
+
 #ui-layer {
     position: absolute;
     top: 0;
@@ -88,49 +97,78 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    /* Let clicks pass through usually */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.2);
-    /* Slight dim when window open */
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.4s ease;
 }
 
 #ui-layer.active {
     pointer-events: auto;
-    /* Catch clicks when window open */
-    opacity: 1;
+    background: rgba(0, 0, 0, 0.35);
 }
 
-/* MacOS Window */
+/* ==========================================
+   macOS WINDOW — Premium Vibrancy
+   ========================================== */
+
 .mac-window {
-    width: 800px;
-    height: 500px;
+    width: 820px;
+    height: 520px;
     background: var(--dark-mac-bg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--dark-mac-border);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--dark-mac-border-strong);
     border-radius: 12px;
-    box-shadow: var(--mac-shadow);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transform: scale(0.9);
+    transform: scale(0.92) translateY(12px);
     opacity: 0;
-    /* Spring Animation */
-    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+
+    /* Multi-layer shadow: ambient + directional + contact */
+    box-shadow:
+        0 0 0 0.5px rgba(255, 255, 255, 0.05),
+        0 2px 4px rgba(0, 0, 0, 0.04),
+        0 8px 16px rgba(0, 0, 0, 0.12),
+        0 24px 48px rgba(0, 0, 0, 0.24),
+        0 48px 80px rgba(0, 0, 0, 0.16);
+
+    transition: transform 0.5s var(--ease-out-expo),
+                opacity 0.35s ease,
+                width 0.3s var(--ease-out-expo),
+                height 0.3s var(--ease-out-expo),
+                border-radius 0.3s ease;
     transform-origin: center center;
     position: absolute;
     pointer-events: none;
 }
 
+/* Inner top-edge highlight (vibrancy shine) */
+.mac-window::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 5%, 
+        rgba(255, 255, 255, 0.12) 30%, 
+        rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.12) 70%, 
+        transparent 95%);
+    z-index: 10;
+    border-radius: 12px 12px 0 0;
+}
+
 .mac-window.active {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
     opacity: 1;
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    transition: transform 0.6s var(--spring),
+                opacity 0.35s ease;
     pointer-events: auto;
 }
 
@@ -143,58 +181,100 @@ body {
     transform: none !important;
 }
 
-/* Title Bar */
+/* ==========================================
+   TITLE BAR — Real macOS Feel
+   ========================================== */
+
 .title-bar {
     height: 38px;
-    /* Standard Mac title bar */
+    min-height: 38px;
     display: flex;
     align-items: center;
     padding: 0 16px;
-    /* border-bottom: 1px solid var(--dark-mac-border); */
-    /* Optional separator */
     user-select: none;
     cursor: grab;
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--dark-mac-border);
 }
 
 .title-bar:active {
     cursor: grabbing;
 }
 
+/* ---- Traffic Lights ---- */
 .window-controls {
     display: flex;
     gap: 8px;
-    margin-right: 20px;
+    margin-right: 16px;
+    position: relative;
 }
 
 .control-btn {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    position: relative;
+    transition: opacity 0.15s ease;
+    cursor: pointer;
+
+    /* Icon hidden by default */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Icon glyphs — only visible on window-controls hover */
+.control-btn::after {
+    font-size: 8px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.window-controls:hover .control-btn::after {
+    opacity: 1;
 }
 
 .close-btn {
     background: #FF5F56;
-    box-shadow: inset 0 0 0 1px #E0443E;
-    cursor: pointer;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+.close-btn::after {
+    content: '×';
+    font-size: 10px;
+    margin-top: -0.5px;
 }
 
 .minimize-btn {
     background: #FFBD2E;
-    box-shadow: inset 0 0 0 1px #DEA123;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+.minimize-btn::after {
+    content: '−';
+    font-size: 11px;
+    margin-top: -1px;
 }
 
 .maximize-btn {
     background: #27C93F;
-    box-shadow: inset 0 0 0 1px #1AAB29;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+.maximize-btn::after {
+    content: '↗';
+    font-size: 7px;
 }
 
 .control-btn:hover {
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
+/* ---- Navigation Controls ---- */
 .navigation-controls {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     color: var(--dark-mac-text);
 }
 
@@ -203,95 +283,132 @@ body {
     border: none;
     color: inherit;
     cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-    font-size: 1.2rem;
+    opacity: 0.45;
+    transition: opacity 0.2s, transform 0.15s ease;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
+    padding: 2px;
 }
 
 .nav-btn:hover {
     opacity: 1;
+    transform: scale(1.05);
+}
+.nav-btn:active {
+    transform: scale(0.95);
 }
 
-/* Language Toggle Button */
+/* Language Toggle */
 .lang-toggle {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2px 6px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 2px 7px;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     transition: all 0.2s ease;
-    min-width: 24px;
+    min-width: 26px;
     justify-content: center;
 }
 
 .lang-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .lang-toggle:active {
-    transform: scale(0.95);
+    transform: scale(0.93);
 }
 
+/* ---- Window Title ---- */
 .window-title {
     flex-grow: 1;
     text-align: center;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 500;
+    font-size: 0.82rem;
     color: var(--dark-mac-text);
-    opacity: 0.9;
+    opacity: 0.55;
+    letter-spacing: 0.01em;
 }
 
-/* Window Body */
+/* ==========================================
+   WINDOW BODY
+   ========================================== */
+
 .window-body {
     flex: 1;
     display: flex;
     overflow: hidden;
 }
 
-/* Sidebar */
+/* ==========================================
+   SIDEBAR — Organized with Section Headers
+   ========================================== */
+
 .sidebar {
-    width: 200px;
+    width: 190px;
+    min-width: 190px;
     background: var(--dark-mac-sidebar);
-    padding: 20px 10px;
+    padding: 12px 8px 20px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 2px;
     border-right: 1px solid var(--dark-mac-border);
+    overflow-y: auto;
+}
+
+/* Section header text */
+.sidebar-header {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 14px 12px 5px;
+    user-select: none;
 }
 
 .sidebar-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
+    gap: 8px;
+    padding: 6px 12px;
     border-radius: 6px;
     cursor: pointer;
-    color: #ccc;
-    font-size: 0.9rem;
-    transition: background 0.2s;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    font-weight: 400;
+    transition: all 0.18s ease;
+    position: relative;
 }
 
 .sidebar-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.9);
+    transform: translateX(1px);
 }
 
 .sidebar-item.active {
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #fff;
 }
 
 .sidebar-item .material-symbols-outlined {
-    font-size: 18px;
-    opacity: 0.8;
+    font-size: 17px;
+    opacity: 0.7;
 }
 
-/* Finder Content Area */
+.sidebar-item.active .material-symbols-outlined {
+    opacity: 1;
+    color: var(--mac-accent);
+}
+
+/* ==========================================
+   FINDER CONTENT — File Grid
+   ========================================== */
+
 .finder-content {
     flex: 1;
     padding: 20px;
@@ -299,22 +416,37 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: 15px;
+    gap: 10px;
+    position: relative;
 }
 
-/* View Modes */
-.view-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+/* Top/bottom fade gradients for scroll indication */
+.finder-content::before,
+.finder-content::after {
+    content: '';
+    position: sticky;
+    left: 0;
+    right: 0;
+    height: 20px;
+    pointer-events: none;
+    z-index: 2;
+    flex-shrink: 0;
+    width: 100%;
+}
+.finder-content::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--dark-mac-bg), transparent);
+}
+.finder-content::after {
+    bottom: 0;
+    background: linear-gradient(to top, var(--dark-mac-bg), transparent);
 }
 
 @keyframes itemAppear {
     from {
         opacity: 0;
-        transform: translateY(10px) scale(0.95);
+        transform: translateY(8px) scale(0.96);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -322,85 +454,91 @@ body {
 }
 
 .file-item {
-    width: 100px;
+    width: 95px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     cursor: pointer;
-    padding: 10px;
-    border-radius: 6px;
-    transition: background 0.2s;
-    animation: itemAppear 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+    padding: 10px 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    animation: itemAppear 0.35s var(--ease-out-expo) backwards;
+    border: 1px solid transparent;
+    position: relative;
 }
 
 /* Staggered delay for items */
-.file-item:nth-child(1) {
-    animation-delay: 0.05s;
-}
-
-.file-item:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.file-item:nth-child(3) {
-    animation-delay: 0.15s;
-}
-
-.file-item:nth-child(4) {
-    animation-delay: 0.2s;
-}
-
-.file-item:nth-child(5) {
-    animation-delay: 0.25s;
-}
-
-.file-item:nth-child(6) {
-    animation-delay: 0.3s;
-}
+.file-item:nth-child(1) { animation-delay: 0.03s; }
+.file-item:nth-child(2) { animation-delay: 0.06s; }
+.file-item:nth-child(3) { animation-delay: 0.09s; }
+.file-item:nth-child(4) { animation-delay: 0.12s; }
+.file-item:nth-child(5) { animation-delay: 0.15s; }
+.file-item:nth-child(6) { animation-delay: 0.18s; }
 
 .file-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
 }
 
 .file-item.selected {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--dark-mac-border);
+    background: rgba(0, 122, 255, 0.12);
+    border-color: rgba(0, 122, 255, 0.25);
 }
 
 .file-icon {
-    font-size: 48px;
-    color: #8fbdf5;
-    /* Standard blue folder colorish */
+    font-size: 42px;
+    transition: transform 0.2s var(--spring);
+}
+
+.file-item:hover .file-icon {
+    transform: translateY(-2px);
 }
 
 .file-icon.folder {
-    color: #5aa5db;
+    color: #65B2FF;
 }
 
 .file-icon.file {
-    color: #ddd;
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .file-name {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     text-align: center;
-    color: white;
+    color: rgba(255, 255, 255, 0.85);
     word-break: break-word;
-    line-height: 1.2;
+    line-height: 1.25;
+    font-weight: 400;
 }
 
-/* Preview Pane (Right side - optional or overlay) */
+/* ==========================================
+   PREVIEW PANE — Slide-in Animation
+   ========================================== */
+
 .preview-pane {
-    width: 300px;
-    background: var(--dark-mac-bg);
+    width: 280px;
+    min-width: 280px;
+    background: rgba(35, 35, 38, 0.5);
     border-left: 1px solid var(--dark-mac-border);
-    padding: 24px;
+    padding: 28px 22px;
     display: none;
-    /* hidden by default */
     flex-direction: column;
     align-items: center;
     text-align: center;
+    overflow-y: auto;
+    animation: previewSlideIn 0.35s var(--ease-out-expo);
+}
+
+@keyframes previewSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .preview-pane.active {
@@ -408,32 +546,85 @@ body {
 }
 
 .preview-icon {
-    font-size: 64px;
-    margin-bottom: 16px;
-    color: #ccc;
+    font-size: 56px;
+    margin-bottom: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
 }
 
 .preview-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 6px;
+    color: var(--dark-mac-text);
+}
+
+/* Metadata under preview title */
+.preview-meta {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+}
+
+.preview-separator {
+    width: 100%;
+    height: 1px;
+    background: var(--dark-mac-border);
+    margin-bottom: 18px;
 }
 
 .preview-content {
     text-align: left;
     width: 100%;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #ddd;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .preview-content h3 {
     margin-top: 0;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--mac-accent);
+    margin-bottom: 10px;
 }
 
-/* Crosshair */
+.preview-content p {
+    margin-bottom: 8px;
+}
+
+.preview-content hr {
+    border: none;
+    border-top: 1px solid var(--dark-mac-border);
+    margin: 14px 0;
+}
+
+.preview-content ul {
+    padding-left: 18px;
+    margin: 6px 0;
+}
+
+.preview-content li {
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+}
+
+.preview-content a {
+    color: var(--mac-accent);
+    text-decoration: none;
+    transition: opacity 0.15s;
+}
+
+.preview-content a:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}
+
+/* ==========================================
+   CROSSHAIR
+   ========================================== */
+
 #crosshair {
     position: absolute;
     top: 50%;
@@ -445,45 +636,51 @@ body {
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 5;
-    transition: transform 0.2s;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.clickable:hover~#crosshair,
-.dock-item:hover~#crosshair,
-.control-btn:hover~#crosshair {
-    transform: translate(-50%, -50%) scale(1.5);
-    background: white;
+#crosshair.active-hover {
+    transform: translate(-50%, -50%) scale(1.8);
+    background: rgba(255, 255, 255, 0.8);
 }
-
-body:hover #crosshair.active {
-    transform: translate(-50%, -50%) scale(1.5);
-    background: white;
-}
-
 
 /* Common Utils */
 .hidden {
     display: none !important;
 }
 
-/* Skills Grid inside preview */
+/* ==========================================
+   SKILLS GRID
+   ========================================== */
+
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
+    gap: 6px;
 }
 
 .skill-tag {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.2s ease;
 }
 
-/* Scrollbar */
+.skill-tag:hover {
+    background: rgba(0, 122, 255, 0.12);
+    border-color: rgba(0, 122, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ==========================================
+   SCROLLBAR — Ultra-thin macOS Style
+   ========================================== */
+
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -491,67 +688,62 @@ body:hover #crosshair.active {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.22);
 }
 
-/* --- Dynamic Dock (Creative Solution) --- */
+/* ==========================================
+   DOCK — Dynamic Expandable
+   ========================================== */
+
 #dock-container {
     position: absolute;
     bottom: 30px;
     left: 30px;
-    /* Offset from left */
     width: auto;
-    /* Auto width to wrap content */
     display: flex;
     justify-content: flex-start;
-    /* Align left */
     z-index: 1000;
     pointer-events: none;
-    /* Passes clicks around it */
     height: auto;
     padding: 0;
 }
 
 .dock {
-    /* Base State: Small Pill */
-    width: 50px;
-    height: 50px;
-    background: rgba(80, 80, 80, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    width: 48px;
+    height: 48px;
+    background: rgba(60, 60, 62, 0.65);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
     border-radius: 50px;
-    /* Circle initially */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 12px 28px rgba(0, 0, 0, 0.2);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     pointer-events: auto;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.45s var(--ease-out-expo);
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    transform: translateY(0);
-    /* Visible by default */
 }
 
-/* Hover State: Expanded Dock */
 .dock:hover {
-    width: 320px;
-    /* Adjust based on content width */
-    height: 70px;
-    border-radius: 24px;
-    background: rgba(50, 50, 50, 0.8);
+    width: 310px;
+    height: 64px;
+    border-radius: 20px;
+    background: rgba(44, 44, 46, 0.82);
 }
 
-/* --- Dock Trigger (The Grid Icon) --- */
+/* Dock Trigger */
 .dock-trigger {
     position: absolute;
     display: flex;
@@ -559,13 +751,13 @@ body:hover #crosshair.active {
     align-items: center;
     width: 100%;
     height: 100%;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.25s, transform 0.25s;
 }
 
 .dock-trigger .material-symbols-outlined {
-    font-size: 24px;
+    font-size: 22px;
     color: white;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .dock:hover .dock-trigger {
@@ -574,16 +766,15 @@ body:hover #crosshair.active {
     pointer-events: none;
 }
 
-/* --- Dock Items Container --- */
+/* Dock Items */
 .dock-items {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
     opacity: 0;
     transform: scale(0.8);
-    transition: all 0.4s 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.35s 0.08s var(--ease-out-expo);
     pointer-events: none;
-    /* Disabled when closed */
 }
 
 .dock:hover .dock-items {
@@ -592,61 +783,66 @@ body:hover #crosshair.active {
     pointer-events: auto;
 }
 
-/* Items */
 .dock-item {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 120px;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s var(--spring);
     position: relative;
 }
 
 .dock-item:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-4px) scale(1.15);
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-5px) scale(1.12);
+}
+
+.dock-item:active {
+    transform: translateY(-2px) scale(1.05);
 }
 
 .dock-icon {
-    font-size: 24px;
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* Tooltips */
-.dock-item:after {
+.dock-item::after {
     content: attr(data-tooltip);
     position: absolute;
-    top: -35px;
+    top: -32px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(4px);
     background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
     color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-size: 0.68rem;
+    font-weight: 500;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s ease;
 }
 
-.dock-item:hover:after {
+.dock-item:hover::after {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
-/* --- Responsive Styles (Global) --- */
-
-
-
-/* Remove old separatpr */
 .dock-separator {
     display: none;
 }
 
-/* --- Notifications --- */
+/* ==========================================
+   NOTIFICATIONS
+   ========================================== */
+
 #notification-area {
     position: absolute;
     top: 50px;
@@ -660,17 +856,19 @@ body:hover #crosshair.active {
 }
 
 .toast {
-    background: rgba(40, 40, 40, 0.85);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 16px;
+    background: rgba(38, 38, 40, 0.88);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 14px 16px;
     color: white;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.12),
+        0 12px 28px rgba(0, 0, 0, 0.2);
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: slideInRight 0.5s var(--ease-out-expo);
     pointer-events: auto;
     cursor: pointer;
 }
@@ -681,10 +879,9 @@ body:hover #crosshair.active {
 
 @keyframes slideInRight {
     from {
-        transform: translateX(100%);
+        transform: translateX(110%);
         opacity: 0;
     }
-
     to {
         transform: translateX(0);
         opacity: 1;
@@ -693,22 +890,25 @@ body:hover #crosshair.active {
 
 @keyframes fadeOutRight {
     to {
-        transform: translateX(100%);
+        transform: translateX(110%);
         opacity: 0;
     }
 }
 
 .toast-icon {
-    background: white;
-    color: black;
-    width: 32px;
-    /* Fixed sizing */
-    height: 32px;
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #111;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
+}
+
+.toast-icon .material-symbols-outlined {
+    font-size: 18px;
 }
 
 .toast-content {
@@ -717,35 +917,39 @@ body:hover #crosshair.active {
 
 .toast-title {
     font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 3px;
 }
 
 .toast-message {
-    font-size: 0.85rem;
-    opacity: 0.8;
+    font-size: 0.78rem;
+    opacity: 0.6;
     line-height: 1.4;
 }
 
+/* ==========================================
+   SETTINGS MODAL
+   ========================================== */
 
-/* Settings Modal */
 #settings-modal {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(-50%, -50%) scale(0.92);
     width: 320px;
-    background: rgba(40, 40, 40, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(38, 38, 40, 0.92);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 14px;
+    box-shadow:
+        0 0 0 0.5px rgba(255, 255, 255, 0.05),
+        0 20px 50px rgba(0, 0, 0, 0.4);
     color: white;
     z-index: 2000;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.35s var(--spring);
     display: flex;
     flex-direction: column;
 }
@@ -757,18 +961,18 @@ body:hover #crosshair.active {
 }
 
 .settings-header {
-    padding: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .close-settings {
     cursor: pointer;
-    opacity: 0.7;
+    opacity: 0.5;
     transition: opacity 0.2s;
     display: flex;
     align-items: center;
@@ -779,10 +983,10 @@ body:hover #crosshair.active {
 }
 
 .settings-body {
-    padding: 20px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
 .setting-item {
@@ -795,14 +999,15 @@ body:hover #crosshair.active {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* Switch Toggle */
 .switch {
     position: relative;
     display: inline-block;
-    width: 44px;
+    width: 42px;
     height: 24px;
 }
 
@@ -819,8 +1024,8 @@ body:hover #crosshair.active {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #555;
-    transition: .4s;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: 0.3s ease;
     border-radius: 24px;
 }
 
@@ -832,20 +1037,198 @@ body:hover #crosshair.active {
     left: 2px;
     bottom: 2px;
     background-color: white;
-    transition: .4s;
+    transition: 0.3s ease;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-input:checked+.slider {
-    background-color: #27C93F;
-    /* Green */
+input:checked + .slider {
+    background-color: #34C759;
 }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px #27C93F;
+input:focus + .slider {
+    box-shadow: 0 0 0 2px rgba(52, 199, 89, 0.25);
 }
 
-input:checked+.slider:before {
-    transform: translateX(20px);
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* ==========================================
+   SNAKE GAME — Canvas Styles
+   ========================================== */
+
+.snake-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.snake-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+}
+
+.snake-score {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.snake-score span {
+    color: var(--mac-accent);
+    font-size: 1.1em;
+}
+
+.snake-canvas {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.snake-controls-hint {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.25);
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.snake-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.03em;
+}
+
+.snake-btn:hover {
+    background: rgba(0, 122, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.3);
+    color: white;
+}
+
+/* ==========================================
+   CURIOSITY CARDS
+   ========================================== */
+
+.curiosity-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.curiosity-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.curiosity-card h4 {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    color: var(--dark-mac-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.curiosity-card p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   INFO SECTION
+   ========================================== */
+
+.info-section {
+    margin-bottom: 16px;
+}
+
+.info-section h4 {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.35);
+    margin: 0 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 0.82rem;
+}
+
+.info-row .label {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.info-row .value {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+    .mac-window {
+        width: 95vw;
+        height: 75vh;
+    }
+
+    .sidebar {
+        width: 140px;
+        min-width: 140px;
+    }
+
+    .preview-pane {
+        width: 220px;
+        min-width: 220px;
+    }
+
+    .dock:hover {
+        width: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        display: none;
+    }
+
+    .preview-pane {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .mac-window {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
 }

@@ -3,9 +3,12 @@ export const fileSystem = {
         type: "folder",
         name: "Inicio",
         nameEn: "Home",
-        children: ["about", "projects", "skills", "contact"]
+        children: ["about", "projects", "skills", "contact", "arcade"]
     },
+
+    // ==========================================
     // About Section
+    // ==========================================
     "about": {
         type: "folder",
         name: "Sobre Mí",
@@ -86,13 +89,15 @@ export const fileSystem = {
         `
     },
 
+    // ==========================================
     // Projects Section
+    // ==========================================
     "projects": {
         type: "folder",
         name: "Proyectos",
         nameEn: "Projects",
         icon: "folder_open",
-        children: ["portfolio_vr"]
+        children: ["portfolio_vr", "curiosities"]
     },
     "portfolio_vr": {
         type: "file",
@@ -114,7 +119,79 @@ export const fileSystem = {
         previewImage: "assets/preview_portfolio.jpg"
     },
 
+    // Curiosities — Fun facts about building this portfolio
+    "curiosities": {
+        type: "file",
+        name: "Curiosidades",
+        nameEn: "Curiosities",
+        icon: "emoji_objects",
+        content: `
+            <div class="info-section">
+                <h4>Sobre esta aplicación</h4>
+                <p>Este portfolio es una aplicación web inmersiva que simula un sistema operativo virtual dentro de un entorno 3D explorable.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🎨 Sin frameworks CSS</h4>
+                <p>Toda la interfaz macOS que estás viendo está construida con CSS puro (Vanilla CSS). Glassmorphism, animaciones y micro-interacciones, todo sin Tailwind ni Bootstrap.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🧊 Escena 3D en el navegador</h4>
+                <p>El entorno 3D funciona con A-Frame + Three.js sobre WebGL. Todo se renderiza en tiempo real directamente en tu navegador, sin plugins.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🎮 Easter Egg</h4>
+                <p>¿Ya encontraste la carpeta Arcade? Hay un juego Snake jugable dentro de este mismo Finder. Porque un buen desarrollador también sabe divertirse.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🌐 Bilingüe en tiempo real</h4>
+                <p>Pulsa el botón ES/EN en la barra de título. Todo el contenido cambia al instante sin recargar la página — enrutamiento lógico puro en JavaScript.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>📦 Zero Dependencies</h4>
+                <p>El sistema de archivos virtual, las ventanas arrastrables, el dock animado y las notificaciones... todo construido desde cero con Vanilla JS.</p>
+            </div>
+        `,
+        contentEn: `
+            <div class="info-section">
+                <h4>About this app</h4>
+                <p>This portfolio is an immersive web application that simulates a virtual operating system inside an explorable 3D environment.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🎨 No CSS frameworks</h4>
+                <p>The entire macOS interface you're seeing is built with pure Vanilla CSS. Glassmorphism, animations, and micro-interactions — all without Tailwind or Bootstrap.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🧊 3D Scene in the browser</h4>
+                <p>The 3D environment runs on A-Frame + Three.js over WebGL. Everything renders in real-time directly in your browser, no plugins required.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🎮 Easter Egg</h4>
+                <p>Did you find the Arcade folder? There's a playable Snake game right inside this Finder. Because a good developer also knows how to have fun.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>🌐 Real-time bilingual</h4>
+                <p>Press the ES/EN button in the title bar. All content switches instantly with no page reload — pure JavaScript logical routing.</p>
+            </div>
+
+            <div class="curiosity-card">
+                <h4>📦 Zero Dependencies</h4>
+                <p>The virtual file system, draggable windows, animated dock, and notifications... all built from scratch with Vanilla JS.</p>
+            </div>
+        `
+    },
+
+    // ==========================================
     // Skills Section
+    // ==========================================
     "skills": {
         type: "folder",
         name: "Habilidades",
@@ -185,7 +262,9 @@ export const fileSystem = {
         `
     },
 
+    // ==========================================
     // Contact Section
+    // ==========================================
     "contact": {
         type: "folder",
         name: "Contacto",
@@ -218,6 +297,26 @@ export const fileSystem = {
                 <p><strong>GitHub:</strong> <a href="#" target="_blank">Your link here</a></p>
             </div>
         `
+    },
+
+    // ==========================================
+    // Arcade — Easter Egg Section
+    // ==========================================
+    "arcade": {
+        type: "folder",
+        name: "Arcade",
+        nameEn: "Arcade",
+        icon: "stadia_controller",
+        children: ["snake_game"]
+    },
+    "snake_game": {
+        type: "game",
+        name: "Snake",
+        nameEn: "Snake",
+        icon: "sports_esports",
+        gameId: "snake",
+        content: `<p>Un clásico reinventado con estética minimalista.</p>`,
+        contentEn: `<p>A classic reinvented with minimalist aesthetics.</p>`
     }
 };
 

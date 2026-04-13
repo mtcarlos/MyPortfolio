@@ -2,6 +2,7 @@ import { registerCharacterController } from './components/character-controller.j
 import { registerCameraRig } from './components/camera-rig.js';
 import { fileSystem, getFolderContents, getFileContent } from './filesystem.js';
 import { audioManager } from './audio-manager.js';
+import { snakeGame } from './games/snake.js';
 
 // Initialize components
 registerCharacterController();
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPath = 'root';
     let pathHistory = [];
     let currentFileId = null;
+    let activeGame = null; // Track mounted game for cleanup
 
     // Window State
     let isMaximized = false;
@@ -57,54 +59,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Game Management ---
+    function mountGame(gameId, containerEl) {
+        destroyActiveGame();
+        if (gameId === 'snake') {
+            snakeGame.mount(containerEl);
+            activeGame = snakeGame;
+        }
+    }
+
+    function destroyActiveGame() {
+        if (activeGame) {
+            activeGame.destroy();
+            activeGame = null;
+        }
+    }
+
     // --- Window Logic ---
 
-    // Open Window with Animation from Source
     function openWindow(path, sourceElement = null) {
-        if (path === 'settings') return; // Safety check: Settings should be handled separately
+        if (path === 'settings') return;
 
         audioManager.play('open', { volume: 0.6 });
 
-        // 1. Reset State
         uiLayer.classList.remove('active');
         macWindow.classList.remove('active');
 
-        // 2. Set Transform Origin based on source
         if (sourceElement) {
             const rect = sourceElement.getBoundingClientRect();
             const sourceX = rect.left + rect.width / 2;
             const sourceY = rect.top + rect.height / 2;
-
-            // Window is centered. Center of screen:
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
-
-            // Window dimensions (approx 800x500 or 100% on mobile, but let's assume desktop for this effect)
-            const windowLeft = centerX - 400;
-            const windowTop = centerY - 250;
-
+            const windowLeft = centerX - 410;
+            const windowTop = centerY - 260;
             const relativeX = sourceX - windowLeft;
             const relativeY = sourceY - windowTop;
-
             macWindow.style.transformOrigin = `${relativeX}px ${relativeY}px`;
         } else {
             macWindow.style.transformOrigin = 'center center';
         }
 
-        // 3. Activate
         requestAnimationFrame(() => {
             uiLayer.classList.add('active');
             macWindow.classList.add('active');
             navigateTo(path);
 
-            // Exit Pointer Lock so user can use mouse
             if (document.pointerLockElement) {
                 document.exitPointerLock();
             }
         });
 
-        // Reset translation (in case it was dragged)
-        currentX = 0; // Using currentX/Y as per existing drag logic
+        currentX = 0;
         currentY = 0;
         setTranslate(0, 0, macWindow);
     }
@@ -114,13 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
         uiLayer.classList.remove('active');
         macWindow.classList.remove('active');
         previewPane.classList.remove('active');
+        destroyActiveGame();
 
-        // Optional: Restore window size when closing if it was maximized
         if (isMaximized) {
             toggleMaximize();
         }
 
-        // Request Pointer Lock to return to game
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             sceneEl.canvas.requestPointerLock();
@@ -129,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('close-window').addEventListener('click', closeWindow);
 
-    // Close when clicking outside window
     uiLayer.addEventListener('click', (e) => {
         if (e.target === uiLayer) {
             closeWindow();
@@ -149,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             macWindow.classList.remove('maximized');
             isMaximized = false;
-            // Ensure we keep the last dragged position
             setTranslate(currentX, currentY, macWindow);
         }
     }
@@ -158,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     minimizeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (isMaximized) {
-            toggleMaximize(); // Restore to normal size
+            toggleMaximize();
         }
     });
 
@@ -168,21 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
             currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
             langToggleBtn.textContent = currentLanguage.toUpperCase();
 
-            // Re-render
-            updateSidebar(currentPath); // Update sidebar text
-            renderDirectory(currentPath); // Update file list
+            updateSidebar(currentPath);
+            renderDirectory(currentPath);
 
-            // If preview is open, re-render preview
             if (previewPane.classList.contains('active')) {
-                // Find currently selected file
-                const selected = document.querySelector('.file-item.selected');
-                if (selected) {
-                    // Logic to find file ID from DOM or state would be needed, 
-                    // but simpler to just close preview or implement "currentFileId" state.
-                    // Let's add currentFileId state for better UX
-                    if (currentFileId) {
-                        renderPreview(currentFileId);
-                    }
+                if (currentFileId) {
+                    renderPreview(currentFileId);
                 }
             }
         });
@@ -194,9 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mousemove', drag);
 
     function dragStart(e) {
-        // Prevent dragging if maximized or if clicking buttons
         if (isMaximized) return;
         if (e.target.closest('.control-btn')) return;
+        if (e.target.closest('.nav-btn')) return;
 
         initialX = e.clientX - currentX;
         initialY = e.clientY - currentY;
@@ -217,18 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function drag(e) {
         if (isDragging) {
             e.preventDefault();
-
-            // Calculate new position
             currentX = e.clientX - initialX;
             currentY = e.clientY - initialY;
-
             setTranslate(currentX, currentY, macWindow);
         }
     }
 
     function setTranslate(xPos, yPos, el) {
-        // We use translate instead of top/left to be more performant and work with scale
-        // scale(1) used in .active state
         el.style.transform = `translate(${xPos}px, ${yPos}px) scale(1)`;
     }
 
@@ -251,13 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentPath = pathId;
+            destroyActiveGame(); // Clean up any game when navigating folders
             renderDirectory(pathId);
             updateSidebar(pathId);
 
             backBtn.style.opacity = pathHistory.length > 0 ? '1' : '0.3';
             backBtn.style.pointerEvents = pathHistory.length > 0 ? 'auto' : 'none';
 
-        } else if (node.type === 'file') {
+        } else if (node.type === 'file' || node.type === 'game') {
             audioManager.play('click', { volume: 0.3 });
             renderPreview(pathId);
         }
@@ -267,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pathHistory.length === 0) return;
         const prevPath = pathHistory.pop();
         currentPath = prevPath;
+        destroyActiveGame();
         renderDirectory(prevPath);
         updateSidebar(prevPath);
 
@@ -294,18 +285,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const node = fileSystem[pathId];
 
         const folderName = currentLanguage === 'en' && node.nameEn ? node.nameEn : node.name;
-        windowTitle.textContent = `Finder - ${folderName}`;
+        windowTitle.textContent = `Finder — ${folderName}`;
         finderContent.innerHTML = '';
         previewPane.classList.remove('active');
         currentFileId = null;
+        destroyActiveGame();
 
         contents.forEach(item => {
             const el = document.createElement('div');
             el.className = 'file-item';
             const itemName = currentLanguage === 'en' && item.nameEn ? item.nameEn : item.name;
 
+            // Choose icon class: game items get a special style
+            const iconClass = item.type === 'game' ? 'file' : item.type;
+
             el.innerHTML = `
-                <div class="material-symbols-outlined file-icon ${item.type}">
+                <div class="material-symbols-outlined file-icon ${iconClass}">
                     ${item.icon || (item.type === 'folder' ? 'folder' : 'description')}
                 </div>
                 <div class="file-name">${itemName}</div>
@@ -322,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.file-item').forEach(i => i.classList.remove('selected'));
                 el.classList.add('selected');
 
-                if (item.type === 'file') {
+                if (item.type === 'file' || item.type === 'game') {
                     renderPreview(item.id);
                 }
             });
@@ -343,10 +338,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = item.getAttribute('data-path');
             const node = fileSystem[path];
 
-            // Update Text
             if (node) {
                 const itemName = currentLanguage === 'en' && node.nameEn ? node.nameEn : node.name;
-                // Preserve Icon
                 const iconSpan = item.querySelector('.material-symbols-outlined').outerHTML;
                 item.innerHTML = `${iconSpan} ${itemName}`;
             }
@@ -363,6 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = getFileContent(fileId);
         if (!file) return;
 
+        // Clear any active game before rendering new preview
+        destroyActiveGame();
+
         currentFileId = fileId;
         previewPane.classList.add('active');
 
@@ -371,7 +367,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('preview-icon').textContent = file.icon || 'description';
         document.getElementById('preview-title').textContent = fileName;
-        document.getElementById('preview-content').innerHTML = fileContent;
+
+        // Preview metadata
+        const metaEl = document.getElementById('preview-meta');
+        if (metaEl) {
+            const typeLabel = file.type === 'game'
+                ? (currentLanguage === 'en' ? 'Interactive Game' : 'Juego Interactivo')
+                : (file.type === 'folder'
+                    ? (currentLanguage === 'en' ? 'Folder' : 'Carpeta')
+                    : (currentLanguage === 'en' ? 'Document' : 'Documento'));
+            metaEl.textContent = typeLabel;
+        }
+
+        const contentEl = document.getElementById('preview-content');
+        contentEl.innerHTML = fileContent;
+
+        // If it's a game, mount the game canvas into the preview content
+        if (file.type === 'game' && file.gameId) {
+            mountGame(file.gameId, contentEl);
+        }
     }
 
     // --- 3D Scene Interactions ---
@@ -383,18 +397,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = this.getAttribute('data-path');
             if (path) {
                 if (path === 'settings') {
-                    // Open Settings (Simulated)
+                    // Open Settings
                 } else {
-                    // Trigger Cinematic Transition if available, else open window
                     const anchorId = this.getAttribute('data-anchor');
                     if (anchorId) {
                         const anchorEl = document.getElementById(anchorId);
                         if (anchorEl) {
-                            // Get world position/rotation of anchor
-                            // Since anchors are likely children of scene (world space), getAttribute is fine.
                             const pos = anchorEl.getAttribute('position');
                             const rot = anchorEl.getAttribute('rotation');
-
                             moveCameraTo(pos, rot, () => {
                                 openWindow(path);
                             });
@@ -402,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             openWindow(path);
                         }
                     } else {
-                        // Fallback
                         openWindow(path);
                     }
                 }
@@ -412,10 +421,6 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseenter', function () {
             audioManager.play('hover', { volume: 0.3 });
 
-            // Visual feedback on Object
-            // this.setAttribute('scale', { x: 1.1, y: 1.1, z: 1.1 }); // Removed scaling
-
-            // Show Label if exists
             const labelId = this.getAttribute('data-label');
             if (labelId) {
                 const label = document.getElementById(labelId);
@@ -425,8 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this.components.material) {
                 this.setAttribute('material', 'emissive', '#333');
             } else {
-                // For GLTF models, we might need to traverse, but simple alternative:
-                // Add a light or rely on the label.
                 this.object3D.traverse((node) => {
                     if (node.isMesh) {
                         node.userData.originalEmissive = node.userData.originalEmissive || node.material.emissive.clone();
@@ -435,15 +438,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // Visual feedback on Cursor
             if (crosshair) crosshair.classList.add('active-hover');
         });
 
         el.addEventListener('mouseleave', function () {
-            // Reset Object
-            // this.setAttribute('scale', { x: 1, y: 1, z: 1 }); // Removed scaling
-
-            // Hide Label if exists
             const labelId = this.getAttribute('data-label');
             if (labelId) {
                 const label = document.getElementById(labelId);
@@ -453,7 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (this.components.material) {
                 this.setAttribute('material', 'emissive', '#000');
             } else {
-                // Reset GLTF emissive
                 this.object3D.traverse((node) => {
                     if (node.isMesh && node.userData.originalEmissive) {
                         node.material.emissive.copy(node.userData.originalEmissive);
@@ -461,14 +458,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // Reset Cursor
             if (crosshair) crosshair.classList.remove('active-hover');
         });
     });
 
     // --- OS Feel Logic ---
-
-    // Dock Toggle Logic Removed (CSS Hover used instead)
 
     // Dock Interactions
     document.querySelectorAll('.dock-item').forEach(item => {
@@ -535,7 +529,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.appendChild(toast);
 
-        // Auto remove after 5s
         setTimeout(() => {
             if (toast.isConnected) {
                 toast.classList.add('hiding');
