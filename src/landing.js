@@ -41,10 +41,19 @@ export class LandingTimeline {
             });
         }
 
-        // Initialize Transition trigger
+        // Initialize Transition trigger (hero button)
         const enterBtn = document.getElementById('enter-experience');
         if (enterBtn) {
             enterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this._triggerEnterTransition();
+            });
+        }
+
+        // Initialize Transition trigger (bottom CTA button)
+        const enterBtnBottom = document.getElementById('enter-experience-bottom');
+        if (enterBtnBottom) {
+            enterBtnBottom.addEventListener('click', (e) => {
                 e.preventDefault();
                 this._triggerEnterTransition();
             });
@@ -53,16 +62,132 @@ export class LandingTimeline {
         // Trigger ambient sound on first user click anywhere to comply with browser autoplay policies
         const firstClickSound = () => {
             if (this.audio && !this.audio.enabled) {
-                // If they haven't explicitly enabled audio, we don't force sound,
-                // but we initialize context so it is ready if they click the volume button.
                 this.audio._ensureContext();
             }
             document.removeEventListener('click', firstClickSound);
         };
         document.addEventListener('click', firstClickSound);
 
+        // Scroll-based HUD fade and reveal system
+        this._initScrollEffects();
+
         // Mark body as loaded
         document.body.classList.add('loaded');
+    }
+
+    /**
+     * Sets up scroll-based effects:
+     * - HUD fades out as user scrolls past the hero
+     * - .reveal elements animate in via IntersectionObserver
+     */
+    _initScrollEffects() {
+        const hud = document.getElementById('hud-container');
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+
+        // HUD parallax fade on scroll
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const vh = window.innerHeight;
+            const progress = Math.min(scrollY / (vh * 0.35), 1); // fade over top 35% of viewport
+
+            if (hud) {
+                hud.style.opacity = 1 - progress;
+                hud.style.transform = `translateY(${-scrollY * 0.15}px)`;
+            }
+
+            if (scrollIndicator) {
+                scrollIndicator.style.opacity = Math.max(0, 0.8 - progress * 2);
+            }
+        }, { passive: true });
+
+        // IntersectionObserver for .reveal elements
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        // Reading Progress Line & Spatial Compass Animation
+        const progressFill = document.getElementById('reading-progress');
+        const narrative = document.querySelector('.scroll-narrative');
+        const chapterDynamics = document.getElementById('chapter-dynamics');
+        
+        // Compass Layers
+        const compassOuter = document.getElementById('compass-outer');
+        const compassMiddle = document.getElementById('compass-middle');
+        const compassInner = document.getElementById('compass-inner');
+        const spatialCompass = document.getElementById('spatial-compass');
+        
+        if (narrative) {
+            window.addEventListener('scroll', () => {
+                const windowHeight = window.innerHeight;
+                
+                // 1. Overall reading progress
+                if (progressFill) {
+                    const rect = narrative.getBoundingClientRect();
+                    const startScroll = rect.top - windowHeight / 2;
+                    const endScroll = rect.bottom - windowHeight / 2;
+                    const totalScroll = endScroll - startScroll;
+                    
+                    let progress = 0;
+                    if (startScroll < 0) {
+                        progress = Math.min(1, Math.max(0, Math.abs(startScroll) / totalScroll));
+                    }
+                    progressFill.style.height = `${progress * 100}%`;
+                }
+
+                // 2. Spatial Compass Scroll Rotation
+                if (chapterDynamics && compassOuter) {
+                    const chRect = chapterDynamics.getBoundingClientRect();
+                    
+                    // Start animation when chapter enters screen
+                    const drawStart = chRect.top - windowHeight;
+                    
+                    if (window.scrollY > 0 && chRect.top < windowHeight && chRect.bottom > 0) {
+                        // Continuous rotation based on pixel distance
+                        const scrollDist = windowHeight - chRect.top;
+                        
+                        // Rotate layers at different speeds and directions
+                        compassOuter.style.transform = `rotate(${scrollDist * 0.15}deg)`;
+                        compassMiddle.style.transform = `rotate(${-scrollDist * 0.25}deg)`;
+                        compassInner.style.transform = `rotate(${scrollDist * 0.05}deg)`;
+                    }
+                }
+
+            }, { passive: true });
+        }
+
+        // 3. Spatial Compass Mouse Parallax (3D Tilt)
+        if (spatialCompass && chapterDynamics) {
+            window.addEventListener('mousemove', (e) => {
+                const chRect = chapterDynamics.getBoundingClientRect();
+                
+                // Only compute if chapter is in view
+                if (chRect.top < window.innerHeight && chRect.bottom > 0) {
+                    const rect = spatialCompass.getBoundingClientRect();
+                    // Center of the compass
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    // Calculate distance from center (-1 to 1)
+                    const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
+                    const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
+                    
+                    // Max tilt in degrees
+                    const maxTilt = 25;
+                    
+                    // Apply 3D rotation (invert Y for natural tilt)
+                    spatialCompass.style.transform = `rotateX(${-deltaY * maxTilt}deg) rotateY(${deltaX * maxTilt}deg)`;
+                }
+            }, { passive: true });
+        }
     }
 
     /**
