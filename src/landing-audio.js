@@ -1,20 +1,23 @@
 /**
- * Landing Audio — Procedural OS Sound
+ * Landing Audio — Procedural Zen Atmosphere Sound
  * 
- * Zero audio files. Everything generated with Web Audio API.
- * Clean, dry, Apple-like. No cinematic drone or sub-bass rumble.
- * Features: keystroke clicks, ticks, hover tones, crystalline chime.
- * Muted by default — user opts in.
+ * Generates interactive ambient pads, hover bells, and confirmation chimes
+ * procedurally using the Web Audio API. Zero asset loading overhead.
  */
 
 export class LandingAudio {
     constructor() {
         this.ctx = null;
         this.enabled = false;
+        
         this.masterGain = null;
         this.dryGain = null;
         this.reverbGain = null;
         this.convolver = null;
+        
+        this.ambientOscs = null;
+        this.ambientGains = null;
+        this.lfoInterval = null;
     }
 
     _ensureContext() {
@@ -29,31 +32,31 @@ export class LandingAudio {
     }
 
     /**
-     * Short, dry reverb — Apple-like spatial quality
+     * Creates a synthetic algorithmic convolution reverb impulse
+     * giving sounds a high-end spatial metallic/glass glow.
      */
     _createReverb() {
         this.convolver = this.ctx.createConvolver();
         const rate = this.ctx.sampleRate;
-        const length = rate * 0.6; // 0.6-second tail — short and dry
+        const length = rate * 1.5; // 1.5-second tail - lush and ambient
         const impulse = this.ctx.createBuffer(2, length, rate);
 
         for (let channel = 0; channel < 2; channel++) {
             const data = impulse.getChannelData(channel);
             for (let i = 0; i < length; i++) {
-                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3.5);
+                // Exponential decay white noise
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2.5);
             }
         }
 
         this.convolver.buffer = impulse;
 
-        // Dry path (direct signal) — dominant
         this.dryGain = this.ctx.createGain();
-        this.dryGain.gain.value = 0.8;
+        this.dryGain.gain.value = 0.7;
         this.dryGain.connect(this.masterGain);
 
-        // Wet path (reverb) — subtle
         this.reverbGain = this.ctx.createGain();
-        this.reverbGain.gain.value = 0.15;
+        this.reverbGain.gain.value = 0.35;
         this.convolver.connect(this.reverbGain);
         this.reverbGain.connect(this.masterGain);
     }
@@ -66,13 +69,15 @@ export class LandingAudio {
     enable() {
         this._ensureContext();
         this.enabled = true;
-        this.masterGain.gain.linearRampToValueAtTime(1, this.ctx.currentTime + 0.3);
+        this.masterGain.gain.linearRampToValueAtTime(1.0, this.ctx.currentTime + 0.5);
+        this.startAtmosphere();
     }
 
     disable() {
         if (!this.ctx) return;
         this.enabled = false;
-        this.masterGain.gain.linearRampToValueAtTime(0, this.ctx.currentTime + 0.3);
+        this.masterGain.gain.linearRampToValueAtTime(0.0, this.ctx.currentTime + 0.5);
+        this.stopAtmosphere();
     }
 
     toggle() {
@@ -85,118 +90,163 @@ export class LandingAudio {
     }
 
     /**
-     * Subtle mechanical keystroke for boot line typing
+     * Start a procedurally generated open perfect fifth chord pad
+     * simulating a slow breathing space-ambient drone.
      */
-    playKeystroke() {
-        if (!this.ctx) return;
+    startAtmosphere() {
+        if (!this.ctx || this.ambientOscs) return;
 
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        const filter = this.ctx.createBiquadFilter();
+        this.ambientOscs = [];
+        this.ambientGains = [];
 
-        const types = ['square', 'sawtooth'];
-        osc.type = types[Math.floor(Math.random() * types.length)];
-        osc.frequency.value = 2500 + Math.random() * 3000;
+        // Open Perfect Fifth chord: A2 (110Hz), E3 (164.81Hz), A3 (220Hz), C#4 (277.18Hz)
+        const freqs = [110.0, 164.81, 220.0, 277.18];
 
-        filter.type = 'highpass';
-        filter.frequency.value = 1800;
-        filter.Q.value = 0.5;
+        freqs.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
 
-        const duration = 0.02 + Math.random() * 0.015;
-        gain.gain.value = 0.012 + Math.random() * 0.008;
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            
+            gain.gain.setValueAtTime(0, this.ctx.currentTime);
+            
+            // Stagger volume level of each partial for balanced blend
+            const targetVolume = (0.04 - idx * 0.008) * (idx === 3 ? 0.3 : 1.0);
+            gain.gain.linearRampToValueAtTime(targetVolume, this.ctx.currentTime + 3.0);
 
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.dryGain);
-        osc.start();
-        osc.stop(this.ctx.currentTime + duration);
+            osc.connect(gain);
+            this._connectWithReverb(gain);
+            osc.start();
+
+            this.ambientOscs.push(osc);
+            this.ambientGains.push(gain);
+        });
+
+        // Run a slow low-frequency oscillator (LFO) simulation
+        this.lfoInterval = setInterval(() => {
+            if (!this.ctx || !this.ambientOscs) return;
+            const now = this.ctx.currentTime;
+
+            // Slowly drift frequencies slightly (chorusing effect)
+            this.ambientOscs.forEach((osc, idx) => {
+                const drift = Math.sin(now * 0.15 + idx * 0.5) * 1.2;
+                osc.frequency.exponentialRampToValueAtTime(freqs[idx] + drift, now + 3.0);
+            });
+
+            // Volume modulation (simulating slow breathing)
+            this.ambientGains.forEach((gain, idx) => {
+                const baseVolume = (0.04 - idx * 0.008) * (idx === 3 ? 0.3 : 1.0);
+                const volumeMod = Math.cos(now * 0.25 + idx * 0.7) * (baseVolume * 0.25);
+                gain.gain.linearRampToValueAtTime(baseVolume + volumeMod, now + 2.5);
+            });
+        }, 3000);
     }
 
     /**
-     * Short tick for boot line start and letter settle
+     * Fades out and shuts down the atmospheric drone.
+     */
+    stopAtmosphere() {
+        if (this.lfoInterval) {
+            clearInterval(this.lfoInterval);
+            this.lfoInterval = null;
+        }
+
+        const now = this.ctx ? this.ctx.currentTime : 0;
+
+        if (this.ambientGains) {
+            this.ambientGains.forEach(gain => {
+                gain.gain.cancelScheduledValues(now);
+                gain.gain.linearRampToValueAtTime(0.0, now + 1.2);
+            });
+        }
+
+        setTimeout(() => {
+            if (this.ambientOscs) {
+                this.ambientOscs.forEach(osc => {
+                    try { osc.stop(); } catch (e) {}
+                });
+                this.ambientOscs = null;
+                this.ambientGains = null;
+            }
+        }, 1300);
+    }
+
+    /**
+     * High-pitched subtle tick (used on interactions)
      */
     playTick() {
-        if (!this.ctx) return;
-
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = 'square';
-        osc.frequency.value = 900 + Math.random() * 300;
-
-        gain.gain.value = 0.04;
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.06);
-
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.06);
-    }
-
-    /**
-     * Hover tone — very short, clean
-     */
-    playHover() {
-        if (!this.ctx) return;
+        if (!this.ctx || !this.enabled) return;
 
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
         osc.type = 'sine';
-        osc.frequency.value = 520;
+        osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
 
-        gain.gain.value = 0.025;
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.015, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+    }
+
+    /**
+     * Soft, crystalline bell tone triggered on button hover
+     */
+    playHover() {
+        if (!this.ctx || !this.enabled) return;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        // Elegant high harmonic frequency (E6)
+        osc.frequency.setValueAtTime(1318.51, this.ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.0, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.012, this.ctx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.6);
 
         osc.connect(gain);
         this._connectWithReverb(gain);
         osc.start();
-        osc.stop(this.ctx.currentTime + 0.1);
+        osc.stop(this.ctx.currentTime + 0.6);
     }
 
     /**
-     * Crystalline confirmation chime
+     * Grand crystalline confirmation chime when entering the portfolio
      */
     playChime() {
-        if (!this.ctx) return;
+        if (!this.ctx || !this.enabled) return;
 
-        const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
         const now = this.ctx.currentTime;
+        // Pentatonic scale glass cascade: C5 (523.25), E5 (659.25), G5 (783.99), A5 (880.00), C6 (1046.50)
+        const notes = [523.25, 659.25, 783.99, 880.00, 1046.50];
 
-        notes.forEach((freq, i) => {
+        notes.forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
 
             osc.type = 'sine';
             osc.frequency.value = freq;
 
-            const start = now + i * 0.1;
+            const start = now + idx * 0.08;
             gain.gain.setValueAtTime(0, start);
-            gain.gain.linearRampToValueAtTime(0.03, start + 0.04);
-            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.6);
+            gain.gain.linearRampToValueAtTime(0.025, start + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.2);
 
             osc.connect(gain);
             this._connectWithReverb(gain);
             osc.start(start);
-            osc.stop(start + 0.6);
+            osc.stop(start + 1.2);
         });
-
-        // Gentle shimmer
-        const shimmer = this.ctx.createOscillator();
-        const shimmerGain = this.ctx.createGain();
-        shimmer.type = 'sine';
-        shimmer.frequency.value = 2093;
-        shimmerGain.gain.setValueAtTime(0, now + 0.3);
-        shimmerGain.gain.linearRampToValueAtTime(0.006, now + 0.4);
-        shimmerGain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-        shimmer.connect(shimmerGain);
-        this._connectWithReverb(shimmerGain);
-        shimmer.start(now + 0.3);
-        shimmer.stop(now + 0.8);
     }
 
     destroy() {
+        this.stopAtmosphere();
         if (this.ctx) {
             this.ctx.close();
         }
