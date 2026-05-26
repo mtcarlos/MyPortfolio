@@ -703,28 +703,35 @@
             left: 8%;
             top: 50%;
             transform: translateY(-50%);
-            width: 32vw;
-            max-width: 400px;
+            width: 35vw;
+            max-width: 450px;
             aspect-ratio: 1;
-            pointer-events: none;
+            pointer-events: auto; /* Allow mouse interaction for 3D tilt */
             z-index: 5;
+            perspective: 1000px;
         }
 
-        .scroll-draw-svg {
+        .spatial-compass-svg {
             width: 100%;
             height: 100%;
             overflow: visible;
+            transform-style: preserve-3d;
+            /* The 3D tilt will be applied here via JS */
+            transition: transform 0.1s ease-out;
         }
 
-        .draw-path {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000; /* Will be updated via JS */
-            transition: stroke-dashoffset 0.1s ease-out;
+        .compass-layer {
+            transform-origin: 100px 100px; /* Center of the 200x200 viewBox */
+            /* Rotations applied via JS on scroll */
         }
 
-        .draw-node {
-            opacity: 0; /* Will be faded in via JS */
-            transition: opacity 0.3s ease;
+        .compass-glow {
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
         }
 
         .reveal-delay-1 { transition-delay: 0.15s; }
@@ -1012,7 +1019,7 @@
             }
         }
     </script>
-  <script type="module" crossorigin src="./assets/index-BwFh_S8h.js"></script>
+  <script type="module" crossorigin src="./assets/index-Btl41g3Y.js"></script>
 </head>
 
 <body>
@@ -1136,26 +1143,64 @@
         <section class="chapter align-right" id="chapter-dynamics">
             <div class="chapter-bg-number reveal">02</div>
             
-            <div class="chapter-illustration">
-                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="scroll-draw-svg">
-                    <!-- Abstract Spatial Wireframe -->
-                    <path d="M100 20 L180 60 L100 100 L20 60 Z" stroke="rgba(255,255,255,0.2)" stroke-width="1" class="draw-path" />
-                    <path d="M180 60 L180 140 L100 180 L100 100" stroke="rgba(255,255,255,0.4)" stroke-width="1" class="draw-path" />
-                    <path d="M20 60 L20 140 L100 180" stroke="rgba(255,255,255,0.15)" stroke-width="1" class="draw-path" />
-                    <path d="M100 20 L100 180" stroke="rgba(255,255,255,0.3)" stroke-width="1" class="draw-path" stroke-dasharray="4 4" />
+            <div class="chapter-illustration" id="compass-container">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="spatial-compass-svg" id="spatial-compass">
+                    <defs>
+                        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,1)" />
+                            <stop offset="30%" stop-color="rgba(255,255,255,0.4)" />
+                            <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                        </radialGradient>
+                    </defs>
+
+                    <!-- Background Base Grid (Static) -->
+                    <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
+                        <line x1="100" y1="0" x2="100" y2="200" />
+                        <line x1="0" y1="100" x2="200" y2="100" />
+                        <line x1="29" y1="29" x2="171" y2="171" />
+                        <line x1="29" y1="171" x2="171" y2="29" />
+                        <circle cx="100" cy="100" r="95" stroke-dasharray="1 4" />
+                    </g>
+
+                    <!-- Text overlays -->
+                    <text x="100" y="12" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="6" text-anchor="middle" letter-spacing="2">Z-AXIS</text>
+                    <text x="188" y="102" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="6" text-anchor="end" letter-spacing="2">X</text>
+
+                    <!-- Layer 1: Outer Tracker Ring (Rotates Fast) -->
+                    <g class="compass-layer" id="compass-outer">
+                        <circle cx="100" cy="100" r="85" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2 6" />
+                        <circle cx="100" cy="100" r="81" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" />
+                        <!-- Target brackets on outer ring -->
+                        <path d="M 100 10 L 100 20 M 100 180 L 100 190 M 10 100 L 20 100 M 180 100 L 190 100" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
+                    </g>
+
+                    <!-- Layer 2: Middle Data Ring (Rotates Opposite) -->
+                    <g class="compass-layer" id="compass-middle">
+                        <circle cx="100" cy="100" r="60" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="60 10" />
+                        <!-- Orbital satellites -->
+                        <circle cx="100" cy="40" r="2.5" fill="#fff" />
+                        <circle cx="100" cy="160" r="2.5" fill="#fff" />
+                        <circle cx="40" cy="100" r="1.5" fill="rgba(255,255,255,0.6)" />
+                        <circle cx="160" cy="100" r="1.5" fill="rgba(255,255,255,0.6)" />
+                    </g>
                     
-                    <!-- Interactive nodes -->
-                    <circle cx="100" cy="100" r="3.5" fill="rgba(255,255,255,0.9)" class="draw-node" />
-                    <circle cx="100" cy="20" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    <circle cx="180" cy="60" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    <circle cx="20" cy="60" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    <circle cx="100" cy="180" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    <circle cx="180" cy="140" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    <circle cx="20" cy="140" r="2" fill="rgba(255,255,255,0.4)" class="draw-node" />
-                    
-                    <!-- Decorative rings -->
-                    <circle cx="100" cy="100" r="40" stroke="rgba(255,255,255,0.1)" stroke-width="1" class="draw-path" />
-                    <circle cx="100" cy="100" r="65" stroke="rgba(255,255,255,0.05)" stroke-width="1" class="draw-path" />
+                    <!-- Layer 3: Inner Camera Reticle (Rotates Slow) -->
+                    <g class="compass-layer" id="compass-inner">
+                        <circle cx="100" cy="100" r="30" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+                        <!-- Camera corners (focus brackets) -->
+                        <path d="M 82 72 L 72 72 L 72 82" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
+                        <path d="M 118 72 L 128 72 L 128 82" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
+                        <path d="M 82 128 L 72 128 L 72 118" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
+                        <path d="M 118 128 L 128 128 L 128 118" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
+                        
+                        <!-- Small crosshair -->
+                        <line x1="95" y1="100" x2="105" y2="100" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" />
+                        <line x1="100" y1="95" x2="100" y2="105" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" />
+                    </g>
+
+                    <!-- Center Core (Static) -->
+                    <circle cx="100" cy="100" r="2" fill="#fff" />
+                    <circle cx="100" cy="100" r="18" fill="url(#coreGlow)" class="compass-glow" />
                 </svg>
             </div>
             <div class="chapter-inner">
