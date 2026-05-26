@@ -198,6 +198,45 @@
         </div>
     </div>
 
+    <!-- Music Player -->
+    <div id="music-player-overlay">
+        <div id="music-player">
+            <div class="music-player-header">
+                <div style="display: flex; gap: 8px;">
+                    <div class="control-btn close-btn" id="close-music-player"></div>
+                    <div class="control-btn minimize-btn"></div>
+                    <div class="control-btn maximize-btn"></div>
+                </div>
+                <div class="music-player-title">Music</div>
+            </div>
+            <div class="music-player-body">
+                <div class="music-artwork">
+                    <span class="material-symbols-outlined">music_note</span>
+                </div>
+                <div class="music-info">
+                    <div class="music-track-name">Free Trial</div>
+                    <div class="music-artist-name">kalia</div>
+                </div>
+                <div class="music-progress">
+                    <div class="music-progress-bar" id="music-progress-bar">
+                        <div class="music-progress-fill" id="music-progress-fill"></div>
+                    </div>
+                    <div class="music-time">
+                        <span id="music-current-time">0:00</span>
+                        <span id="music-duration">0:00</span>
+                    </div>
+                </div>
+                <div class="music-controls">
+                    <button class="music-btn" id="music-play-pause">
+                        <span class="material-symbols-outlined" id="music-play-icon">play_arrow</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="music-audio" src="assets/music/Free Trial - kalia (1).mp3" preload="metadata"></audio>
+
     <!-- Crosshair -->
     <div id="crosshair"></div>
 
@@ -437,8 +476,14 @@
             position="-4.73808 -0.2107 -2.38374" rotation="0 -90 0" scale="1 1 1"
             shadow="cast: true; receive: true"></a-entity>
 
-        <!-- Living Room Model -->
-        <a-entity id="living-room" gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0"
+        <!-- Interaction Label (Floating Text) -->
+        <a-entity id="living-room-label" position="2.5 2.2 2.5"
+            text="value: Music; align: center; width: 4; color: #FFF; shader: msdf; font: https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json"
+            visible="false" look-at="#main-camera"></a-entity>
+
+        <!-- Living Room Model (Clickable) -->
+        <a-entity id="living-room" class="clickable" data-path="music-player" data-label="living-room-label"
+            gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0"
             scale="0.8 0.8 0.8" shadow="cast: true; receive: true"></a-entity>
 
         <!-- Door on Front Wall -->

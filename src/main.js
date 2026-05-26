@@ -80,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function openWindow(path, sourceElement = null) {
         if (path === 'settings') return;
 
-        audioManager.play('open', { volume: 0.6 });
-
         uiLayer.classList.remove('active');
         macWindow.classList.remove('active');
 
@@ -398,6 +396,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (path) {
                 if (path === 'settings') {
                     // Open Settings
+                } else if (path === 'music-player') {
+                    openMusicPlayer();
                 } else {
                     const anchorId = this.getAttribute('data-anchor');
                     if (anchorId) {
@@ -544,4 +544,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial Render
     renderDirectory('root');
+
+    // --- Music Player ---
+    const musicPlayerOverlay = document.getElementById('music-player-overlay');
+    const musicAudio = document.getElementById('music-audio');
+    const musicPlayPauseBtn = document.getElementById('music-play-pause');
+    const musicPlayIcon = document.getElementById('music-play-icon');
+    const musicProgressFill = document.getElementById('music-progress-fill');
+    const musicProgressBar = document.getElementById('music-progress-bar');
+    const musicCurrentTime = document.getElementById('music-current-time');
+    const musicDuration = document.getElementById('music-duration');
+    const closeMusicPlayerBtn = document.getElementById('close-music-player');
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function openMusicPlayer() {
+        musicPlayerOverlay.classList.add('active');
+        if (document.pointerLockElement) {
+            document.exitPointerLock();
+        }
+    }
+
+    function closeMusicPlayer() {
+        audioManager.play('click', { volume: 0.4 });
+        musicPlayerOverlay.classList.remove('active');
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            sceneEl.canvas.requestPointerLock();
+        }
+    }
+
+    if (closeMusicPlayerBtn) {
+        closeMusicPlayerBtn.addEventListener('click', closeMusicPlayer);
+    }
+
+    if (musicPlayerOverlay) {
+        musicPlayerOverlay.addEventListener('click', (e) => {
+            if (e.target === musicPlayerOverlay) {
+                closeMusicPlayer();
+            }
+        });
+    }
+
+    if (musicPlayPauseBtn && musicAudio) {
+        musicPlayPauseBtn.addEventListener('click', () => {
+            if (musicAudio.paused) {
+                musicAudio.play();
+                musicPlayIcon.textContent = 'pause';
+            } else {
+                musicAudio.pause();
+                musicPlayIcon.textContent = 'play_arrow';
+            }
+        });
+    }
+
+    if (musicAudio) {
+        musicAudio.addEventListener('loadedmetadata', () => {
+            musicDuration.textContent = formatTime(musicAudio.duration);
+        });
+
+        musicAudio.addEventListener('timeupdate', () => {
+            if (musicAudio.duration) {
+                const pct = (musicAudio.currentTime / musicAudio.duration) * 100;
+                musicProgressFill.style.width = pct + '%';
+                musicCurrentTime.textContent = formatTime(musicAudio.currentTime);
+            }
+        });
+
+        musicAudio.addEventListener('ended', () => {
+            musicPlayIcon.textContent = 'play_arrow';
+            musicProgressFill.style.width = '0%';
+            musicCurrentTime.textContent = '0:00';
+        });
+    }
+
+    if (musicProgressBar && musicAudio) {
+        musicProgressBar.addEventListener('click', (e) => {
+            const rect = musicProgressBar.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            if (musicAudio.duration) {
+                musicAudio.currentTime = pct * musicAudio.duration;
+            }
+        });
+    }
 });
