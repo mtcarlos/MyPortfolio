@@ -97,7 +97,39 @@ export const fileSystem = {
         name: "Proyectos",
         nameEn: "Projects",
         icon: "folder_open",
-        children: ["portfolio_vr", "curiosities"]
+        children: ["commander_mtg", "portfolio_vr", "curiosities"]
+    },
+    "commander_mtg": {
+        type: "file",
+        name: "Commander MTG",
+        nameEn: "Commander MTG",
+        icon: "style",
+        content: `
+            <h3>Commander - Deck Forge</h3>
+            <p><strong>Tecnologías:</strong> Python, Django, HTML/CSS, JavaScript</p>
+            <p>Red social completa diseñada para jugadores de Magic: The Gathering (formato Commander). Incluye un constructor de mazos avanzado con validación de reglas en tiempo real mediante la API de Scryfall, creación de grupos sociales privados/públicos y perfiles dinámicos.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+                <a href="https://mtcarlos.pythonanywhere.com/" target="_blank" style="color: var(--mac-accent); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">public</span> Ver Proyecto en Vivo
+                </a>
+                <a href="https://gitlab.eif.urjc.es/carlosmt/final-ltaw" target="_blank" style="color: var(--mac-accent); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">code</span> Repositorio en GitLab
+                </a>
+            </div>
+        `,
+        contentEn: `
+            <h3>Commander - Deck Forge</h3>
+            <p><strong>Technologies:</strong> Python, Django, HTML/CSS, JavaScript</p>
+            <p>A full-fledged social network designed for Magic: The Gathering players (Commander format). Features an advanced deck builder with real-time rule validation using the Scryfall API, public/private social groups, and dynamic player profiles.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+                <a href="https://mtcarlos.pythonanywhere.com/" target="_blank" style="color: var(--mac-accent); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">public</span> View Live Project
+                </a>
+                <a href="https://gitlab.eif.urjc.es/carlosmt/final-ltaw" target="_blank" style="color: var(--mac-accent); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="material-symbols-outlined" style="font-size: 1.1rem;">code</span> GitLab Repository
+                </a>
+            </div>
+        `
     },
     "portfolio_vr": {
         type: "file",
