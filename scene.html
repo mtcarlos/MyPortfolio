@@ -209,9 +209,14 @@
         <a-assets>
             <img id="floor-texture" src="assets/images/suelo.avif">
             <img id="wall-texture" src="assets/images/pared.jpg">
+            <img id="poster-doom" src="assets/images/Doom.jpg">
+            <img id="poster-f4" src="assets/images/f4.jpg">
             <!-- Loading character here ensures it's preloaded for the loading screen event -->
             <a-asset-item id="character-model" src="assets/characters/caballero3.glb"></a-asset-item>
             <a-asset-item id="desk-model" src="assets/models/Desk.glb"></a-asset-item>
+            <a-asset-item id="living-room-model" src="assets/models/Living_Room.glb"></a-asset-item>
+            <a-asset-item id="door-model" src="assets/models/Door.glb"></a-asset-item>
+            <a-asset-item id="shelf-model" src="assets/models/Shelf.glb"></a-asset-item>
         </a-assets>
 
         <!-- Player Controller (Rig) -->
@@ -260,8 +265,141 @@
             shadow="receive: true; cast: true" static-body></a-box> <!-- Front -->
         <a-box position="-5 2 0" width="0.1" height="4" depth="10" color="#FFFFFF" src="#wall-texture" repeat="4 2"
             shadow="receive: true; cast: true" static-body></a-box> <!-- Left -->
-        <a-box position="5 2 0" width="0.1" height="4" depth="10" color="#FFFFFF" src="#wall-texture" repeat="4 2"
-            shadow="receive: true; cast: true" static-body></a-box> <!-- Right -->
+
+        <!-- Posters on Left Wall -->
+        <a-image src="#poster-doom" position="-4.94 2 0.5" rotation="0 90 0" width="1.2" height="1.8"></a-image>
+        <a-image src="#poster-f4" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"></a-image>
+
+        <!-- Shelf on Left Wall -->
+        <a-entity id="shelf" gltf-model="#shelf-model" position="-4.8 1.5 -1" rotation="0 -90 0" scale="1 1 1"
+            shadow="cast: true; receive: true"></a-entity>
+        <!-- ============================================
+             Glass Curtain Wall (Right Side)
+             ============================================ -->
+        <a-entity id="glass-wall">
+            <!-- Invisible collision body -->
+            <a-box position="5 2 0" width="0.15" height="4" depth="10" material="opacity: 0; transparent: true"
+                static-body></a-box>
+
+            <!-- Frame — Vertical Mullions (dark metal) -->
+            <a-box position="5 2 -5" width="0.08" height="4" depth="0.06" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 2 -2.5" width="0.08" height="4" depth="0.06" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 2 0" width="0.08" height="4" depth="0.06" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 2 2.5" width="0.08" height="4" depth="0.06" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 2 5" width="0.08" height="4" depth="0.06" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+
+            <!-- Frame — Horizontal Transoms -->
+            <a-box position="5 0.02 0" width="0.10" height="0.08" depth="10" color="#1A1A1E"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 1.33 0" width="0.08" height="0.06" depth="10" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 2.67 0" width="0.08" height="0.06" depth="10" color="#1E1E22"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+            <a-box position="5 3.98 0" width="0.10" height="0.08" depth="10" color="#1A1A1E"
+                material="metalness: 0.8; roughness: 0.3" shadow="cast: true"></a-box>
+
+            <!-- Glass Panels — 4 cols × 3 rows -->
+            <!-- Row 1 (bottom) -->
+            <a-plane position="5 0.675 -3.75" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 0.675 -1.25" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 0.675 1.25" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 0.675 3.75" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <!-- Row 2 (middle) -->
+            <a-plane position="5 2.0 -3.75" rotation="0 90 0" width="2.44" height="1.28"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 2.0 -1.25" rotation="0 90 0" width="2.44" height="1.28"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 2.0 1.25" rotation="0 90 0" width="2.44" height="1.28"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 2.0 3.75" rotation="0 90 0" width="2.44" height="1.28"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <!-- Row 3 (top) -->
+            <a-plane position="5 3.325 -3.75" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 3.325 -1.25" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 3.325 1.25" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+            <a-plane position="5 3.325 3.75" rotation="0 90 0" width="2.44" height="1.25"
+                material="color: #A0C8E8; opacity: 0.15; transparent: true; metalness: 0.2; roughness: 0.1; side: double"></a-plane>
+        </a-entity>
+
+        <!-- ============================================
+             Exterior Environment — Night Cityscape
+             ============================================ -->
+        <a-entity id="exterior-cityscape">
+            <!-- Ground -->
+            <a-plane position="18 -0.05 0" rotation="-90 0 0" width="30" height="20"
+                material="shader: flat; color: #08080E"></a-plane>
+
+            <!-- Sky backdrop -->
+            <a-plane position="35 8 0" rotation="0 -90 0" width="30" height="25"
+                material="shader: flat; color: #0B1018"></a-plane>
+            <a-plane position="34.8 15 0" rotation="0 -90 0" width="30" height="10"
+                material="shader: flat; color: #111A28; opacity: 0.6; transparent: true"></a-plane>
+
+            <!-- Building silhouettes -->
+            <a-box position="9 2.5 -3.5" width="2.2" height="5" depth="2"
+                material="shader: flat; color: #0D0D15"></a-box>
+            <a-box position="12 4.5 -1" width="1.5" height="9" depth="1.5"
+                material="shader: flat; color: #10101A"></a-box>
+            <a-box position="8.5 3 1.5" width="2.5" height="6" depth="2"
+                material="shader: flat; color: #0E0E18"></a-box>
+            <a-box position="15 6 0.2" width="1.8" height="12" depth="1.8"
+                material="shader: flat; color: #0A0A12"></a-box>
+            <a-box position="10 1.75 3.8" width="2" height="3.5" depth="2"
+                material="shader: flat; color: #121220"></a-box>
+            <a-box position="18 4 -2.5" width="2" height="8" depth="1.8"
+                material="shader: flat; color: #0C0C16"></a-box>
+            <a-box position="14 3.5 3.2" width="2" height="7" depth="2" material="shader: flat; color: #0E0E19"></a-box>
+            <a-box position="22 7.5 0.5" width="2.5" height="15" depth="2.5"
+                material="shader: flat; color: #08080F"></a-box>
+
+            <!-- Lit windows on buildings -->
+            <!-- Building 2 (x=12) -->
+            <a-plane position="11.24 5.5 -1" rotation="0 -90 0" width="0.3" height="0.45"
+                material="shader: flat; color: #FFE4A8"></a-plane>
+            <a-plane position="11.24 3.8 -0.5" rotation="0 -90 0" width="0.25" height="0.4"
+                material="shader: flat; color: #C8DEFF"></a-plane>
+            <!-- Building 4 (x=15, landmark) -->
+            <a-plane position="14.09 8.2 0.2" rotation="0 -90 0" width="0.3" height="0.45"
+                material="shader: flat; color: #FFE0A0"></a-plane>
+            <a-plane position="14.09 6 0.6" rotation="0 -90 0" width="0.25" height="0.4"
+                material="shader: flat; color: #D0E4FF"></a-plane>
+            <a-plane position="14.09 4.2 -0.2" rotation="0 -90 0" width="0.3" height="0.4"
+                material="shader: flat; color: #FFE4A8"></a-plane>
+            <!-- Building 3 (x=8.5) -->
+            <a-plane position="7.24 4 1.5" rotation="0 -90 0" width="0.3" height="0.4"
+                material="shader: flat; color: #E0F0FF"></a-plane>
+            <a-plane position="7.24 2.2 2" rotation="0 -90 0" width="0.25" height="0.4"
+                material="shader: flat; color: #FFE4A8"></a-plane>
+            <!-- Building 7 (x=14) -->
+            <a-plane position="12.99 4.8 3.2" rotation="0 -90 0" width="0.3" height="0.4"
+                material="shader: flat; color: #D4E8FF"></a-plane>
+            <a-plane position="12.99 2.8 3.5" rotation="0 -90 0" width="0.25" height="0.35"
+                material="shader: flat; color: #FFD8A0"></a-plane>
+
+            <!-- Ground-level city lights -->
+            <a-plane position="12 0.02 -3" rotation="-90 0 0" width="0.15" height="0.15"
+                material="shader: flat; color: #FFD080"></a-plane>
+            <a-plane position="16 0.02 2" rotation="-90 0 0" width="0.1" height="0.1"
+                material="shader: flat; color: #FF8866"></a-plane>
+            <a-plane position="9 0.02 4" rotation="-90 0 0" width="0.12" height="0.12"
+                material="shader: flat; color: #AADDFF"></a-plane>
+
+            <!-- Atmospheric lighting from exterior -->
+            <a-light type="point" color="#3355AA" intensity="0.2" position="8 3 0" distance="10"></a-light>
+            <a-light type="point" color="#FF8833" intensity="0.03" position="14 1 0" distance="8"></a-light>
+        </a-entity>
 
         <!-- Lighting (Elegant Studio) -->
         <!-- Ambient Light — Clean neutral fill -->
@@ -278,6 +416,17 @@
         <a-box position="-0.237 0.75 -3.385" width="0.77" height="0.88" depth="2.83"
             material="opacity: 0; transparent: true" static-body rotation="0 -90 0"></a-box>
 
+        <a-box position="2.17555 0.75 1.19542" width="0.77" height="0.88" depth="2.83"
+            material="opacity: 0; transparent: false" static-body rotation="0 -90 0"></a-box>
+
+
+        <a-box position="2.17555 0.75 2.851" width="0.77" height="0.88" depth="2.83"
+            material="opacity: 0; transparent: false" static-body rotation="0 -90 0" scale="1 1 0.6"></a-box>
+
+        <a-box position="2.17555 0.75 4.048" width="0.77" height="0.88" depth="2.83"
+            material="opacity: 0; transparent: false" static-body rotation="0 -90 0" scale="1 1 0.6"></a-box>
+
+
         <!-- Interaction Label (Floating Text) -->
         <a-entity id="desk-label" position="0.133 2.086 -2.38"
             text="value: Portfolio; align: center; width: 4; color: #FFF; shader: msdf; font: https://raw.githubusercontent.com/etiennepinchon/aframe-fonts/master/fonts/roboto/Roboto-Bold.json"
@@ -286,6 +435,14 @@
         <!-- Desk Model (Clickable) -->
         <a-entity class="clickable" data-path="root" data-label="desk-label" gltf-model="assets/models/Desk.glb"
             position="-4.73808 -0.2107 -2.38374" rotation="0 -90 0" scale="1 1 1"
+            shadow="cast: true; receive: true"></a-entity>
+
+        <!-- Living Room Model -->
+        <a-entity id="living-room" gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0"
+            scale="0.8 0.8 0.8" shadow="cast: true; receive: true"></a-entity>
+
+        <!-- Door on Front Wall -->
+        <a-entity id="door" gltf-model="#door-model" position="-2.5 0 4.9" rotation="0 180 0" scale="1 1 1"
             shadow="cast: true; receive: true"></a-entity>
 
     </a-scene>

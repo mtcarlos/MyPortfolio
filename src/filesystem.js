@@ -164,27 +164,27 @@ export const fileSystem = {
             </div>
 
             <div class="curiosity-card">
-                <h4>🎨 Sin frameworks CSS</h4>
+                <h4><span class="material-symbols-outlined">palette</span> Sin frameworks CSS</h4>
                 <p>Toda la interfaz macOS que estás viendo está construida con CSS puro (Vanilla CSS). Glassmorphism, animaciones y micro-interacciones, todo sin Tailwind ni Bootstrap.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🧊 Escena 3D en el navegador</h4>
+                <h4><span class="material-symbols-outlined">view_in_ar</span> Escena 3D en el navegador</h4>
                 <p>El entorno 3D funciona con A-Frame + Three.js sobre WebGL. Todo se renderiza en tiempo real directamente en tu navegador, sin plugins.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🎮 Easter Egg</h4>
+                <h4><span class="material-symbols-outlined">sports_esports</span> Easter Egg</h4>
                 <p>¿Ya encontraste la carpeta Arcade? Hay un juego Snake jugable dentro de este mismo Finder. Porque un buen desarrollador también sabe divertirse.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🌐 Bilingüe en tiempo real</h4>
+                <h4><span class="material-symbols-outlined">translate</span> Bilingüe en tiempo real</h4>
                 <p>Pulsa el botón ES/EN en la barra de título. Todo el contenido cambia al instante sin recargar la página — enrutamiento lógico puro en JavaScript.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>📦 Zero Dependencies</h4>
+                <h4><span class="material-symbols-outlined">inventory_2</span> Zero Dependencies</h4>
                 <p>El sistema de archivos virtual, las ventanas arrastrables, el dock animado y las notificaciones... todo construido desde cero con Vanilla JS.</p>
             </div>
         `,
@@ -195,27 +195,27 @@ export const fileSystem = {
             </div>
 
             <div class="curiosity-card">
-                <h4>🎨 No CSS frameworks</h4>
+                <h4><span class="material-symbols-outlined">palette</span> No CSS frameworks</h4>
                 <p>The entire macOS interface you're seeing is built with pure Vanilla CSS. Glassmorphism, animations, and micro-interactions — all without Tailwind or Bootstrap.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🧊 3D Scene in the browser</h4>
+                <h4><span class="material-symbols-outlined">view_in_ar</span> 3D Scene in the browser</h4>
                 <p>The 3D environment runs on A-Frame + Three.js over WebGL. Everything renders in real-time directly in your browser, no plugins required.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🎮 Easter Egg</h4>
+                <h4><span class="material-symbols-outlined">sports_esports</span> Easter Egg</h4>
                 <p>Did you find the Arcade folder? There's a playable Snake game right inside this Finder. Because a good developer also knows how to have fun.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>🌐 Real-time bilingual</h4>
+                <h4><span class="material-symbols-outlined">translate</span> Real-time bilingual</h4>
                 <p>Press the ES/EN button in the title bar. All content switches instantly with no page reload — pure JavaScript logical routing.</p>
             </div>
 
             <div class="curiosity-card">
-                <h4>📦 Zero Dependencies</h4>
+                <h4><span class="material-symbols-outlined">inventory_2</span> Zero Dependencies</h4>
                 <p>The virtual file system, draggable windows, animated dock, and notifications... all built from scratch with Vanilla JS.</p>
             </div>
         `
@@ -239,7 +239,7 @@ export const fileSystem = {
         content: `
             <div class="skills-grid">
                 <span class="skill-tag">Python (Básico)</span>
-                <span class="skill-tag">Java (Básico)</span>
+                <span class="skill-tag">Django</span>
                 <span class="skill-tag">JavaScript</span>
                 <span class="skill-tag">HTML5</span>
                 <span class="skill-tag">CSS3</span>
@@ -249,7 +249,7 @@ export const fileSystem = {
         contentEn: `
             <div class="skills-grid">
                 <span class="skill-tag">Python (Basic)</span>
-                <span class="skill-tag">Java (Basic)</span>
+                <span class="skill-tag">Django</span>
                 <span class="skill-tag">JavaScript</span>
                 <span class="skill-tag">HTML5</span>
                 <span class="skill-tag">CSS3</span>
