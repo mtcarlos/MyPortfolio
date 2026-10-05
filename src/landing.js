@@ -58,7 +58,7 @@ export class LandingTimeline {
                 this._triggerEnterTransition();
             });
         }
-        
+
         // Trigger ambient sound on first user click anywhere to comply with browser autoplay policies
         const firstClickSound = () => {
             if (this.audio && !this.audio.enabled) {
@@ -113,29 +113,29 @@ export class LandingTimeline {
         });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        
+
         // Reading Progress Line & Spatial Compass Animation
         const progressFill = document.getElementById('reading-progress');
         const narrative = document.querySelector('.scroll-narrative');
         const chapterDynamics = document.getElementById('chapter-dynamics');
-        
+
         // Compass Layers
         const compassOuter = document.getElementById('compass-outer');
         const compassMiddle = document.getElementById('compass-middle');
         const compassInner = document.getElementById('compass-inner');
         const spatialCompass = document.getElementById('spatial-compass');
-        
+
         if (narrative) {
             window.addEventListener('scroll', () => {
                 const windowHeight = window.innerHeight;
-                
+
                 // 1. Overall reading progress
                 if (progressFill) {
                     const rect = narrative.getBoundingClientRect();
                     const startScroll = rect.top - windowHeight / 2;
                     const endScroll = rect.bottom - windowHeight / 2;
                     const totalScroll = endScroll - startScroll;
-                    
+
                     let progress = 0;
                     if (startScroll < 0) {
                         progress = Math.min(1, Math.max(0, Math.abs(startScroll) / totalScroll));
@@ -146,14 +146,14 @@ export class LandingTimeline {
                 // 2. Spatial Compass Scroll Rotation
                 if (chapterDynamics && compassOuter) {
                     const chRect = chapterDynamics.getBoundingClientRect();
-                    
+
                     // Start animation when chapter enters screen
                     const drawStart = chRect.top - windowHeight;
-                    
+
                     if (window.scrollY > 0 && chRect.top < windowHeight && chRect.bottom > 0) {
                         // Continuous rotation based on pixel distance
                         const scrollDist = windowHeight - chRect.top;
-                        
+
                         // Rotate layers at different speeds and directions
                         compassOuter.style.transform = `rotate(${scrollDist * 0.15}deg)`;
                         compassMiddle.style.transform = `rotate(${-scrollDist * 0.25}deg)`;
@@ -168,21 +168,21 @@ export class LandingTimeline {
         if (spatialCompass && chapterDynamics) {
             window.addEventListener('mousemove', (e) => {
                 const chRect = chapterDynamics.getBoundingClientRect();
-                
+
                 // Only compute if chapter is in view
                 if (chRect.top < window.innerHeight && chRect.bottom > 0) {
                     const rect = spatialCompass.getBoundingClientRect();
                     // Center of the compass
                     const centerX = rect.left + rect.width / 2;
                     const centerY = rect.top + rect.height / 2;
-                    
+
                     // Calculate distance from center (-1 to 1)
                     const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
                     const deltaY = (e.clientY - centerY) / (window.innerHeight / 2);
-                    
+
                     // Max tilt in degrees
                     const maxTilt = 25;
-                    
+
                     // Apply 3D rotation (invert Y for natural tilt)
                     spatialCompass.style.transform = `rotateX(${-deltaY * maxTilt}deg) rotateY(${deltaX * maxTilt}deg)`;
                 }
@@ -247,7 +247,7 @@ class CursorSystem {
 
         this.mouseX = 0;
         this.mouseY = 0;
-        
+
         this.cursorX = 0;
         this.cursorY = 0;
         this.ringX = 0;
