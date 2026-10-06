@@ -458,15 +458,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (label) label.setAttribute('visible', true);
             }
 
-            if (this.components.material) {
-                this.setAttribute('material', 'emissive', '#333');
-            } else {
-                this.object3D.traverse((node) => {
-                    if (node.isMesh) {
-                        node.userData.originalEmissive = node.userData.originalEmissive || node.material.emissive.clone();
-                        node.material.emissive.setHex(0x333333);
-                    }
-                });
+            if (!this.classList.contains('poster')) {
+                if (this.components.material) {
+                    this.setAttribute('material', 'emissive', '#333');
+                } else {
+                    this.object3D.traverse((node) => {
+                        if (node.isMesh) {
+                            node.userData.originalEmissive = node.userData.originalEmissive || node.material.emissive.clone();
+                            node.material.emissive.setHex(0x333333);
+                        }
+                    });
+                }
             }
 
             if (crosshair) crosshair.classList.add('active-hover');
@@ -479,14 +481,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (label) label.setAttribute('visible', false);
             }
 
-            if (this.components.material) {
-                this.setAttribute('material', 'emissive', '#000');
-            } else {
-                this.object3D.traverse((node) => {
-                    if (node.isMesh && node.userData.originalEmissive) {
-                        node.material.emissive.copy(node.userData.originalEmissive);
-                    }
-                });
+            if (!this.classList.contains('poster')) {
+                if (this.components.material) {
+                    this.setAttribute('material', 'emissive', '#000');
+                } else {
+                    this.object3D.traverse((node) => {
+                        if (node.isMesh && node.userData.originalEmissive) {
+                            node.material.emissive.copy(node.userData.originalEmissive);
+                        }
+                    });
+                }
             }
 
             if (crosshair) crosshair.classList.remove('active-hover');

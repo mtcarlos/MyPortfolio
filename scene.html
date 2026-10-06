@@ -20,17 +20,18 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="./src/main.js"></script>
+
     <script>
         AFRAME.registerComponent('play-video-on-hover', {
             schema: {
-                video: {type: 'selector'},
-                poster: {type: 'string'}
+                video: { type: 'selector' },
+                poster: { type: 'string' }
             },
             init: function () {
                 var el = this.el;
                 var video = this.data.video;
                 var posterSrc = this.data.poster;
-                
+
                 el.addEventListener('mouseenter', function () {
                     video.play();
                     el.setAttribute('material', 'src', video);
@@ -290,7 +291,8 @@
             <img id="wall-texture" src="assets/images/pared.jpg">
             <img id="poster-doom" src="assets/images/Doom.jpg">
             <img id="poster-caballero" src="assets/images/poster_caballero.png">
-            <video id="video-caballero" src="assets/images/Knight_pulls_sword_from_stone_20261006190702.mp4" loop="true" preload="auto" muted="true" crossorigin="anonymous" playsinline></video>
+            <video id="video-caballero" src="assets/images/Knight_pulls_sword_from_stone_20261006190702.mp4" loop="true"
+                preload="auto" muted="true" crossorigin="anonymous" playsinline></video>
             <!-- Loading character here ensures it's preloaded for the loading screen event -->
             <a-asset-item id="character-model" src="assets/characters/caballero3.glb"></a-asset-item>
             <a-asset-item id="desk-model" src="assets/models/Desk.glb"></a-asset-item>
@@ -326,12 +328,12 @@
 
         <!-- Ceiling / Techo — Dark & Moody -->
         <a-entity id="ceiling-group" position="0 4 0">
-            <!-- Base ceiling - dark grey to absorb light -->
-            <a-plane rotation="90 0 0" width="10" height="10" color="#11151C" shadow="receive: true"
-                static-body></a-plane>
+            <!-- Base ceiling - dark textured to absorb light but look like a real ceiling -->
+            <a-plane rotation="90 0 0" width="10" height="10" color="#333" src="#wall-texture" repeat="4 4"
+                shadow="receive: true" static-body></a-plane>
 
-            <!-- Central neon accent panel -->
-            <a-plane position="0 -0.05 0" rotation="90 0 0" width="5" height="5" color="#00D8FF"
+            <!-- Full-room neon accent panel -->
+            <a-plane position="0 -0.05 0" rotation="90 0 0" width="10" height="10" color="#00D8FF"
                 material="shader: flat; opacity: 0.1; transparent: true"></a-plane>
 
             <!-- Soft fill light from the panel (Cyan) -->
@@ -347,24 +349,20 @@
             shadow="receive: true; cast: true" static-body></a-box> <!-- Left -->
 
         <!-- Posters on Left Wall -->
-        <a-plane class="clickable" src="#poster-doom" position="-4.94 2 0.5" rotation="0 90 0" width="1.2" height="1.8"
-            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #FF3300; emissiveIntensity: 0"
+        <a-plane class="clickable poster" src="#poster-doom" position="-4.94 2 0.5" rotation="0 90 0" width="1.2"
+            height="1.8" material="shader: standard; roughness: 0.4; metalness: 0.1"
             animation__enter_pos="property: position; to: -4.75 2 0.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
-            animation__leave_pos="property: position; to: -4.94 2 0.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
-            animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
-            animation__leave_glow="property: material.emissiveIntensity; to: 0; dur: 250; startEvents: mouseleave">
+            animation__leave_pos="property: position; to: -4.94 2 0.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave">
             <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #FF3300; opacity: 0"
                 animation__enter_bg="property: material.opacity; to: 0.6; dur: 250; startEvents: mouseenter"
                 animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
         </a-plane>
 
-        <a-plane class="clickable" src="#poster-caballero" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"
-            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #FFC107; emissiveIntensity: 0"
+        <a-plane class="clickable poster" src="#poster-caballero" position="-4.94 2 2.5" rotation="0 90 0" width="1.2"
+            height="1.8" material="shader: standard; roughness: 0.4; metalness: 0.1"
             play-video-on-hover="video: #video-caballero; poster: #poster-caballero"
             animation__enter_pos="property: position; to: -4.75 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
-            animation__leave_pos="property: position; to: -4.94 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
-            animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
-            animation__leave_glow="property: material.emissiveIntensity; to: 0; dur: 250; startEvents: mouseleave">
+            animation__leave_pos="property: position; to: -4.94 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave">
             <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #FFC107; opacity: 0"
                 animation__enter_bg="property: material.opacity; to: 0.6; dur: 250; startEvents: mouseenter"
                 animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
