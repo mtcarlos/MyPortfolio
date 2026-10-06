@@ -20,6 +20,28 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="./src/main.js"></script>
+    <script>
+        AFRAME.registerComponent('play-video-on-hover', {
+            schema: {
+                video: {type: 'selector'},
+                poster: {type: 'string'}
+            },
+            init: function () {
+                var el = this.el;
+                var video = this.data.video;
+                var posterSrc = this.data.poster;
+                
+                el.addEventListener('mouseenter', function () {
+                    video.play();
+                    el.setAttribute('material', 'src', video);
+                });
+                el.addEventListener('mouseleave', function () {
+                    video.pause();
+                    el.setAttribute('material', 'src', posterSrc);
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -268,6 +290,7 @@
             <img id="wall-texture" src="assets/images/pared.jpg">
             <img id="poster-doom" src="assets/images/Doom.jpg">
             <img id="poster-caballero" src="assets/images/poster_caballero.png">
+            <video id="video-caballero" src="assets/images/Knight_pulls_sword_from_stone_20261006190702.mp4" loop="true" preload="auto" muted="true" crossorigin="anonymous" playsinline></video>
             <!-- Loading character here ensures it's preloaded for the loading screen event -->
             <a-asset-item id="character-model" src="assets/characters/caballero3.glb"></a-asset-item>
             <a-asset-item id="desk-model" src="assets/models/Desk.glb"></a-asset-item>
@@ -337,6 +360,7 @@
 
         <a-plane class="clickable" src="#poster-caballero" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"
             material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #FFC107; emissiveIntensity: 0"
+            play-video-on-hover="video: #video-caballero; poster: #poster-caballero"
             animation__enter_pos="property: position; to: -4.75 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
             animation__leave_pos="property: position; to: -4.94 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
             animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
