@@ -106,6 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.pointerLockElement) {
                 document.exitPointerLock();
             }
+            
+            // Language Hint Logic
+            if (!localStorage.getItem('langHintSeen')) {
+                const langHint = document.getElementById('lang-hint');
+                if (langHint && langToggleBtn) {
+                    setTimeout(() => {
+                        langHint.classList.add('show');
+                        langToggleBtn.classList.add('highlight');
+                    }, 600); // Aparece suavemente después de abrir la ventana
+                }
+            }
         });
 
         currentX = 0;
@@ -176,6 +187,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentFileId) {
                     renderPreview(currentFileId);
                 }
+            }
+            
+            // Hide hint if it's visible
+            const langHint = document.getElementById('lang-hint');
+            if (langHint) {
+                langHint.classList.remove('show');
+                langToggleBtn.classList.remove('highlight');
+                localStorage.setItem('langHintSeen', 'true');
+            }
+        });
+    }
+
+    const closeLangHintBtn = document.getElementById('close-lang-hint');
+    if (closeLangHintBtn) {
+        closeLangHintBtn.addEventListener('click', () => {
+            const langHint = document.getElementById('lang-hint');
+            if (langHint) {
+                langHint.classList.remove('show');
+                langToggleBtn.classList.remove('highlight');
+                localStorage.setItem('langHintSeen', 'true');
             }
         });
     }

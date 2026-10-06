@@ -29,7 +29,9 @@
             <img src="assets/images/MiLogo.png" class="logo-base" alt="Loading Base">
             <img src="assets/images/MiLogo.png" class="logo-fill" alt="Loading Progress">
         </div>
-        <div class="bios-text" style="font-size: 0.8rem; letter-spacing: 0.25em; color: rgba(255,255,255,0.3); margin-top: 1rem;">BOOTING VIRTUAL ENVIRONMENT...</div>
+        <div class="bios-text"
+            style="font-size: 0.8rem; letter-spacing: 0.25em; color: rgba(255,255,255,0.3); margin-top: 1rem;">BOOTING
+            VIRTUAL ENVIRONMENT...</div>
     </div>
 
     <!-- Scene Instructions -->
@@ -129,10 +131,21 @@
                     <div class="control-btn minimize-btn"></div>
                     <div class="control-btn maximize-btn"></div>
                 </div>
-                <div class="navigation-controls">
+                <div class="navigation-controls" style="position: relative;">
                     <button class="nav-btn" id="nav-back"><span
                             class="material-symbols-outlined">arrow_back</span></button>
                     <button class="nav-btn lang-toggle" id="lang-toggle">ES</button>
+                    
+                    <!-- Hint de Cambio de Idioma -->
+                    <div id="lang-hint" class="lang-hint">
+                        <span class="material-symbols-outlined hint-icon">translate</span>
+                        <div class="hint-text">
+                            <strong>Idioma / Language</strong>
+                            <span>Puedes cambiar el idioma aquí</span>
+                        </div>
+                        <div class="hint-close" id="close-lang-hint"><span class="material-symbols-outlined">close</span></div>
+                        <div class="hint-arrow"></div>
+                    </div>
                 </div>
                 <div class="window-title">Finder — Portfolio</div>
             </div>
@@ -310,8 +323,27 @@
             shadow="receive: true; cast: true" static-body></a-box> <!-- Left -->
 
         <!-- Posters on Left Wall -->
-        <a-image src="#poster-doom" position="-4.94 2 0.5" rotation="0 90 0" width="1.2" height="1.8"></a-image>
-        <a-image src="#poster-f4" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"></a-image>
+        <a-plane class="clickable" src="#poster-doom" position="-4.94 2 0.5" rotation="0 90 0" width="1.2" height="1.8"
+            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #FF3300; emissiveIntensity: 0"
+            animation__enter_pos="property: position; to: -4.75 2 0.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
+            animation__leave_pos="property: position; to: -4.94 2 0.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
+            animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
+            animation__leave_glow="property: material.emissiveIntensity; to: 0; dur: 250; startEvents: mouseleave">
+            <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #FF3300; opacity: 0"
+                animation__enter_bg="property: material.opacity; to: 0.6; dur: 250; startEvents: mouseenter"
+                animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
+        </a-plane>
+
+        <a-plane class="clickable" src="#poster-f4" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"
+            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #00D8FF; emissiveIntensity: 0"
+            animation__enter_pos="property: position; to: -4.75 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
+            animation__leave_pos="property: position; to: -4.94 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
+            animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
+            animation__leave_glow="property: material.emissiveIntensity; to: 0; dur: 250; startEvents: mouseleave">
+            <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #00D8FF; opacity: 0"
+                animation__enter_bg="property: material.opacity; to: 0.6; dur: 250; startEvents: mouseenter"
+                animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
+        </a-plane>
 
         <!-- Shelf on Left Wall -->
         <a-entity id="shelf" gltf-model="#shelf-model" position="-4.8 1.5 -1" rotation="0 -90 0" scale="1 1 1"
@@ -377,86 +409,204 @@
         </a-entity>
 
         <!-- ============================================
-             Exterior Environment — Night Cityscape
+             Exterior Environment — Night Cityscape (Cyberpunk / Cinematic)
+             ============================================ -->
+        <!-- ============================================
+             Exterior Environment — Night Cityscape (Cyberpunk / Cinematic)
              ============================================ -->
         <a-entity id="exterior-cityscape">
-            <!-- Ground -->
-            <a-plane position="18 -0.05 0" rotation="-90 0 0" width="30" height="20"
-                material="shader: flat; color: #08080E"></a-plane>
+            <!-- Sky Gradient (Mantemos plano para que no reaccione a luces locales) -->
+            <a-plane position="45 10 0" rotation="0 -90 0" width="60" height="40"
+                material="shader: flat; color: #020305"></a-plane>
+            <a-plane position="44.9 2 0" rotation="0 -90 0" width="60" height="20"
+                material="shader: flat; color: #050810; opacity: 0.9; transparent: true"></a-plane>
+            <a-plane position="44.8 -2 0" rotation="0 -90 0" width="60" height="10"
+                material="shader: flat; color: #080C15; opacity: 0.8; transparent: true"></a-plane>
 
-            <!-- Sky backdrop -->
-            <a-plane position="35 8 0" rotation="0 -90 0" width="30" height="25"
-                material="shader: flat; color: #0B1018"></a-plane>
-            <a-plane position="34.8 15 0" rotation="0 -90 0" width="30" height="10"
-                material="shader: flat; color: #111A28; opacity: 0.6; transparent: true"></a-plane>
+            <!-- Cyberpunk Sun / Moon (Emisivo) -->
+            <a-circle position="44.5 12 -8" rotation="0 -90 0" radius="6"
+                material="shader: standard; color: #FF8C00; emissive: #FF2A00; emissiveIntensity: 0.8; transparent: true; opacity: 0.9"></a-circle>
+            <!-- Sun Glow -->
+            <a-circle position="44.4 12 -8" rotation="0 -90 0" radius="9"
+                material="shader: flat; color: #FF4500; transparent: true; opacity: 0.15"></a-circle>
+            <!-- Sun Horizon Cutoff -->
+            <a-plane position="44.3 6 -8" rotation="0 -90 0" width="18" height="2.5"
+                material="shader: flat; color: #020305; opacity: 0.95"></a-plane>
 
-            <!-- Building silhouettes -->
-            <a-box position="9 2.5 -3.5" width="2.2" height="5" depth="2"
-                material="shader: flat; color: #0D0D15"></a-box>
-            <a-box position="12 4.5 -1" width="1.5" height="9" depth="1.5"
-                material="shader: flat; color: #10101A"></a-box>
-            <a-box position="8.5 3 1.5" width="2.5" height="6" depth="2"
-                material="shader: flat; color: #0E0E18"></a-box>
-            <a-box position="15 6 0.2" width="1.8" height="12" depth="1.8"
-                material="shader: flat; color: #0A0A12"></a-box>
-            <a-box position="10 1.75 3.8" width="2" height="3.5" depth="2"
-                material="shader: flat; color: #121220"></a-box>
-            <a-box position="18 4 -2.5" width="2" height="8" depth="1.8"
-                material="shader: flat; color: #0C0C16"></a-box>
-            <a-box position="14 3.5 3.2" width="2" height="7" depth="2" material="shader: flat; color: #0E0E19"></a-box>
-            <a-box position="22 7.5 0.5" width="2.5" height="15" depth="2.5"
-                material="shader: flat; color: #08080F"></a-box>
+            <!-- Ground (Mate, sin casi reflejo) -->
+            <a-plane position="18 -0.05 0" rotation="-90 0 0" width="50" height="40"
+                material="shader: standard; color: #020203; roughness: 0.95; metalness: 0"></a-plane>
 
-            <!-- Lit windows on buildings -->
-            <!-- Building 2 (x=12) -->
-            <a-plane position="11.24 5.5 -1" rotation="0 -90 0" width="0.3" height="0.45"
-                material="shader: flat; color: #FFE4A8"></a-plane>
-            <a-plane position="11.24 3.8 -0.5" rotation="0 -90 0" width="0.25" height="0.4"
-                material="shader: flat; color: #C8DEFF"></a-plane>
-            <!-- Building 4 (x=15, landmark) -->
-            <a-plane position="14.09 8.2 0.2" rotation="0 -90 0" width="0.3" height="0.45"
-                material="shader: flat; color: #FFE0A0"></a-plane>
-            <a-plane position="14.09 6 0.6" rotation="0 -90 0" width="0.25" height="0.4"
-                material="shader: flat; color: #D0E4FF"></a-plane>
-            <a-plane position="14.09 4.2 -0.2" rotation="0 -90 0" width="0.3" height="0.4"
-                material="shader: flat; color: #FFE4A8"></a-plane>
-            <!-- Building 3 (x=8.5) -->
-            <a-plane position="7.24 4 1.5" rotation="0 -90 0" width="0.3" height="0.4"
-                material="shader: flat; color: #E0F0FF"></a-plane>
-            <a-plane position="7.24 2.2 2" rotation="0 -90 0" width="0.25" height="0.4"
-                material="shader: flat; color: #FFE4A8"></a-plane>
-            <!-- Building 7 (x=14) -->
-            <a-plane position="12.99 4.8 3.2" rotation="0 -90 0" width="0.3" height="0.4"
-                material="shader: flat; color: #D4E8FF"></a-plane>
-            <a-plane position="12.99 2.8 3.5" rotation="0 -90 0" width="0.25" height="0.35"
-                material="shader: flat; color: #FFD8A0"></a-plane>
+            <!-- Neon Grid on Ground -->
+            <a-plane position="18 0.01 0" rotation="-90 0 0" width="50" height="40"
+                material="shader: flat; color: #00D8FF; wireframe: true; opacity: 0.03; transparent: true"></a-plane>
 
-            <!-- Ground-level city lights -->
-            <a-plane position="12 0.02 -3" rotation="-90 0 0" width="0.15" height="0.15"
-                material="shader: flat; color: #FFD080"></a-plane>
-            <a-plane position="16 0.02 2" rotation="-90 0 0" width="0.1" height="0.1"
-                material="shader: flat; color: #FF8866"></a-plane>
-            <a-plane position="9 0.02 4" rotation="-90 0 0" width="0.12" height="0.12"
-                material="shader: flat; color: #AADDFF"></a-plane>
+            <!-- Layer 3: Distant City -->
+            <a-entity id="city-layer-far" position="30 0 0">
+                <a-box position="0 12 -12" width="6" height="24" depth="4"
+                    material="shader: standard; color: #040508; roughness: 0.8; metalness: 0.2"></a-box>
+                <a-box position="0 18 -4" width="7" height="36" depth="5"
+                    material="shader: standard; color: #030407; roughness: 0.8; metalness: 0.2"></a-box>
+                <a-box position="0 15 6" width="5.5" height="30" depth="4.5"
+                    material="shader: standard; color: #040508; roughness: 0.8; metalness: 0.2"></a-box>
+                <a-box position="0 22 14" width="8" height="44" depth="6"
+                    material="shader: standard; color: #020305; roughness: 0.8; metalness: 0.2"></a-box>
+                <a-box position="0 10 20" width="4" height="20" depth="4"
+                    material="shader: standard; color: #040508; roughness: 0.8; metalness: 0.2"></a-box>
+            </a-entity>
 
-            <!-- Atmospheric lighting from exterior -->
-            <a-light type="point" color="#3355AA" intensity="0.2" position="8 3 0" distance="10"></a-light>
-            <a-light type="point" color="#FF8833" intensity="0.03" position="14 1 0" distance="8"></a-light>
+            <!-- Layer 2: Midground City -->
+            <a-entity id="city-layer-mid" position="20 0 0">
+                <a-box position="0 8 -8" width="4" height="16" depth="3"
+                    material="shader: standard; color: #06080C; roughness: 0.6; metalness: 0.4"></a-box>
+                <a-box position="3 11 -2" width="3.5" height="22" depth="3.5"
+                    material="shader: standard; color: #05070A; roughness: 0.6; metalness: 0.4"></a-box>
+                <a-box position="-2 7 4" width="4.5" height="14" depth="4"
+                    material="shader: standard; color: #07090F; roughness: 0.6; metalness: 0.4"></a-box>
+                <a-box position="4 13 9" width="3" height="26" depth="3"
+                    material="shader: standard; color: #040608; roughness: 0.6; metalness: 0.4"></a-box>
+
+                <!-- Midground Neon Accents (Emisivos) -->
+                <a-plane position="-2.01 13 9" rotation="0 -90 0" width="0.2" height="12"
+                    material="shader: standard; color: #00D8FF; emissive: #00D8FF; emissiveIntensity: 1.5"></a-plane>
+                <a-plane position="-1.76 18 -2" rotation="0 -90 0" width="1.5" height="0.1"
+                    material="shader: standard; color: #FF8C00; emissive: #FF8C00; emissiveIntensity: 1.5"></a-plane>
+                <a-plane position="1.24 10 -8" rotation="0 -90 0" width="1" height="0.1"
+                    material="shader: standard; color: #00D8FF; emissive: #00D8FF; emissiveIntensity: 1.5"></a-plane>
+            </a-entity>
+
+            <!-- Layer 1: Foreground Buildings (Detailed) -->
+            <a-entity id="city-layer-near" position="11 0 0">
+                <!-- Building A (Left) -->
+                <a-box position="0 5 -4" width="2.5" height="10" depth="2.5"
+                    material="shader: standard; color: #080A12; roughness: 0.4; metalness: 0.7"></a-box>
+                <!-- Windows A -->
+                <a-plane position="-1.26 6 -4.5" rotation="0 -90 0" width="0.3" height="0.6"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="-1.26 6 -3.5" rotation="0 -90 0" width="0.3" height="0.6"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="-1.26 4 -4.5" rotation="0 -90 0" width="0.3" height="0.6"
+                    material="shader: flat; color: #FF8C00"></a-plane>
+                <a-plane position="-1.26 8.5 -4" rotation="0 -90 0" width="1.2" height="0.15"
+                    material="shader: flat; color: #FF8C00"></a-plane>
+
+                <!-- Building B (Hero Building - Center Right) -->
+                <a-box position="3 7 1" width="3" height="14" depth="3"
+                    material="shader: standard; color: #070910; roughness: 0.3; metalness: 0.8"></a-box>
+                <a-box position="3 14.5 1" width="1.8" height="1" depth="1.8"
+                    material="shader: standard; color: #05070A; roughness: 0.5; metalness: 0.5"></a-box>
+                <a-cylinder position="3 16 1" radius="0.05" height="3"
+                    material="shader: standard; color: #10141D; metalness: 0.9"></a-cylinder>
+                <a-circle position="3 17.5 1" radius="0.15" material="shader: flat; color: #FF0033"
+                    animation="property: material.opacity; to: 0.1; dir: alternate; dur: 800; loop: true"></a-circle>
+                <!-- Windows B -->
+                <a-plane position="1.49 10 1.5" rotation="0 -90 0" width="0.4" height="2"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="1.49 10 0.5" rotation="0 -90 0" width="0.4" height="2"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="1.49 6 1" rotation="0 -90 0" width="1.5" height="1"
+                    material="shader: flat; color: #FF8C00; opacity: 0.9; transparent: true"></a-plane>
+                <a-plane position="1.49 3 1.8" rotation="0 -90 0" width="0.3" height="0.8"
+                    material="shader: flat; color: #FFFFFF"></a-plane>
+
+                <!-- Building C (Right) -->
+                <a-box position="1 4 5" width="2.5" height="8" depth="2.5"
+                    material="shader: standard; color: #090B15; roughness: 0.5; metalness: 0.6"></a-box>
+                <!-- Windows C -->
+                <a-plane position="-0.26 5 5" rotation="0 -90 0" width="1.8" height="0.15"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="-0.26 3.5 5" rotation="0 -90 0" width="1.8" height="0.15"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="-0.26 6.5 5" rotation="0 -90 0" width="1.8" height="0.15"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <a-plane position="-0.26 2 5.5" rotation="0 -90 0" width="0.5" height="0.8"
+                    material="shader: flat; color: #FF8C00"></a-plane>
+            </a-entity>
+
+            <!-- Animated Flying Cars / Vehicles (Con luces emisivas) -->
+            <!-- Car 1 (Moving Left to Right) -->
+            <a-entity position="22 5 -15"
+                animation="property: position; to: 22 5 20; dur: 10000; loop: true; easing: linear">
+                <a-box width="1" height="0.25" depth="0.5"
+                    material="shader: standard; color: #111; roughness: 0.2; metalness: 0.9"></a-box>
+                <a-plane position="0 0.13 0" rotation="-90 0 0" width="0.3" height="0.15"
+                    material="shader: flat; color: #00D8FF"></a-plane>
+                <!-- Taillights -->
+                <a-plane position="-0.51 0 0.15" rotation="0 -90 0" width="0.15" height="0.08"
+                    material="shader: flat; color: #FF0033"></a-plane>
+                <a-plane position="-0.51 0 -0.15" rotation="0 -90 0" width="0.15" height="0.08"
+                    material="shader: flat; color: #FF0033"></a-plane>
+                <!-- Headlights -->
+                <a-plane position="0.51 0 0.15" rotation="0 90 0" width="0.15" height="0.08"
+                    material="shader: flat; color: #FFFFFF"></a-plane>
+                <a-plane position="0.51 0 -0.15" rotation="0 90 0" width="0.15" height="0.08"
+                    material="shader: flat; color: #FFFFFF"></a-plane>
+
+                <!-- Dynamic light for the car -->
+                <a-light type="point" color="#00D8FF" intensity="0.2" distance="3" position="0 0.2 0"></a-light>
+            </a-entity>
+
+            <!-- Car 2 (Moving Right to Left, Higher up) -->
+            <a-entity position="15 9 18" rotation="0 180 0"
+                animation="property: position; to: 15 9 -18; dur: 14000; loop: true; easing: linear">
+                <a-box width="0.8" height="0.2" depth="0.4"
+                    material="shader: standard; color: #0A0A0A; roughness: 0.3; metalness: 0.8"></a-box>
+                <a-plane position="-0.41 0 0.1" rotation="0 -90 0" width="0.1" height="0.05"
+                    material="shader: flat; color: #FF0033"></a-plane>
+                <a-plane position="-0.41 0 -0.1" rotation="0 -90 0" width="0.1" height="0.05"
+                    material="shader: flat; color: #FF0033"></a-plane>
+            </a-entity>
+
+            <!-- Floating Holographic Billboard -->
+            <a-entity position="18 12 -5" rotation="0 -45 0"
+                animation="property: position; to: 18 12.3 -5; dir: alternate; dur: 3000; loop: true; easing: easeInOutSine">
+                <a-plane width="5" height="2.5"
+                    material="shader: standard; color: #00D8FF; opacity: 0.15; transparent: true; side: double; emissive: #00D8FF; emissiveIntensity: 0.2"></a-plane>
+                <a-plane width="5" height="2.5"
+                    material="shader: flat; color: #00D8FF; wireframe: true; opacity: 0.4"></a-plane>
+
+                <a-text value="VIRTUAL" align="center" position="0 0.4 0.05" scale="2.5 2.5 2.5" color="#FFFFFF"
+                    font="mozillavr"></a-text>
+                <a-text value="PORTFOLIO" align="center" position="0 -0.4 0.05" scale="1.8 1.8 1.8" color="#FF8C00"
+                    font="mozillavr"></a-text>
+
+                <a-plane position="0 0 0.1" width="5" height="0.08"
+                    material="shader: flat; color: #FFFFFF; opacity: 0.8; transparent: true"
+                    animation="property: position; from: 0 1.2 0.1; to: 0 -1.2 0.1; dur: 4000; loop: true; easing: linear"></a-plane>
+            </a-entity>
+
+            <!-- Luces Cinematográficas Exteriores (Dan volumen a los edificios) -->
+            <!-- Key Light (Desde el Cyber-Sun) -->
+            <a-light type="directional" color="#FF5500" intensity="0.8" position="20 5 -5"
+                target="#exterior-cityscape"></a-light>
+
+            <!-- Rim/Fill Light (Contraste Teal desde abajo y el lado opuesto) -->
+            <a-light type="directional" color="#0055FF" intensity="0.6" position="5 1 5"
+                target="#exterior-cityscape"></a-light>
+
+            <!-- Luces ambientales de ciudad (Glows a nivel de suelo) -->
+            <a-light type="point" color="#FF8C00" intensity="1.5" distance="15" position="15 2 -3"></a-light>
+            <a-light type="point" color="#00D8FF" intensity="1.2" distance="20" position="12 1 4"></a-light>
+            <a-light type="point" color="#00D8FF" intensity="0.8" distance="15" position="18 10 -4"></a-light>
+            <!-- Glow del holograma -->
         </a-entity>
 
-        <!-- Lighting (Cinematic Teal & Orange) -->
-        <!-- Ambient Light — Muy tenue para forzar sombras oscuras y dramáticas -->
-        <a-light type="ambient" color="#0A0F1A" intensity="0.15"></a-light>
-        
-        <!-- Key Light (Naranja cálido) — Luz principal direccional que baña la escena -->
-        <a-light type="directional" color="#FF8C00" intensity="1.2" position="5 4 2" cast-shadow="true"
-            shadow-bias="-0.0001" shadow-map-width="2048" shadow-map-height="2048"></a-light>
-            
+        <!-- Lighting (Interior / General Scene) -->
+        <!-- Ambient Light (Tenue para oscurecer la escena y dar protagonismo a los focos) -->
+        <a-light type="ambient" color="#080C14" intensity="0.2"></a-light>
+
+        <!-- Key Light (Naranja cálido) — Luz principal direccional que baña la escena interior -->
+        <a-light type="directional" color="#FF8C00" intensity="1.0" position="5 4 2" cast-shadow="true"
+            shadow-bias="-0.0001" shadow-map-width="2048" shadow-map-height="2048"
+            animation="property: intensity; from: 0.95; to: 1.15; dur: 4500; dir: alternate; loop: true; easing: easeInOutSine"></a-light>
+
         <!-- Rim Light (Azul Cian) — Contraluz gélido desde el lado opuesto -->
-        <a-light type="directional" color="#00D8FF" intensity="1.0" position="-5 3 -4"></a-light>
+        <a-light type="directional" color="#00D8FF" intensity="0.8" position="-5 3 -4"
+            animation="property: intensity; from: 0.7; to: 0.9; dur: 6000; dir: alternate; loop: true; easing: easeInOutSine"></a-light>
 
         <!-- Practical Spotlight (Luz focal sobre el escritorio) -->
-        <a-light type="spot" color="#FFFFFF" intensity="1.5" position="-4.5 3.5 -2.5" rotation="-45 -45 0" angle="35" penumbra="0.6" cast-shadow="true"></a-light>
+        <a-light type="spot" color="#FFFFFF" intensity="1.2" position="-4.5 3.5 -2.5" rotation="-45 -45 0" angle="35"
+            penumbra="0.6" cast-shadow="true"></a-light>
 
         <!-- Interactive Objects -->
 
@@ -467,13 +617,11 @@
         <a-box position="2.17555 0.75 1.19542" width="0.77" height="0.88" depth="2.83"
             material="opacity: 0; transparent: false" static-body rotation="0 -90 0"></a-box>
 
-
         <a-box position="2.17555 0.75 2.851" width="0.77" height="0.88" depth="2.83"
             material="opacity: 0; transparent: false" static-body rotation="0 -90 0" scale="1 1 0.6"></a-box>
 
         <a-box position="2.17555 0.75 4.048" width="0.77" height="0.88" depth="2.83"
             material="opacity: 0; transparent: false" static-body rotation="0 -90 0" scale="1 1 0.6"></a-box>
-
 
         <!-- Interaction Label (Floating Text) -->
         <a-entity id="desk-label" position="0.133 2.086 -2.38"
@@ -492,8 +640,8 @@
 
         <!-- Living Room Model (Clickable) -->
         <a-entity id="living-room" class="clickable" data-path="music-player" data-label="living-room-label"
-            gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0"
-            scale="0.8 0.8 0.8" shadow="cast: true; receive: true"></a-entity>
+            gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0" scale="0.8 0.8 0.8"
+            shadow="cast: true; receive: true"></a-entity>
 
         <!-- Door on Front Wall -->
         <a-entity id="door" gltf-model="#door-model" position="-2.5 0 4.9" rotation="0 180 0" scale="1 1 1"
