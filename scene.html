@@ -287,18 +287,18 @@
         <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#FFFFFF" src="#floor-texture"
             repeat="4 4" shadow="receive: true" static-body></a-plane>
 
-        <!-- Ceiling / Techo — Clean & Elegant -->
+        <!-- Ceiling / Techo — Dark & Moody -->
         <a-entity id="ceiling-group" position="0 4 0">
-            <!-- Base ceiling - neutral white -->
-            <a-plane rotation="90 0 0" width="10" height="10" color="#F0F0F2" shadow="receive: true"
+            <!-- Base ceiling - dark grey to absorb light -->
+            <a-plane rotation="90 0 0" width="10" height="10" color="#11151C" shadow="receive: true"
                 static-body></a-plane>
 
-            <!-- Central light diffuser panel -->
-            <a-plane position="0 -0.05 0" rotation="90 0 0" width="5" height="5" color="#FFFFFF"
-                material="shader: flat"></a-plane>
+            <!-- Central neon accent panel -->
+            <a-plane position="0 -0.05 0" rotation="90 0 0" width="5" height="5" color="#00D8FF"
+                material="shader: flat; opacity: 0.1; transparent: true"></a-plane>
 
-            <!-- Soft fill light from the panel -->
-            <a-light type="point" color="#FFFFFF" intensity="0.2" position="0 -0.5 0" distance="8"></a-light>
+            <!-- Soft fill light from the panel (Cyan) -->
+            <a-light type="point" color="#00D8FF" intensity="0.1" position="0 -0.5 0" distance="8"></a-light>
         </a-entity>
 
         <!-- Walls -->
@@ -444,14 +444,19 @@
             <a-light type="point" color="#FF8833" intensity="0.03" position="14 1 0" distance="8"></a-light>
         </a-entity>
 
-        <!-- Lighting (Elegant Studio) -->
-        <!-- Ambient Light — Clean neutral fill -->
-        <a-light type="ambient" color="#F2F2F5" intensity="0.5"></a-light>
-        <!-- Key Light — Soft directional with shadows -->
-        <a-light type="directional" color="#FFFFFF" intensity="0.9" position="-2 4 4" cast-shadow="true"
+        <!-- Lighting (Cinematic Teal & Orange) -->
+        <!-- Ambient Light — Muy tenue para forzar sombras oscuras y dramáticas -->
+        <a-light type="ambient" color="#0A0F1A" intensity="0.15"></a-light>
+        
+        <!-- Key Light (Naranja cálido) — Luz principal direccional que baña la escena -->
+        <a-light type="directional" color="#FF8C00" intensity="1.2" position="5 4 2" cast-shadow="true"
             shadow-bias="-0.0001" shadow-map-width="2048" shadow-map-height="2048"></a-light>
-        <!-- Fill Light — Opposite side, no shadow -->
-        <a-light type="directional" color="#EAEAF0" intensity="0.3" position="4 2 -3"></a-light>
+            
+        <!-- Rim Light (Azul Cian) — Contraluz gélido desde el lado opuesto -->
+        <a-light type="directional" color="#00D8FF" intensity="1.0" position="-5 3 -4"></a-light>
+
+        <!-- Practical Spotlight (Luz focal sobre el escritorio) -->
+        <a-light type="spot" color="#FFFFFF" intensity="1.5" position="-4.5 3.5 -2.5" rotation="-45 -45 0" angle="35" penumbra="0.6" cast-shadow="true"></a-light>
 
         <!-- Interactive Objects -->
 
