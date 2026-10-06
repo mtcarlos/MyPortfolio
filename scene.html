@@ -135,7 +135,7 @@
                     <button class="nav-btn" id="nav-back"><span
                             class="material-symbols-outlined">arrow_back</span></button>
                     <button class="nav-btn lang-toggle" id="lang-toggle">ES</button>
-                    
+
                     <!-- Hint de Cambio de Idioma -->
                     <div id="lang-hint" class="lang-hint">
                         <span class="material-symbols-outlined hint-icon">translate</span>
@@ -143,7 +143,8 @@
                             <strong>Idioma / Language</strong>
                             <span>Puedes cambiar el idioma aquí</span>
                         </div>
-                        <div class="hint-close" id="close-lang-hint"><span class="material-symbols-outlined">close</span></div>
+                        <div class="hint-close" id="close-lang-hint"><span
+                                class="material-symbols-outlined">close</span></div>
                         <div class="hint-arrow"></div>
                     </div>
                 </div>
@@ -266,7 +267,7 @@
             <img id="floor-texture" src="assets/images/suelo.avif">
             <img id="wall-texture" src="assets/images/pared.jpg">
             <img id="poster-doom" src="assets/images/Doom.jpg">
-            <img id="poster-f4" src="assets/images/f4.jpg">
+            <img id="poster-caballero" src="assets/images/poster_caballero.png">
             <!-- Loading character here ensures it's preloaded for the loading screen event -->
             <a-asset-item id="character-model" src="assets/characters/caballero3.glb"></a-asset-item>
             <a-asset-item id="desk-model" src="assets/models/Desk.glb"></a-asset-item>
@@ -334,13 +335,13 @@
                 animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
         </a-plane>
 
-        <a-plane class="clickable" src="#poster-f4" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"
-            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #00D8FF; emissiveIntensity: 0"
+        <a-plane class="clickable" src="#poster-caballero" position="-4.94 2 2.5" rotation="0 90 0" width="1.2" height="1.8"
+            material="shader: standard; roughness: 0.4; metalness: 0.1; emissive: #FFC107; emissiveIntensity: 0"
             animation__enter_pos="property: position; to: -4.75 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseenter"
             animation__leave_pos="property: position; to: -4.94 2 2.5; dur: 250; easing: easeOutCubic; startEvents: mouseleave"
             animation__enter_glow="property: material.emissiveIntensity; to: 0.3; dur: 250; startEvents: mouseenter"
             animation__leave_glow="property: material.emissiveIntensity; to: 0; dur: 250; startEvents: mouseleave">
-            <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #00D8FF; opacity: 0"
+            <a-plane position="0 0 -0.05" width="1.26" height="1.86" material="shader: flat; color: #FFC107; opacity: 0"
                 animation__enter_bg="property: material.opacity; to: 0.6; dur: 250; startEvents: mouseenter"
                 animation__leave_bg="property: material.opacity; to: 0; dur: 250; startEvents: mouseleave"></a-plane>
         </a-plane>
