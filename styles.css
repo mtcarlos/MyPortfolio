@@ -85,26 +85,37 @@ body {
     50% { opacity: 0; }
 }
 
-.progress-bar-container {
-    width: 300px;
-    height: 12px;
-    border: 1px solid #334155;
-    background: #0B1320;
-    padding: 2px;
+.logo-loader-container {
+    position: relative;
+    width: 160px;
+    margin-bottom: 2rem;
 }
 
-#scene-progress-bar {
-    width: 0%;
-    height: 100%;
-    background-color: #F8FAFC;
-    animation: fake-load 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.logo-loader-container img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-@keyframes fake-load {
-    0% { width: 0%; }
-    40% { width: 50%; }
-    80% { width: 85%; }
-    100% { width: 100%; }
+.logo-base {
+    opacity: 0.08;
+    filter: grayscale(100%);
+}
+
+.logo-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: inset(100% 0 0 0);
+    animation: fake-logo-load 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+}
+
+@keyframes fake-logo-load {
+    0% { clip-path: inset(100% 0 0 0); }
+    40% { clip-path: inset(50% 0 0 0); }
+    80% { clip-path: inset(15% 0 0 0); }
+    100% { clip-path: inset(0% 0 0 0); }
 }
 
 /* ==========================================
