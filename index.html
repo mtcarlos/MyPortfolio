@@ -370,6 +370,41 @@
             text-shadow: 0 0 8px rgba(248, 250, 252, 0.5);
         }
 
+        /* Quick Actions (Bottom Left) */
+        #quick-actions {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 4rem;
+            display: flex;
+            gap: 1.5rem;
+            z-index: 60;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+        }
+
+        #quick-actions.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .action-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--text-inactive);
+            cursor: pointer;
+            pointer-events: all;
+            transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .action-icon:hover {
+            color: var(--text-active);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
         /* Loader */
         #loader {
             position: fixed;
@@ -498,8 +533,24 @@
                             EXPERIENCES</span></div>
                 </div>
             </div>
+        </div> <!-- Cerramos el menu-container correctamente -->
+
+        <div id="quick-actions">
+            <svg id="toggle-sound" class="action-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path id="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <line id="sound-mute-line" x1="1" y1="1" x2="23" y2="23" style="display:none; stroke-width: 2;"></line>
+            </svg>
+
+            <svg id="toggle-menu" class="action-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line id="menu-hidden-line" x1="1" y1="1" x2="23" y2="23" style="display:none; stroke-width: 2;"></line>
+            </svg>
+        </div>
     </main>
 
+    <audio id="bg-music" src="assets/music/The Hush of the Game.mp3" loop preload="auto"></audio>
 
     <!-- JS Logic -->
     <script type="module">
@@ -543,17 +594,33 @@
         function playConfirmSound() {
             if (!audioCtx) return;
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.4);
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.4);
+            
+            const t = audioCtx.currentTime;
+            
+            // First ping (A4)
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(440, t);
+            gain1.gain.setValueAtTime(0.15, t);
+            gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.start(t);
+            osc1.stop(t + 0.3);
+
+            // Second ping (E5)
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(659.25, t + 0.08);
+            gain2.gain.setValueAtTime(0, t);
+            gain2.gain.setValueAtTime(0.15, t + 0.08);
+            gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+            osc2.connect(gain2);
+            gain2.connect(audioCtx.destination);
+            osc2.start(t + 0.08);
+            osc2.stop(t + 0.4);
         }
 
         function playTransitionSound() {
@@ -604,7 +671,7 @@
 
         // --- POST PROCESSING (CINEMATIC LENS EFFECTS) ---
         const renderScene = new RenderPass(scene, camera);
-        
+
         // 1. Unreal Bloom (Resplandor en luces altas)
         const bloomPass = new UnrealBloomPass(new THREE.Vector2(container.clientWidth / 2, container.clientHeight / 2), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0.15;
@@ -889,6 +956,22 @@
             initAudio();
             playConfirmSound();
 
+            // Background Music Fade In
+            const bgMusic = document.getElementById('bg-music');
+            if (bgMusic) {
+                bgMusic.volume = 0;
+                bgMusic.play().catch(e => console.log('Audio play failed', e));
+                let vol = 0;
+                const fadeInterval = setInterval(() => {
+                    if (vol < 0.4) {
+                        vol += 0.02;
+                        bgMusic.volume = Math.min(vol, 0.4);
+                    } else {
+                        clearInterval(fadeInterval);
+                    }
+                }, 100);
+            }
+
             // Iniciar desplazamiento de cámara suave hacia la izquierda (20% offset)
             targetCameraOffsetX = 0.20;
 
@@ -900,6 +983,8 @@
 
             // Bring in the menu
             menuContainer.classList.add('visible');
+            const quickActions = document.getElementById('quick-actions');
+            if (quickActions) quickActions.classList.add('visible');
 
             // Turn on the dramatic halo light
             isRevealLightActive = true;
@@ -1056,6 +1141,26 @@
             if (action === 'start') {
                 isTransitioningToScene = true;
 
+                // Fade out background music
+                const bgMusic = document.getElementById('bg-music');
+                if (bgMusic) {
+                    let vol = bgMusic.volume;
+                    const fadeOutInterval = setInterval(() => {
+                        if (vol > 0.02) {
+                            vol -= 0.02;
+                            bgMusic.volume = Math.max(vol, 0);
+                        } else {
+                            bgMusic.volume = 0;
+                            bgMusic.pause();
+                            clearInterval(fadeOutInterval);
+                        }
+                    }, 100);
+                }
+
+                // Fade out quick actions
+                const quickActions = document.getElementById('quick-actions');
+                if (quickActions) quickActions.style.opacity = '0';
+
                 // 1. Ocultar la UI para que la escena quede limpia
                 document.getElementById('menu-container').style.opacity = '0';
 
@@ -1110,6 +1215,57 @@
                     cinematicTargetPos.set(0.0, 1.5, 0.0);
                 }
             }
+        }
+
+        // --- QUICK ACTIONS LOGIC ---
+        let isMuted = false;
+        const toggleSoundBtn = document.getElementById('toggle-sound');
+        if (toggleSoundBtn) {
+            toggleSoundBtn.addEventListener('mousedown', (e) => e.stopPropagation()); // Evitar click de pantalla
+            toggleSoundBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isMuted = !isMuted;
+                const bgMusic = document.getElementById('bg-music');
+                
+                if (bgMusic) bgMusic.muted = isMuted;
+                if (audioCtx) {
+                    if (isMuted) {
+                        if(audioCtx.state === 'running') audioCtx.suspend();
+                    } else {
+                        if(audioCtx.state === 'suspended') audioCtx.resume();
+                    }
+                }
+
+                const waves = document.getElementById('sound-waves');
+                const muteLine = document.getElementById('sound-mute-line');
+                if (isMuted) {
+                    if(waves) waves.style.display = 'none';
+                    if(muteLine) muteLine.style.display = 'block';
+                } else {
+                    if(waves) waves.style.display = 'block';
+                    if(muteLine) muteLine.style.display = 'none';
+                }
+            });
+        }
+
+        let isMenuHidden = false;
+        const toggleMenuBtn = document.getElementById('toggle-menu');
+        if (toggleMenuBtn) {
+            toggleMenuBtn.addEventListener('mousedown', (e) => e.stopPropagation()); // Evitar click de pantalla
+            toggleMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isMenuHidden = !isMenuHidden;
+                const menuCont = document.getElementById('menu-container');
+                const hiddenLine = document.getElementById('menu-hidden-line');
+                
+                if (isMenuHidden) {
+                    if (menuCont) menuCont.classList.remove('visible');
+                    if (hiddenLine) hiddenLine.style.display = 'block';
+                } else {
+                    if (menuCont) menuCont.classList.add('visible');
+                    if (hiddenLine) hiddenLine.style.display = 'none';
+                }
+            });
         }
 
         // Global input for PRESS START and Navigation
