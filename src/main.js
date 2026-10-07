@@ -429,6 +429,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Open Settings
                 } else if (path === 'music-player') {
                     openMusicPlayer();
+                } else if (path === 'arcade-system') {
+                    openArcadeSystem();
                 } else {
                     const anchorId = this.getAttribute('data-anchor');
                     if (anchorId) {
@@ -624,6 +626,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeMusicPlayer();
             }
         });
+    }
+
+    // --- Arcade System Logic ---
+    const arcadeOverlay = document.getElementById('arcade-ui-layer');
+    const arcadeContent = document.getElementById('arcade-content');
+    const closeArcadeBtn = document.getElementById('close-arcade');
+
+    function openArcadeSystem() {
+        if (!arcadeOverlay) return;
+        
+        arcadeOverlay.classList.add('active');
+        if (document.pointerLockElement) {
+            document.exitPointerLock();
+        }
+
+        // Render Retro Menu
+        arcadeContent.innerHTML = `
+            <div class="arcade-menu">
+                <h2>SELECT GAME</h2>
+                <br><br>
+                <button class="arcade-game-btn" id="play-snake-btn">SNAKE</button>
+                <br>
+                <button class="arcade-game-btn" onclick="document.getElementById('close-arcade').click()">EXIT</button>
+            </div>
+        `;
+
+        document.getElementById('play-snake-btn').addEventListener('click', () => {
+            arcadeContent.innerHTML = '';
+            mountGame('snake', arcadeContent);
+        });
+    }
+
+    function closeArcadeSystem() {
+        audioManager.play('click', { volume: 0.4 });
+        if (arcadeOverlay) {
+            arcadeOverlay.classList.remove('active');
+        }
+        destroyActiveGame();
+        
+        const sceneEl = document.querySelector('a-scene');
+        if (sceneEl) {
+            sceneEl.canvas.requestPointerLock();
+        }
+    }
+
+    if (closeArcadeBtn) {
+        closeArcadeBtn.addEventListener('click', closeArcadeSystem);
     }
 
     if (musicPlayPauseBtn && musicAudio) {

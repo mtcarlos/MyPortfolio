@@ -42,6 +42,23 @@
                 });
             }
         });
+
+        AFRAME.registerComponent('modify-city-materials', {
+            init: function () {
+                this.el.addEventListener('model-loaded', () => {
+                    const obj = this.el.getObject3D('mesh');
+                    if (!obj) return;
+                    obj.traverse((node) => {
+                        if (node.isMesh && node.material) {
+                            // Convert buildings to softer, diffused metal (blurs the light points)
+                            node.material.roughness = 0.5;
+                            node.material.metalness = 0.6;
+                            node.material.needsUpdate = true;
+                        }
+                    });
+                });
+            }
+        });
     </script>
 </head>
 
@@ -219,6 +236,20 @@
         </div>
     </div>
 
+    <!-- Arcade UI Layer -->
+    <div id="arcade-ui-layer" class="">
+        <div class="arcade-screen-container">
+            <div class="arcade-header">
+                <div class="arcade-title">ARCADE SYSTEM V1.0</div>
+                <div class="control-btn close-btn" id="close-arcade"></div>
+            </div>
+            <div class="arcade-content" id="arcade-content">
+                <!-- Games menu or active game goes here -->
+            </div>
+            <div class="arcade-scanlines"></div>
+        </div>
+    </div>
+
     <!-- Settings Modal -->
     <div id="settings-modal">
         <div class="settings-header">
@@ -302,6 +333,8 @@
             <a-asset-item id="shelf-model" src="assets/models/Shelf.glb"></a-asset-item>
             <a-asset-item id="car-model" src="assets/models/sci-fi_car_low-poly.glb"></a-asset-item>
             <a-asset-item id="cyberpunk-city-model" src="assets/models/flat_cyberpunk_buildings.glb"></a-asset-item>
+            <a-asset-item id="lamp-model" src="assets/models/abajour__lamp.glb"></a-asset-item>
+            <a-asset-item id="arcade-model" src="assets/models/arcade_game_-_space_invaders.glb"></a-asset-item>
         </a-assets>
 
         <!-- Player Controller (Rig) -->
@@ -374,6 +407,16 @@
         <!-- Shelf on Left Wall -->
         <a-entity id="shelf" gltf-model="#shelf-model" position="-4.8 1.5 -1" rotation="0 -90 0" scale="1 1 1"
             shadow="cast: true; receive: true"></a-entity>
+
+        <!-- Arcade Machine (Left Wall, Front Corner) -->
+        <a-entity id="arcade-machine" class="clickable" data-path="arcade-system"
+            gltf-model="assets/models/arcade_game_-_space_invaders.glb" position="4.50199 0 -1.64166" rotation=""
+            scale="1.2 1.2 1.2" shadow="">
+            <!-- Screen glow effect for the arcade -->
+            <a-light type="point" color="#B81200" intensity="1.5" distance="3" position="0 1.5 -2.43963"
+                light=""></a-light>
+        </a-entity>
+
         <!-- ============================================
              Glass Curtain Wall (Right Side)
              ============================================ -->
@@ -441,6 +484,8 @@
              Exterior Environment — Night Cityscape (Cyberpunk / Cinematic)
              ============================================ -->
         <a-entity id="exterior-cityscape">
+
+
             <!-- Sky Gradient (Mantemos plano para que no reaccione a luces locales) -->
             <a-plane position="45 10 0" rotation="0 -90 0" width="60" height="40"
                 material="shader: flat; color: #020305"></a-plane>
@@ -469,7 +514,16 @@
 
             <!-- GLTF Cyberpunk City -->
             <a-entity id="city-model-container" gltf-model="assets/models/flat_cyberpunk_buildings.glb"
-                position="19.80064 -10 63.0551" scale="0.3 0.3 0.3" rotation="0 -90 0"></a-entity>
+                position="19.80064 -10 63.0551" scale="0.3 0.3 0.3" rotation="0 -90 0" modify-city-materials></a-entity>
+
+            <!-- Cinematic City Lights (Restricted distance so they don't bleed into the room at X=5) -->
+            <!-- Magenta deep glow from the abyss -->
+            <a-light type="point" color="#FF0055" intensity="15" distance="25" position="20 -20 0"></a-light>
+            <!-- Cyan rim lights for mid-level buildings -->
+            <a-light type="point" color="#00D8FF" intensity="10" distance="18" position="20 5 -10"></a-light>
+            <a-light type="point" color="#00D8FF" intensity="10" distance="18" position="20 5 10"></a-light>
+            <!-- Orange glow for the lower street levels -->
+            <a-light type="point" color="#FF8C00" intensity="12" distance="22" position="25 -5 5"></a-light>
             <!-- Animated Flying Sci-Fi Cars -->
 
             <!-- Carril 1: Bajo, hacia adelante -->
@@ -589,6 +643,14 @@
         <a-entity class="clickable" data-path="root" data-label="desk-label" gltf-model="assets/models/Desk.glb"
             position="-4.73808 -0.2107 -2.38374" rotation="0 -90 0" scale="1 1 1"
             shadow="cast: true; receive: true"></a-entity>
+
+        <!-- Lamp Model -->
+        <a-entity id="desk-lamp" gltf-model="assets/models/abajour__lamp.glb" position="-3.87943 0 -4.37575"
+            rotation="0 -24.07 0" scale="0.08 0.08 0.08" shadow="" material="emissive: #d63600; emissiveIntensity: 10">
+            <!-- Luz cálida de la lámpara (El Y está escalado, Y=20 equivale a 1.6m de altura) -->
+            <a-light type="point" color="#FF8C00" intensity="3" distance="6" position="0 20 0"
+                cast-shadow="true"></a-light>
+        </a-entity>
 
         <!-- Interaction Label (Floating Text) -->
         <a-entity id="living-room-label" position="2.5 2.2 2.5"

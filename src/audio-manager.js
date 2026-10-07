@@ -17,8 +17,8 @@ class AudioManager {
         this.loadSound('click', 'https://cdn.freesound.org/previews/256/256116_3263906-lq.mp3'); // A mechanical click
         this.loadSound('open', 'https://cdn.freesound.org/previews/171/171671_2437358-lq.mp3');  // Swoosh/Open
 
-        // Footsteps (Concrete/Carpet generic)
-        this.loadSound('step', 'https://cdn.freesound.org/previews/163/163455_2393633-lq.mp3');
+        // Footsteps (Funciona directo en el navegador)
+        this.loadSound('step', 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_51cb0bc9e1.mp3?filename=footsteps.mp3');
     }
 
     loadSound(name, url) {
