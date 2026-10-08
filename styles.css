@@ -1700,5 +1700,509 @@ input:checked+.slider:before {
          c o l o r :   # 0 0 0 ; 
          b o x - s h a d o w :   0   0   2 0 p x   # 0 F 0 ; 
  } 
-  
  
+ 
+ 
+/* ==========================================
+   ARCADE UI — 90s Japanese Cabinet (Premium)
+   ========================================== */
+
+/* --- Keyframe Animations --- */
+@keyframes arcade-flicker {
+    0%,100% { opacity:1 }
+    92% { opacity:1 }
+    93% { opacity:.82 }
+    94% { opacity:1 }
+}
+
+@keyframes coin-blink {
+    0%,100% { opacity:1 }
+    50% { opacity:.2 }
+}
+
+@keyframes title-glow {
+    0%,100% {
+        text-shadow: 0 0 7px #FF2D7B, 0 0 20px #FF2D7B, 0 0 42px #FF2D7B,
+                     0 2px 0 #a0003f;
+        filter: brightness(1);
+    }
+    50% {
+        text-shadow: 0 0 14px #FF6BA8, 0 0 40px #FF2D7B, 0 0 80px #FF2D7B,
+                     0 0 120px rgba(255,45,123,.25), 0 2px 0 #a0003f;
+        filter: brightness(1.15);
+    }
+}
+
+@keyframes title-glitch {
+    0%,100% { transform: translate(0); }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+}
+
+@keyframes neon-travel {
+    0%   { background-position: 0% 0%; }
+    100% { background-position: 400% 0%; }
+}
+
+@keyframes eq-bar {
+    0%,100% { height: 4px; }
+    50% { height: var(--eq-h, 14px); }
+}
+
+@keyframes reflection-sweep {
+    0%   { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(200%) rotate(25deg); }
+}
+
+@keyframes subtitle-typing {
+    from { width: 0; }
+    to   { width: 100%; }
+}
+
+/* --- Layer --- */
+#arcade-ui-layer {
+    position: absolute;
+    top:0; left:0;
+    width:100vw; height:100vh;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .4s ease, transform .45s cubic-bezier(.34,1.56,.64,1);
+    transform: scale(.82) translateY(20px);
+}
+#arcade-ui-layer.active {
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* --- Cabinet Shell --- */
+.arcade-screen-container {
+    pointer-events: auto;
+    width: 76vw; height: 84vh;
+    max-width: 920px;
+    background: linear-gradient(165deg, #1c0b35 0%, #0e0322 35%, #170940 70%, #0e0322 100%);
+    border-radius: 20px;
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    animation: arcade-flicker 10s infinite;
+    /* Outer glow */
+    box-shadow:
+        0 0 0 2px #1a0a2e,
+        0 0 40px rgba(255,45,123,.12),
+        0 0 80px rgba(255,45,123,.06),
+        0 40px 100px rgba(0,0,0,.85);
+}
+
+/* Animated neon border that travels around the cabinet */
+.arcade-neon-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 3px;
+    z-index: 20;
+    pointer-events: none;
+    background: linear-gradient(90deg, #FF2D7B, #FFD700, #00D4FF, #8B5CF6, #FF2D7B);
+    background-size: 400% 100%;
+    animation: neon-travel 6s linear infinite;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+/* --- Top Bezel --- */
+.arcade-bezel-top {
+    display: flex; height: 5px; gap: 0;
+    position: relative; z-index: 21;
+}
+.arcade-bezel-stripe { flex: 1; }
+.arcade-bezel-stripe:nth-child(1) { background: #FF2D7B; box-shadow: 0 0 12px #FF2D7B; }
+.arcade-bezel-stripe:nth-child(2) { background: #FFD700; box-shadow: 0 0 12px #FFD700; }
+.arcade-bezel-stripe:nth-child(3) { background: #00D4FF; box-shadow: 0 0 12px #00D4FF; }
+
+/* --- Header --- */
+.arcade-header {
+    height: 42px;
+    background: linear-gradient(180deg, rgba(30,15,61,.95) 0%, rgba(14,3,34,.98) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    border-bottom: 1px solid rgba(255,45,123,.2);
+    cursor: grab;
+    user-select: none;
+    position: relative; z-index: 21;
+}
+.arcade-header:active { cursor: grabbing; }
+
+.arcade-header-left, .arcade-header-right {
+    display: flex; align-items: center; gap: 8px;
+}
+
+.arcade-header-center {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+}
+.arcade-header-kanji {
+    font-size: .85rem;
+    color: rgba(255,45,123,.5);
+    letter-spacing: .4em;
+    font-weight: 300;
+}
+
+.arcade-coin { font-size: 1rem; animation: coin-blink 1.2s infinite; }
+.arcade-credit {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .72rem;
+    color: #FFD700;
+    letter-spacing: .15em;
+    text-shadow: 0 0 6px rgba(255,215,0,.5);
+}
+
+/* --- CRT Wrapper (curvature) --- */
+.arcade-crt-wrapper {
+    flex-grow: 1;
+    margin: 8px 10px;
+    perspective: 900px;
+    position: relative;
+    z-index: 5;
+}
+
+.arcade-crt-screen {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 48%, #0c0628 0%, #060218 65%, #000 100%);
+    border: 2px solid rgba(255,45,123,.1);
+    border-radius: 10px;
+    transform: rotateX(1deg);
+    transform-origin: center bottom;
+}
+
+/* Canvas particles (absolute behind content) */
+.arcade-particles {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.arcade-content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    color: #f0e8ff;
+    overflow: hidden; /* Prevent 3D cards from overflowing container */
+}
+
+.arcade-scanlines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.1) 2px, rgba(0,0,0,.1) 4px);
+    pointer-events: none;
+    z-index: 8;
+    mix-blend-mode: multiply;
+}
+
+.arcade-crt-vignette {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+    pointer-events: none;
+    z-index: 9;
+}
+
+.arcade-crt-reflection {
+    position: absolute;
+    top: 0; left: -60%;
+    width: 60%; height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.03), transparent);
+    transform: rotate(25deg);
+    pointer-events: none;
+    z-index: 10;
+    animation: reflection-sweep 8s ease-in-out infinite;
+}
+
+/* --- Bottom Bezel --- */
+.arcade-bezel-bottom {
+    height: 42px;
+    background: linear-gradient(180deg, rgba(14,3,34,.98) 0%, rgba(30,15,61,.95) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-top: 1px solid rgba(255,215,0,.12);
+    position: relative; z-index: 21;
+}
+
+.arcade-insert-coin {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .68rem;
+    color: #FFD700;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    animation: coin-blink 1.8s infinite;
+    text-shadow: 0 0 10px rgba(255,215,0,.5);
+}
+
+/* Equalizer bars */
+.arcade-eq-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 20px;
+}
+.arcade-eq-bars span {
+    display: block;
+    width: 3px;
+    height: 4px;
+    border-radius: 1px;
+    background: #FF2D7B;
+    animation: eq-bar .6s ease-in-out infinite alternate;
+}
+.arcade-eq-bars span:nth-child(1)  { --eq-h:  8px; animation-delay:  0s; }
+.arcade-eq-bars span:nth-child(2)  { --eq-h: 16px; animation-delay: .1s; background:#FFD700; }
+.arcade-eq-bars span:nth-child(3)  { --eq-h: 12px; animation-delay: .2s; background:#00D4FF; }
+.arcade-eq-bars span:nth-child(4)  { --eq-h: 18px; animation-delay: .05s; }
+.arcade-eq-bars span:nth-child(5)  { --eq-h: 10px; animation-delay: .15s; background:#8B5CF6; }
+.arcade-eq-bars span:nth-child(6)  { --eq-h: 14px; animation-delay: .25s; background:#FFD700; }
+.arcade-eq-bars span:nth-child(7)  { --eq-h: 20px; animation-delay: .08s; background:#00D4FF; }
+.arcade-eq-bars span:nth-child(8)  { --eq-h:  6px; animation-delay: .18s; }
+.arcade-eq-bars span:nth-child(9)  { --eq-h: 15px; animation-delay: .12s; background:#FFD700; }
+.arcade-eq-bars span:nth-child(10) { --eq-h: 10px; animation-delay: .22s; background:#8B5CF6; }
+
+/* ==========================================
+   ARCADE MENU SCREEN
+   ========================================== */
+
+.arcade-menu {
+    text-align: center;
+    z-index: 5;
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.arcade-menu-title {
+    font-family: 'Orbitron', 'Share Tech Mono', monospace;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    color: #FF2D7B;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    animation: title-glow 3s ease-in-out infinite, title-glitch 6s steps(1) infinite;
+    margin-bottom: 2px;
+    line-height: 1.05;
+    position: relative;
+}
+
+/* Chromatic aberration pseudo-layers */
+.arcade-menu-title::before,
+.arcade-menu-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+.arcade-menu-title::before {
+    color: #00D4FF;
+    clip-path: inset(0 0 60% 0);
+    transform: translate(-2px, -1px);
+    opacity: .5;
+}
+.arcade-menu-title::after {
+    color: #FFD700;
+    clip-path: inset(60% 0 0 0);
+    transform: translate(2px, 1px);
+    opacity: .4;
+}
+
+.arcade-menu-kanji {
+    font-size: 1rem;
+    color: rgba(0,212,255,.35);
+    letter-spacing: .6em;
+    margin-bottom: 6px;
+    font-weight: 300;
+}
+
+.arcade-menu-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .8rem;
+    color: #00D4FF;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-shadow: 0 0 12px rgba(0,212,255,.35);
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #00D4FF;
+    display: inline-block;
+    animation: subtitle-typing 1.5s steps(22) 0.5s forwards, coin-blink 1s step-end infinite 2s;
+    width: 0;
+}
+
+.arcade-menu-divider {
+    width: 85%;
+    max-width: 420px;
+    height: 2px;
+    margin: 0 auto 10px;
+    background: linear-gradient(90deg, transparent 0%, #FF2D7B 20%, #FFD700 50%, #00D4FF 80%, transparent 100%);
+    border: none;
+    box-shadow: 0 0 8px rgba(255,45,123,.25);
+}
+
+/* ==========================================
+   ARCADE 3D CAROUSEL
+   ========================================== */
+.arcade-carousel-container {
+    perspective: 1200px;
+    width: 100%;
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
+
+.arcade-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.arcade-carousel-item {
+    position: absolute;
+    width: 250px;
+    height: 150px;
+    background: linear-gradient(135deg, rgba(255,45,123,.08) 0%, rgba(0,212,255,.06) 50%, rgba(139,92,246,.08) 100%);
+    border: 2px solid rgba(255,45,123,.25);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-style: preserve-3d;
+    user-select: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backface-visibility: hidden;
+}
+
+/* Base styles for the content inside */
+.arcade-carousel-item .arcade-game-icon {
+    font-size: 3rem;
+    margin-bottom: 5px;
+    width: 60px; height: 60px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    filter: drop-shadow(0 0 10px rgba(255,45,123,0.5));
+}
+.arcade-carousel-item .arcade-game-name {
+    font-size: 1.2rem;
+    font-family: 'Orbitron', 'Share Tech Mono', monospace;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 3px;
+}
+.arcade-carousel-item .arcade-game-desc {
+    font-size: 0.7rem;
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba(200,180,255,0.7);
+}
+.arcade-carousel-item .arcade-game-tag {
+    position: absolute;
+    top: -10px; right: -10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: .1em;
+}
+
+.arcade-game-tag.playable { background: #00D4FF; color: #000; box-shadow: 0 0 10px #00D4FF; }
+.arcade-game-tag.soon { background: #8B5CF6; color: #fff; box-shadow: 0 0 10px #8B5CF6; }
+
+/* Positioning via JS classes */
+.arcade-carousel-item.active {
+    transform: translateX(0) scale(1.1) translateZ(80px);
+    z-index: 10;
+    opacity: 1;
+    border-color: #FF2D7B;
+    background: linear-gradient(135deg, rgba(255,45,123,.2) 0%, rgba(0,212,255,.15) 50%, rgba(139,92,246,.2) 100%);
+    box-shadow: 0 0 30px rgba(255,45,123,.3), inset 0 0 20px rgba(255,45,123,.1);
+}
+.arcade-carousel-item.active:hover {
+    transform: translateX(0) scale(1.15) translateZ(100px);
+    box-shadow: 0 0 40px rgba(255,45,123,.5), inset 0 0 30px rgba(255,45,123,.2);
+}
+
+.arcade-carousel-item.prev {
+    transform: translateX(-180px) scale(0.7) translateZ(-80px) rotateY(35deg);
+    z-index: 5;
+    opacity: 0.5;
+}
+.arcade-carousel-item.prev:hover {
+    opacity: 0.8;
+}
+
+.arcade-carousel-item.next {
+    transform: translateX(180px) scale(0.7) translateZ(-80px) rotateY(-35deg);
+    z-index: 5;
+    opacity: 0.5;
+}
+.arcade-carousel-item.next:hover {
+    opacity: 0.8;
+}
+
+/* Navigation hints */
+.arcade-nav-hint {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: rgba(0,212,255,0.7);
+    cursor: pointer;
+    z-index: 15;
+    transition: all 0.2s;
+    user-select: none;
+    text-shadow: 0 0 15px rgba(0,212,255,0.6);
+    padding: 10px;
+}
+.arcade-nav-hint:hover {
+    color: #FF2D7B;
+    text-shadow: 0 0 25px #FF2D7B;
+    transform: translateY(-50%) scale(1.2);
+}
+.arcade-nav-left { left: 15px; }
+.arcade-nav-right { right: 15px; }
+

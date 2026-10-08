@@ -237,16 +237,61 @@
     </div>
 
     <!-- Arcade UI Layer -->
-    <div id="arcade-ui-layer" class="">
+    <div id="arcade-ui-layer">
         <div class="arcade-screen-container">
+            <!-- Animated neon border -->
+            <div class="arcade-neon-border"></div>
+
+            <!-- Cabinet top bezel — tri-color racing stripe -->
+            <div class="arcade-bezel-top">
+                <div class="arcade-bezel-stripe"></div>
+                <div class="arcade-bezel-stripe"></div>
+                <div class="arcade-bezel-stripe"></div>
+            </div>
+
+            <!-- Header with draggable bar -->
             <div class="arcade-header">
-                <div class="arcade-title">ARCADE SYSTEM V1.0</div>
-                <div class="control-btn close-btn" id="close-arcade"></div>
+                <div class="arcade-header-left">
+                    <span class="arcade-coin">🪙</span>
+                    <span class="arcade-credit">CREDIT <span id="arcade-credit-num">01</span></span>
+                </div>
+                <div class="arcade-header-center">
+                    <span class="arcade-header-kanji">アーケード</span>
+                </div>
+                <div class="arcade-header-right">
+                    <div class="control-btn close-btn" id="close-arcade"></div>
+                </div>
             </div>
-            <div class="arcade-content" id="arcade-content">
-                <!-- Games menu or active game goes here -->
+
+            <!-- Main CRT screen area with curvature -->
+            <div class="arcade-crt-wrapper">
+                <div class="arcade-crt-screen">
+                    <!-- Canvas particle background -->
+                    <canvas id="arcade-particles-canvas" class="arcade-particles"></canvas>
+                    
+                    <div class="arcade-content" id="arcade-content">
+                        <!-- Games menu or active game injected here -->
+                    </div>
+                    
+                    <!-- CRT effects stack -->
+                    <div class="arcade-scanlines"></div>
+                    <div class="arcade-crt-vignette"></div>
+                    <div class="arcade-crt-reflection"></div>
+                </div>
             </div>
-            <div class="arcade-scanlines"></div>
+
+            <!-- Cabinet bottom bezel -->
+            <div class="arcade-bezel-bottom">
+                <div class="arcade-eq-bars">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="arcade-insert-coin">INSERT COIN ▶ CLICK TO PLAY</div>
+                <div class="arcade-eq-bars">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
         </div>
     </div>
 

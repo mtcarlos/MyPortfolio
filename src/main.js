@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (document.pointerLockElement) {
                 document.exitPointerLock();
             }
-            
+
             // Language Hint Logic
             if (!localStorage.getItem('langHintSeen')) {
                 const langHint = document.getElementById('lang-hint');
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderPreview(currentFileId);
                 }
             }
-            
+
             // Hide hint if it's visible
             const langHint = document.getElementById('lang-hint');
             if (langHint) {
@@ -633,29 +633,169 @@ document.addEventListener('DOMContentLoaded', () => {
     const arcadeContent = document.getElementById('arcade-content');
     const closeArcadeBtn = document.getElementById('close-arcade');
 
+    // --- Arcade Particle System ---
+    let arcadeParticlesRAF = null;
+
+    function startArcadeParticles() {
+        const canvas = document.getElementById('arcade-particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const particles = [];
+        const PARTICLE_COUNT = 60;
+
+        function resize() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5 + 0.3,
+                dx: (Math.random() - 0.5) * 0.3,
+                dy: -(Math.random() * 0.4 + 0.1),
+                hue: [340, 50, 190, 270][Math.floor(Math.random() * 4)],
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = `hsla(${p.hue}, 100%, 60%, 0.4)`;
+                ctx.fill();
+
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+                if (p.x < -5 || p.x > canvas.width + 5) p.x = Math.random() * canvas.width;
+            }
+            arcadeParticlesRAF = requestAnimationFrame(draw);
+        }
+        draw();
+    }
+
+    function stopArcadeParticles() {
+        if (arcadeParticlesRAF) {
+            cancelAnimationFrame(arcadeParticlesRAF);
+            arcadeParticlesRAF = null;
+        }
+    }
+
+    function renderArcadeMenu() {
+        arcadeContent.innerHTML = `
+            <div class="arcade-menu">
+                <div class="arcade-menu-kanji">ゲームセンター</div>
+                <div class="arcade-menu-title" data-text="ARCADE ZONE">ARCADE ZONE</div>
+                <div class="arcade-menu-subtitle">── SELECT YOUR GAME ──</div>
+                <div class="arcade-menu-divider"></div>
+                
+                <div class="arcade-carousel-container">
+                    <div class="arcade-nav-hint arcade-nav-left" id="arcade-nav-left">❮</div>
+                    
+                    <div class="arcade-carousel" id="arcade-carousel">
+                        <div class="arcade-carousel-item" data-index="0" id="play-snake-card">
+                            <div class="arcade-game-icon">🐍</div>
+                            <div class="arcade-game-name">SNAKE</div>
+                            <div class="arcade-game-desc">Classic retro survival — eat & grow</div>
+                            <span class="arcade-game-tag playable">PLAY</span>
+                        </div>
+                        <div class="arcade-carousel-item" data-index="1" id="play-coming-soon-1">
+                            <div class="arcade-game-icon">👾</div>
+                            <div class="arcade-game-name">SPACE RAIDERS</div>
+                            <div class="arcade-game-desc">Defend Earth from pixel invaders</div>
+                            <span class="arcade-game-tag soon">SOON</span>
+                        </div>
+                        <div class="arcade-carousel-item" data-index="2" id="play-coming-soon-2">
+                            <div class="arcade-game-icon">🏎️</div>
+                            <div class="arcade-game-name">NEON DRIFT</div>
+                            <div class="arcade-game-desc">Synthwave racing through the grid</div>
+                            <span class="arcade-game-tag soon">SOON</span>
+                        </div>
+                    </div>
+                    
+                    <div class="arcade-nav-hint arcade-nav-right" id="arcade-nav-right">❯</div>
+                </div>
+            </div>
+        `;
+
+        const carouselItems = document.querySelectorAll('.arcade-carousel-item');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            carouselItems.forEach((item, index) => {
+                item.className = 'arcade-carousel-item'; // Reset classes
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else if (index === (currentIndex - 1 + carouselItems.length) % carouselItems.length) {
+                    item.classList.add('prev');
+                } else if (index === (currentIndex + 1) % carouselItems.length) {
+                    item.classList.add('next');
+                }
+            });
+        }
+
+        // Initialize Carousel
+        updateCarousel();
+
+        // Event Listeners for Navigation
+        document.getElementById('arcade-nav-left').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+            audioManager.play('click', { volume: 0.2 });
+            updateCarousel();
+        });
+
+        document.getElementById('arcade-nav-right').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            audioManager.play('click', { volume: 0.2 });
+            updateCarousel();
+        });
+
+        // Click on items to select or play
+        carouselItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                if (index === currentIndex) {
+                    // It's the active item, play it
+                    if (item.id === 'play-snake-card') {
+                        audioManager.play('click', { volume: 0.4 });
+                        arcadeContent.innerHTML = '';
+                        mountGame('snake', arcadeContent);
+                    } else {
+                        audioManager.play('error', { volume: 0.2 }); // optional, just to signify "coming soon"
+                    }
+                } else {
+                    // Bring to front
+                    currentIndex = index;
+                    audioManager.play('click', { volume: 0.2 });
+                    updateCarousel();
+                }
+            });
+        });
+    }
+
     function openArcadeSystem() {
         if (!arcadeOverlay) return;
-        
+
+        window.arcadeCurrentX = 0;
+        window.arcadeCurrentY = 0;
+        if (arcadeWindow) {
+            arcadeWindow.style.transform = `translate(0px, 0px)`;
+        }
+
         arcadeOverlay.classList.add('active');
         if (document.pointerLockElement) {
             document.exitPointerLock();
         }
 
-        // Render Retro Menu
-        arcadeContent.innerHTML = `
-            <div class="arcade-menu">
-                <h2>SELECT GAME</h2>
-                <br><br>
-                <button class="arcade-game-btn" id="play-snake-btn">SNAKE</button>
-                <br>
-                <button class="arcade-game-btn" onclick="document.getElementById('close-arcade').click()">EXIT</button>
-            </div>
-        `;
-
-        document.getElementById('play-snake-btn').addEventListener('click', () => {
-            arcadeContent.innerHTML = '';
-            mountGame('snake', arcadeContent);
-        });
+        renderArcadeMenu();
+        startArcadeParticles();
     }
 
     function closeArcadeSystem() {
@@ -664,7 +804,8 @@ document.addEventListener('DOMContentLoaded', () => {
             arcadeOverlay.classList.remove('active');
         }
         destroyActiveGame();
-        
+        stopArcadeParticles();
+
         const sceneEl = document.querySelector('a-scene');
         if (sceneEl) {
             sceneEl.canvas.requestPointerLock();
@@ -673,6 +814,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeArcadeBtn) {
         closeArcadeBtn.addEventListener('click', closeArcadeSystem);
+    }
+
+    // --- Arcade Window Dragging Logic ---
+    const arcadeTitleBar = document.querySelector('.arcade-header');
+    const arcadeWindow = document.querySelector('.arcade-screen-container');
+    let isArcadeDragging = false;
+    let arcadeInitialX = 0, arcadeInitialY = 0;
+    
+    // Using globals: let arcadeCurrentX = 0, arcadeCurrentY = 0; already declared above or implicitly.
+    // Actually wait, let's declare them here if they aren't declared, but I'll make sure they exist globally
+    // for openArcadeSystem to reset them.
+    window.arcadeCurrentX = window.arcadeCurrentX || 0;
+    window.arcadeCurrentY = window.arcadeCurrentY || 0;
+
+    if (arcadeTitleBar && arcadeWindow) {
+        arcadeTitleBar.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.control-btn')) return;
+            arcadeInitialX = e.clientX - window.arcadeCurrentX;
+            arcadeInitialY = e.clientY - window.arcadeCurrentY;
+            isArcadeDragging = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isArcadeDragging) {
+                arcadeInitialX = window.arcadeCurrentX;
+                arcadeInitialY = window.arcadeCurrentY;
+                isArcadeDragging = false;
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isArcadeDragging) {
+                e.preventDefault();
+                window.arcadeCurrentX = e.clientX - arcadeInitialX;
+                window.arcadeCurrentY = e.clientY - arcadeInitialY;
+                arcadeWindow.style.transform = `translate(${window.arcadeCurrentX}px, ${window.arcadeCurrentY}px)`;
+            }
+        });
     }
 
     if (musicPlayPauseBtn && musicAudio) {
