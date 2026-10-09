@@ -117,7 +117,9 @@
                 Interact: <b
                     style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 3px 7px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; color: #fff;">Click</b>
                 on objects or use <b
-                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 3px 7px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; color: #fff;">Dock</b>
+                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 3px 7px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; color: #fff;">Dock</b><br>
+                Activar/Silenciar sonido ambiente: <b
+                    style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 3px 7px; border-radius: 6px; font-weight: 500; font-size: 0.8rem; color: #fff;">M</b>
             </div>
             <button
                 onclick="document.getElementById('tutorial-overlay').style.opacity='0'; document.getElementById('tutorial-overlay').style.transform='translateX(-50%) scale(0.95)'; setTimeout(()=> document.getElementById('tutorial-overlay').remove(), 350);"
@@ -353,6 +355,7 @@
     </div>
 
     <audio id="music-audio" src="assets/music/Free Trial - kalia (1).mp3" preload="metadata"></audio>
+    <audio id="ambient-audio" src="assets/music/night_ambient.mp3" loop preload="auto" volume="0.3"></audio>
 
     <!-- Crosshair -->
     <div id="crosshair"></div>

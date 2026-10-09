@@ -895,4 +895,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Ambient Audio Logic ---
+    const ambientAudio = document.getElementById('ambient-audio');
+    let isAmbientPlaying = false;
+    
+    // Set audio volume if needed (though volume attribute doesn't work consistently across browsers on audio element)
+    if (ambientAudio) {
+        ambientAudio.volume = 0.3;
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'm') {
+            if (ambientAudio) {
+                if (ambientAudio.paused) {
+                    ambientAudio.play().catch(e => console.log('Audio play failed:', e));
+                    isAmbientPlaying = true;
+                } else {
+                    ambientAudio.pause();
+                    isAmbientPlaying = false;
+                }
+            }
+        }
+    });
+
+    // Auto-play ambient audio when user interacts for the first time
+    const startAmbientAudio = () => {
+        if (ambientAudio && !isAmbientPlaying && ambientAudio.paused) {
+            ambientAudio.play().then(() => {
+                isAmbientPlaying = true;
+            }).catch(err => console.log('Audio autoplay prevented'));
+        }
+        document.removeEventListener('click', startAmbientAudio);
+        document.removeEventListener('keydown', startAmbientAudio);
+    };
+
+    document.addEventListener('click', startAmbientAudio);
+    document.addEventListener('keydown', startAmbientAudio);
 });

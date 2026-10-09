@@ -18,7 +18,7 @@ class AudioManager {
         this.loadSound('open', 'https://cdn.freesound.org/previews/171/171671_2437358-lq.mp3');  // Swoosh/Open
 
         // Footsteps (Funciona directo en el navegador)
-        this.loadSound('step', 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_51cb0bc9e1.mp3?filename=footsteps.mp3');
+        this.loadSound('step', 'assets/music/pasos.mp3');
     }
 
     loadSound(name, url) {
@@ -57,7 +57,38 @@ class AudioManager {
 
     toggleMute() {
         this.enabled = !this.enabled;
+        
+        // Stop any looping sounds if muted
+        if (!this.enabled) {
+            for (const key in this.sounds) {
+                const sound = this.sounds[key];
+                if (sound && !sound.paused && sound.loop) {
+                    sound.pause();
+                }
+            }
+        }
+        
         return this.enabled;
+    }
+
+    startLoop(name, options = {}) {
+        if (!this.enabled) return;
+        const sound = this.sounds[name];
+        if (!sound) return;
+
+        sound.loop = true;
+        sound.volume = options.volume || this.volume;
+        if (sound.paused) {
+            sound.play().catch(e => {});
+        }
+    }
+
+    stopLoop(name) {
+        const sound = this.sounds[name];
+        if (!sound) return;
+        
+        sound.pause();
+        sound.currentTime = 0; // reset to beginning
     }
 }
 

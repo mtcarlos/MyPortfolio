@@ -76,13 +76,7 @@ export function registerCharacterController() {
                 if (!this.isMoving) {
                     this.model.setAttribute('animation-mixer', 'clip: Walking; crossFadeDuration: 0.2; loop: repeat');
                     this.isMoving = true;
-                }
-
-                // Audio: Footsteps
-                this.stepTimer += timeDelta;
-                if (this.stepTimer > this.stepInterval) {
-                    audioManager.play('step', { volume: 0.4, variation: 0.2 });
-                    this.stepTimer = 0;
+                    audioManager.startLoop('step', { volume: 0.4 });
                 }
 
                 // Calculate Camera Direction using explicit forward/right vectors
@@ -155,7 +149,7 @@ export function registerCharacterController() {
                 if (this.isMoving) {
                     this.model.setAttribute('animation-mixer', 'clip: Idle; crossFadeDuration: 0.2; loop: repeat');
                     this.isMoving = false;
-                    this.stepTimer = this.stepInterval;
+                    audioManager.stopLoop('step');
                 }
 
                 // Stop movement
