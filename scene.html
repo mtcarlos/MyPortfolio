@@ -270,11 +270,11 @@
                 <div class="arcade-crt-screen">
                     <!-- Canvas particle background -->
                     <canvas id="arcade-particles-canvas" class="arcade-particles"></canvas>
-                    
+
                     <div class="arcade-content" id="arcade-content">
                         <!-- Games menu or active game injected here -->
                     </div>
-                    
+
                     <!-- CRT effects stack -->
                     <div class="arcade-scanlines"></div>
                     <div class="arcade-crt-vignette"></div>
@@ -383,6 +383,7 @@
             <a-asset-item id="cyberpunk-city-model" src="assets/models/flat_cyberpunk_buildings.glb"></a-asset-item>
             <a-asset-item id="lamp-model" src="assets/models/abajour__lamp.glb"></a-asset-item>
             <a-asset-item id="arcade-model" src="assets/models/arcade_game_-_space_invaders.glb"></a-asset-item>
+            <a-asset-item id="mazinger-model" src="assets/models/mazingar_znanoblock.glb"></a-asset-item>
         </a-assets>
 
         <!-- Player Controller (Rig) -->
@@ -457,13 +458,16 @@
             shadow="cast: true; receive: true"></a-entity>
 
         <!-- Arcade Machine (Left Wall, Front Corner) -->
-        <a-entity id="arcade-machine" class="clickable" data-path="arcade-system"
-            gltf-model="assets/models/arcade_game_-_space_invaders.glb" position="4.50199 0 -1.64166" rotation=""
-            scale="1.2 1.2 1.2" shadow="">
+        <a-entity id="arcade-machine" class="clickable" data-path="arcade-system" gltf-model="#arcade-model"
+            position="4.50199 0 -1.64166" rotation="" scale="1.2 1.2 1.2" shadow="">
             <!-- Screen glow effect for the arcade -->
             <a-light type="point" color="#B81200" intensity="1.5" distance="3" position="0 1.5 -2.43963"
                 light=""></a-light>
         </a-entity>
+
+        <!-- Mazinger Model (Next to Arcade) -->
+        <a-entity id="mazinger" gltf-model="#mazinger-model" position="2.90343 0 -4.57337" rotation=""
+            scale="0.2 0.2 0.2" shadow=""></a-entity>
 
         <!-- ============================================
              Glass Curtain Wall (Right Side)
