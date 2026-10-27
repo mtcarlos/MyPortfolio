@@ -3,1366 +3,636 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beyond Code — Carlos Malagón</title>
-    <meta name="description" content="Beyond Code — An interactive digital art experience by Carlos Malagón.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!-- Fonts -->
+    <!-- Título principal y SEO Base -->
+    <title>Carlos Malagón — Creative Technologist | UI/UX & 3D Web Experiences</title>
+    <meta name="title" content="Carlos Malagón — Creative Technologist | UI/UX & 3D Web Experiences">
+    <meta name="description"
+        content="Interactive 3D portfolio of Carlos Malagón. Creative Technologist specializing in UI/UX design, WebXR, 3D web environments, and interactive experiences.">
+    <meta name="keywords"
+        content="Carlos Malagón, Creative Technologist, 3D Web Developer, UI/UX Designer, WebGL, Three.js, WebXR, A-Frame, Interactive Portfolio, Game UI, Frontend Developer">
+    <meta name="author" content="Carlos Malagón">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mtcarlos.github.io/MyPortfolio/">
+
+    <!-- Color de la barra del navegador en móviles y soporte PWA / Web Clip -->
+    <meta name="theme-color" content="#050811">
+    <meta name="msapplication-navbutton-color" content="#050811">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Open Graph / Facebook / LinkedIn / WhatsApp / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Carlos Malagón Portfolio">
+    <meta property="og:url" content="https://mtcarlos.github.io/MyPortfolio/">
+    <meta property="og:title" content="Carlos Malagón — Creative Technologist | Interactive 3D Portfolio">
+    <meta property="og:description"
+        content="[PRESS ANY BUTTON] Enter the interactive 3D environment. Explore projects in UI/UX, 3D Web, and Creative Technology.">
+    <meta property="og:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+    <meta property="og:image:secure_url" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Carlos Malagón - Creative Technologist 3D Portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="es_ES">
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://mtcarlos.github.io/MyPortfolio/">
+    <meta name="twitter:title" content="Carlos Malagón — Creative Technologist | Interactive 3D Portfolio">
+    <meta name="twitter:description"
+        content="[PRESS ANY BUTTON] Enter the interactive 3D environment. Explore projects in UI/UX, 3D Web, and Creative Technology.">
+    <meta name="twitter:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="./assets/MiLogo-CoEk_RM9.png">
+    <link rel="apple-touch-icon" href="./assets/MiLogo-CoEk_RM9.png">
+
+    <!-- Precarga de recursos y siguiente escena (Punto 4) -->
+    <link rel="prefetch" href="./assets/scene-rPlR3Tml.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Outfit:wght@200;300;400;500;600&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@200;300;400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Montserrat:wght@200;400&display=swap"
+        rel="stylesheet">
+
+    <!-- Datos estructurados Schema.org (JSON-LD) para Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Carlos Malagón",
+      "jobTitle": "Creative Technologist",
+      "url": "https://mtcarlos.github.io/MyPortfolio/",
+      "image": "https://mtcarlos.github.io/MyPortfolio/assets/images/MiLogo.png",
+      "sameAs": [
+        "https://github.com/mtcarlos",
+        "https://www.linkedin.com/in/carlos-malagon-tenorio"
+      ],
+      "knowsAbout": [
+        "Creative Technology",
+        "UI/UX Design",
+        "3D Web Experiences",
+        "WebXR",
+        "Interactive Environments",
+        "Software Architecture"
+      ]
+    }
+    </script>
 
     <style>
-        /* ==========================================
-           DESIGN SYSTEM — Liquid Glass Portfolio
-           ========================================== */
-
+        /* CSS Variables - PS2 Style Palette */
         :root {
-            --bg-deep: #030305;
-            --text-primary: #f5f5f7;
-            --text-secondary: rgba(245, 245, 247, 0.6);
-            --text-tertiary: rgba(245, 245, 247, 0.3);
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-glow: rgba(255, 255, 255, 0.2);
-            --font-display: 'Syne', sans-serif;
-            --font-body: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-serif: 'Cormorant Garamond', serif;
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-smooth: all 0.6s var(--ease-out-expo);
+            --bg-primary: #020408;
+            --bg-secondary: #0B1320;
+            --bg-tertiary: #111C2E;
+            --border-tech: #1E293B;
+            --border-light: #334155;
+            --text-active: #F8FAFC;
+            --text-inactive: #64748B;
+            --font-tech: 'Share Tech Mono', monospace;
         }
-
-        /* ==========================================
-           BILINGUAL SYSTEM
-           ========================================== */
-        :lang(es) .en-only { display: none !important; }
-        :lang(en) .es-only { display: none !important; }
-
-        .lang-switch {
-            display: flex;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            pointer-events: auto;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            color: var(--text-tertiary);
-            cursor: none;
-            transition: color 0.3s ease;
-        }
-
-        .lang-btn:hover { color: var(--text-primary); }
-        :lang(es) .lang-btn[data-lang="es"] { color: var(--text-primary); }
-        :lang(en) .lang-btn[data-lang="en"] { color: var(--text-primary); }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            width: 100%;
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            cursor: none;
-        }
-
-        /* ==========================================
-           CUSTOM CURSOR
-           ========================================== */
-
-        #custom-cursor {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--text-primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
-        }
-
-        #custom-cursor-ring {
-            position: fixed;
-            width: 32px;
-            height: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), border-color 0.3s ease;
-        }
-
-        body.hover-active #custom-cursor {
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        body.hover-active #custom-cursor-ring {
-            width: 56px;
-            height: 56px;
-            border-color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.03);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-        }
-
-        /* ==========================================
-           THREE.JS BACKGROUND CANVAS
-           ========================================== */
-
-        #bg-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        /* ==========================================
-           HERO SECTION (First viewport)
-           ========================================== */
-
-        .hero-section {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            z-index: 5;
-        }
-
-        /* ==========================================
-           HUD LAYOUT
-           ========================================== */
-
-        #hud-container {
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            padding: 40px;
-            pointer-events: none;
-        }
-
-        /* Header block */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fade-in-down 1.2s var(--ease-out-expo) 0.5s forwards;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-dot {
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-            animation: pulse-dot 2s infinite ease-in-out;
-        }
-
-        .logo-text {
-            font-family: var(--font-display);
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        .header-meta {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-
-        /* Center content */
-        main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            gap: 40px;
-        }
-
-        .title-group {
-            pointer-events: none;
-        }
-
-        .artist-title {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 8.5rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 0.9;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            opacity: 0;
-            filter: blur(15px);
-            transform: scale(0.95);
-            animation: reveal-title 1.8s var(--ease-out-expo) 0.2s forwards;
-            mix-blend-mode: difference;
-        }
-
-        .artist-subtitle {
-            font-family: var(--font-body);
-            font-size: clamp(0.75rem, 1.8vw, 1.1rem);
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-top: 15px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fade-in-up 1.2s var(--ease-out-expo) 0.8s forwards;
-        }
-
-        /* Interactive Enter Trigger — Orbital Portal */
-        .trigger-wrapper {
-            pointer-events: auto;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 1.2s var(--ease-out-expo) 1.2s forwards;
-        }
-
-        .enter-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: none;
-            background: transparent;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-weight: 300;
-            font-size: 0.65rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            position: relative;
-            cursor: none;
-            transition: transform 0.6s var(--ease-out-expo);
-        }
-
-        .enter-btn span:first-child {
-            position: relative;
-            z-index: 2;
-            transition: letter-spacing 0.6s var(--ease-out-expo), opacity 0.4s ease;
-        }
-
-        /* Core glow — the living pulse behind the text */
-        .enter-btn::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: radial-gradient(
-                circle,
-                rgba(180, 200, 255, 0.15) 0%,
-                rgba(140, 170, 255, 0.05) 50%,
-                transparent 70%
-            );
-            animation: core-pulse 3s ease-in-out infinite;
-            z-index: 0;
-        }
-
-        /* Outer orbital ring — chromatic gradient arc, rotating */
-        .enter-btn::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            padding: 1px;
-            background: conic-gradient(
-                from 0deg,
-                rgba(255, 120, 80, 0.7),
-                rgba(255, 200, 100, 0.4),
-                rgba(100, 220, 255, 0.7),
-                rgba(130, 100, 255, 0.5),
-                rgba(255, 120, 80, 0.0)
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: orbit-spin 8s linear infinite;
-            opacity: 0.6;
-            transition: opacity 0.5s ease;
-        }
-
-        /* Inner ring — subtle white boundary */
-        .enter-btn-ring {
-            position: absolute;
-            inset: 6px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: border-color 0.5s ease, inset 0.6s var(--ease-out-expo);
-            pointer-events: none;
-        }
-
-        /* Hover state — portal activates */
-        .enter-btn:hover {
-            transform: scale(1.12);
-        }
-
-        .enter-btn:hover::before {
-            opacity: 1;
-            animation-duration: 3s;
-        }
-
-        .enter-btn:hover::after {
-            width: 55px;
-            height: 55px;
-            background: radial-gradient(
-                circle,
-                rgba(180, 200, 255, 0.25) 0%,
-                rgba(140, 170, 255, 0.1) 50%,
-                transparent 70%
-            );
-        }
-
-        .enter-btn:hover span:first-child {
-            letter-spacing: 0.5em;
-        }
-
-        .enter-btn:hover .enter-btn-ring {
-            inset: 3px;
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .enter-btn .arrow-icon {
-            font-size: 1rem;
-            margin-top: 6px;
-            opacity: 0.4;
-            transition: transform 0.5s var(--ease-out-expo), opacity 0.4s ease;
-            z-index: 2;
-        }
-
-        .enter-btn:hover .arrow-icon {
-            transform: translateY(5px);
-            opacity: 0.9;
-        }
-
-        /* Footer block */
-        footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 1.2s var(--ease-out-expo) 1.5s forwards;
-        }
-
-        .footer-left {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-        }
-
-        .footer-center {
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .footer-center span.dot {
-            width: 4px;
-            height: 4px;
-            background: var(--text-secondary);
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-dot 1.5s infinite ease-in-out;
-        }
-
-        .footer-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .live-clock-wrapper {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
-        }
-
-        /* Audio Toggle Button - Minimalist */
-        #audio-toggle {
-            pointer-events: auto;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        #audio-toggle:hover {
-            color: var(--text-primary);
-        }
-
-        #audio-toggle .material-symbols-outlined {
-            font-size: 18px;
-        }
-
-        /* ==========================================
-           TRANSITION OVERLAY
-           ========================================== */
-
-        #transition-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-deep);
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        #transition-overlay.active {
-            opacity: 1;
-        }
-
-        /* ==========================================
-           KEYFRAME ANIMATIONS
-           ========================================== */
-
-        @keyframes fade-in-down {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fade-in-up {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes reveal-title {
-            to {
-                opacity: 1;
-                filter: blur(0);
-                transform: scale(1);
-            }
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% {
-                opacity: 0.4;
-                transform: scale(0.9);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.15);
-            }
-        }
-
-        @keyframes orbit-spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes core-pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.5);
-                opacity: 1;
-            }
-        }
-
-        /* ==========================================
-           SCROLL INDICATOR
-           ========================================== */
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-            animation: fade-in-up 1s var(--ease-out-expo) 2.2s forwards;
-            pointer-events: none;
-            z-index: 15;
-        }
-
-        .scroll-indicator span {
-            font-family: var(--font-mono);
-            font-size: 0.55rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--text-tertiary);
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 32px;
-            background: linear-gradient(to bottom, var(--text-tertiary), transparent);
-            animation: scroll-pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes scroll-pulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-            50% { opacity: 0.8; transform: scaleY(1); }
-        }
-
-        /* ==========================================
-           CINEMATIC SCROLL SECTIONS
-           ========================================== */
-
-        .scroll-narrative {
-            position: relative;
-            z-index: 20;
-            background: var(--bg-deep);
-        }
-
-        /* Gradient veil — seamless transition from hero to content */
-        .scroll-narrative::before {
-            content: '';
-            position: absolute;
-            top: -120px;
-            left: 0;
-            right: 0;
-            height: 120px;
-            background: linear-gradient(to bottom, transparent, var(--bg-deep));
-            pointer-events: none;
-        }
-
-        .chapter {
-            padding: 140px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .chapter:first-child {
-            border-top: none;
-            padding-top: 80px;
-        }
-
-        .chapter-inner {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        /* ---- Reveal animation base state ---- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1),
-                        transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Divider animation */
-        .chapter-divider {
-            width: 0;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.12);
-            margin: 50px 0;
-            transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
-        }
-
-        .chapter-divider.visible {
-            width: 48px;
-        }
-
-        .reveal-delay-1 { transition-delay: 0.15s; }
-        .reveal-delay-2 { transition-delay: 0.3s; }
-        .reveal-delay-3 { transition-delay: 0.45s; }
-        .reveal-delay-4 { transition-delay: 0.6s; }
-
-        /* ---- Editorial Enhancements ---- */
-        
-        .film-grain {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.04;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-        }
-
-        .reading-progress-container {
-            position: fixed;
-            left: 40px;
-            top: 50vh;
-            transform: translateY(-50%);
-            height: 40vh;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.05);
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        .reading-progress-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 0%;
-            background: var(--text-secondary);
-        }
-
-        .chapter {
-            padding: 180px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            position: relative;
-        }
-
-        .chapter-bg-number {
-            position: absolute;
-            top: 80px;
-            left: -20px;
-            font-family: var(--font-display);
-            font-size: 28vw;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.015);
-            line-height: 1;
-            letter-spacing: -0.05em;
-            pointer-events: none;
-            z-index: -1;
             user-select: none;
         }
 
-        .chapter.align-right .chapter-bg-number {
-            left: auto;
-            right: -20px;
-        }
-
-        .chapter.align-right .chapter-inner {
-            margin-left: auto;
-            margin-right: 0;
-            padding-right: 15%;
-        }
-
-        .pull-quote {
-            display: none; /* Removed as per request */
-        }
-
-        /* ---- Chapter SVG Illustration ---- */
-        .chapter-illustration {
-            position: absolute;
-            left: 8%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 35vw;
-            max-width: 450px;
-            aspect-ratio: 1;
-            pointer-events: auto; /* Allow mouse interaction for 3D tilt */
-            z-index: 5;
-            perspective: 1000px;
-        }
-
-        .spatial-compass-svg {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            transform-style: preserve-3d;
-            /* The 3D tilt will be applied here via JS */
-            transition: transform 0.1s ease-out;
-        }
-
-        .compass-layer {
-            transform-origin: 100px 100px; /* Center of the 200x200 viewBox */
-            /* Rotations applied via JS on scroll */
-        }
-
-        .compass-glow {
-            animation: pulse-glow 3s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.7; }
-        }
-
-        .reveal-delay-1 { transition-delay: 0.15s; }
-        .reveal-delay-2 { transition-delay: 0.3s; }
-        .reveal-delay-3 { transition-delay: 0.45s; }
-        .reveal-delay-4 { transition-delay: 0.6s; }
-
-        /* ---- Chapter: Overture / Intro ---- */
-        .chapter-label {
-            font-family: var(--font-mono);
-            font-size: 0.6rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: var(--text-tertiary);
-            margin-bottom: 30px;
-        }
-
-        .chapter-heading {
-            font-family: var(--font-display);
-            font-size: clamp(1.6rem, 4vw, 2.8rem);
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            line-height: 1.15;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-        }
-
-        .chapter-body {
-            font-family: var(--font-body);
-            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-            font-weight: 300;
-            line-height: 1.85;
-            color: var(--text-secondary);
-            max-width: 560px;
-        }
-
-        .chapter-body em {
-            color: var(--text-primary);
-            font-style: normal;
-            font-weight: 400;
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .control-card {
-            padding: 28px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.015);
-            transition: border-color 0.4s ease, background 0.4s ease;
-        }
-
-        .control-card:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .control-card .card-keys {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .control-card .card-keys kbd {
-            display: inline-block;
-            padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--text-primary);
-        }
-
-        .control-card .card-label {
-            font-family: var(--font-body);
-            font-size: 0.78rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* ---- Feature blocks (vertical list with icon) ---- */
-        .feature-list {
-            list-style: none;
-            margin-top: 40px;
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-inactive);
+            font-family: var(--font-tech);
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: crispEdges;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 28px;
         }
 
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
+        body.glitching {
+            animation: glitch-anim 0.1s infinite;
         }
 
-        .feature-icon {
-            flex-shrink: 0;
-            width: 36px;
-            height: 36px;
+        @keyframes glitch-anim {
+            0% {
+                filter: hue-rotate(0deg) contrast(1) brightness(1);
+                transform: translate(0);
+            }
+
+            33% {
+                filter: hue-rotate(90deg) contrast(2) brightness(1.5);
+                transform: translate(-5px, 2px);
+            }
+
+            66% {
+                filter: hue-rotate(-90deg) contrast(2) brightness(0.5);
+                transform: translate(5px, -2px);
+            }
+
+            100% {
+                filter: hue-rotate(0deg) contrast(1) brightness(1);
+                transform: translate(0);
+            }
+        }
+
+        .power-off {
+            animation: crt-off 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes crt-off {
+            0% {
+                transform: scale(1, 1);
+                opacity: 1;
+                filter: brightness(1) contrast(1);
+            }
+
+            40% {
+                transform: scale(1, 0.005);
+                opacity: 1;
+                filter: brightness(10) contrast(5);
+                background: white;
+            }
+
+            70% {
+                transform: scale(0, 0.005);
+                opacity: 1;
+                background: white;
+            }
+
+            100% {
+                transform: scale(0, 0);
+                opacity: 0;
+            }
+        }
+
+        /* Ambient Dither / Grid Overlay */
+        #crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 4px 4px;
+        }
+
+        /* Main Layout */
+        main {
             display: flex;
-            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        /* WebGL Container */
+        #canvas-container {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            z-index: 1;
+        }
+
+        /* Press Start Screen */
+        #press-start-screen {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 40%;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-secondary);
-        }
-
-        .feature-icon .material-symbols-outlined {
-            font-size: 18px;
-        }
-
-        .feature-text h3 {
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .feature-text p {
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-            font-weight: 300;
-            line-height: 1.65;
-            color: var(--text-secondary);
-        }
-
-        /* ---- Final CTA section ---- */
-        .chapter-cta {
-            text-align: center;
-            padding: 100px 40px 120px;
-        }
-
-        .cta-heading {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 5vw, 3.2rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-
-        .cta-sub {
-            font-family: var(--font-body);
-            font-size: clamp(0.8rem, 1.2vw, 0.95rem);
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--text-tertiary);
-            margin-bottom: 48px;
-        }
-
-        .cta-enter-btn {
-            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 16px 42px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-weight: 400;
-            font-size: 0.85rem;
+            z-index: 50;
+            background: transparent;
+            transition: opacity 0.8s ease;
+        }
+
+        .main-logo {
+            max-width: 500px;
+            width: 85%;
+            height: auto;
+            margin-bottom: 2rem;
+            /* Y2K glowing effect for the image logo */
+            filter: drop-shadow(0 0 15px rgba(248, 250, 252, 0.4));
+        }
+
+        .press-start-text {
+            position: fixed;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            /* Ultra fina */
+            font-size: 1.1rem;
+            color: var(--text-active);
+            letter-spacing: 0.5em;
+            /* Súper espaciada */
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0.8;
+            animation: breath-text 3s ease-in-out infinite;
+        }
+
+        @keyframes breath-text {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.9;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* Navigation Menu */
+        #menu-container {
+            position: absolute;
+            right: 8%;
+            top: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 10;
+
+            /* Initial hidden state for the Boot Sequence */
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) translateX(100px);
+            transition: opacity 1s ease 0.5s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+        }
+
+        #menu-container.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: opacity 0.8s ease;
+        }
+
+        .menu-item {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 1rem;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s var(--ease-out-expo), letter-spacing 0.4s ease;
-            cursor: none;
+            filter: blur(2.5px);
+            transform: scale(0.95);
         }
 
-        .cta-enter-btn:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.06);
-            transform: scale(1.04);
-            letter-spacing: 0.3em;
+        .menu-item.active {
+            color: #fff;
+            filter: blur(0px);
+            transform: scale(1);
+            letter-spacing: 0.35em;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
-        .cta-enter-btn .material-symbols-outlined {
-            font-size: 18px;
-            transition: transform 0.4s var(--ease-out-expo);
-        }
 
-        .cta-enter-btn:hover .material-symbols-outlined {
-            transform: translateX(4px);
-        }
 
-        /* ==========================================
-           RESPONSIVE STYLE
-           ========================================== */
+        @keyframes pulse-cursor {
 
-        @media (max-width: 768px) {
-            #hud-container {
-                padding: 24px;
-            }
-
-            .header-meta,
-            .footer-center {
-                display: none;
-            }
-
-            .artist-title {
-                letter-spacing: -0.04em;
-            }
-
-            body {
-                cursor: auto;
-            }
-
-            #custom-cursor,
-            #custom-cursor-ring,
-            .reading-progress-container,
-            .chapter-illustration {
-                display: none;
-            }
-
-            .chapter {
-                padding: 100px 0;
-            }
-
-            .chapter-bg-number {
-                font-size: 50vw;
-                top: 40px;
-            }
-
-            .chapter.align-right .chapter-inner {
-                padding-right: 24px;
-            }
-
-            .chapter-inner {
-                padding: 0 24px;
-            }
-
-            .controls-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .chapter-cta {
-                padding: 60px 24px 80px;
-            }
-
-            .scroll-indicator {
-                display: none;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            .reveal {
+            0%,
+            100% {
                 opacity: 1;
-                transform: none;
             }
 
-            .chapter-divider {
-                width: 48px !important;
-                transition: none !important;
+            50% {
+                opacity: 0;
             }
+        }
+
+        /* Cinematic Diegetic Info Panels (Typography in space) */
+        .info-panel {
+            position: absolute;
+            top: 35%;
+            left: 8%;
+            width: 400px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-out;
+            /* Rápido al desaparecer */
+            font-family: 'Montserrat', sans-serif;
+            z-index: 20;
+        }
+
+        .info-panel.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 1.2s ease-in-out;
+            /* Lento y cinemático al aparecer */
+        }
+
+        .panel-header {
+            font-size: 1.8rem;
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            color: #fff;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            font-weight: 200;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        /* Y2K PlayStation HUD Footer */
+        .hud-footer {
+            position: absolute;
+            bottom: 2.5rem;
+            right: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 10;
+
+            /* Initial hidden state */
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+        }
+
+        .hud-footer.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .ps-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        .ps-cross {
+            color: #7da5ff;
+            /* PlayStation Blue */
+        }
+
+        .ps-dpad {
+            color: var(--text-inactive);
+        }
+
+        .ps-analog {
+            color: var(--text-inactive);
+        }
+
+        .hud-item .action {
+            color: var(--text-active);
+            text-shadow: 0 0 8px rgba(248, 250, 252, 0.5);
+        }
+
+        /* Quick Actions (Bottom Left) */
+        #quick-actions {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 4rem;
+            display: flex;
+            gap: 1.5rem;
+            z-index: 60;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.8s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+        }
+
+        #quick-actions.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        .action-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--text-inactive);
+            cursor: pointer;
+            pointer-events: all;
+            transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .action-icon:hover {
+            color: var(--text-active);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-primary);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .bios-text {
+            color: var(--text-active);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .logo-loader-container {
+            position: relative;
+            width: 160px;
+            /* Tamaño elegante para la firma */
+            margin-bottom: 2rem;
+        }
+
+        .logo-loader-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .logo-base {
+            opacity: 0.08;
+            /* Muy sutil en el fondo, desaturado si quieres */
+            filter: grayscale(100%);
+        }
+
+        .logo-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            clip-path: inset(100% 0 0 0);
+            /* Empieza recortado por completo desde arriba */
+            transition: clip-path 0.15s ease-out;
+            /* Suaviza el salto de progreso */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+            /* Brillo poético */
+        }
+
+        .bios-text-loader {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
         }
     </style>
+    <!-- Setup para cargar Three.js como módulos estáticos desde CDN -->
+
     <script type="importmap">
         {
             "imports": {
-                "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/"
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
             }
         }
     </script>
-  <script type="module" crossorigin src="./assets/index-Btl41g3Y.js"></script>
+  <script type="module" crossorigin src="./assets/main-LmheJFQN.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="./assets/UnrealBloomPass-CfNIN112.js">
 </head>
 
 <body>
+    <div id="crt-overlay"></div>
 
-    <!-- Editorial Film Grain -->
-    <div class="film-grain"></div>
-
-    <!-- Reading Progress -->
-    <div class="reading-progress-container">
-        <div class="reading-progress-fill" id="reading-progress"></div>
+    <div id="loader">
+        <div class="logo-loader-container">
+            <img src="./assets/MiLogo-CoEk_RM9.png" class="logo-base" alt="Loading Base">
+            <!-- La imagen "fill" se recorta con CSS desde JS -->
+            <img src="./assets/MiLogo-CoEk_RM9.png" class="logo-fill" id="logo-fill" alt="Loading Progress">
+        </div>
+        <div class="bios-text-loader" id="loading-text">LOADING ENVIRONMENT...</div>
     </div>
 
-    <!-- Custom Cursor elements -->
-    <div id="custom-cursor"></div>
-    <div id="custom-cursor-ring"></div>
-
-    <!-- WebGL Canvas for the Glass Sculpture -->
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- Transition Overlay for page routing -->
-    <div id="transition-overlay"></div>
-
-    <!-- ======== HERO SECTION (First Viewport) ======== -->
-    <section class="hero-section">
-
-        <!-- HUD Overlay for text/buttons -->
-        <div id="hud-container">
-            <!-- Top bar -->
-            <header>
-                <div class="logo-area">
-                    <div class="logo-dot"></div>
-                    <div class="logo-text">Carlos Malagón</div>
-                </div>
-                <div class="lang-switch">
-                    <button class="lang-btn" data-lang="es" onclick="document.documentElement.lang='es'">ES</button>
-                    <span style="color: var(--text-tertiary)">/</span>
-                    <button class="lang-btn" data-lang="en" onclick="document.documentElement.lang='en'">EN</button>
-                </div>
-            </header>
-
-            <main>
-                <div class="title-group">
-                    <h1 class="artist-title">BEYOND<br>CODE</h1>
-                    <p class="artist-subtitle">
-                        <span class="es-only">Donde la ingeniería abraza al arte</span>
-                        <span class="en-only">Where Engineering Meets Art</span>
-                    </p>
-                </div>
-                <div class="trigger-wrapper">
-                    <a href="scene.html" class="enter-btn" id="enter-experience" aria-label="Enter the experience">
-                        <span class="es-only">Explorar</span>
-                        <span class="en-only">Explore</span>
-                        <span class="material-symbols-outlined arrow-icon">arrow_forward</span>
-                        <div class="enter-btn-ring"></div>
-                    </a>
-                </div>
-            </main>
-
-            <!-- Bottom bar -->
-            <footer>
-                <div class="footer-left">Beyond Code // 2026</div>
-                <div class="footer-center">
-                    <span class="dot"></span>
-                    <span class="es-only">Mueve el cursor para interactuar</span>
-                    <span class="en-only">Move the cursor to interact</span>
-                </div>
-                <div class="footer-right">
-                    <div class="live-clock-wrapper">
-                        <span id="live-clock">00:00:00</span>
-                    </div>
-                    <button id="audio-toggle" aria-label="Toggle ambient audio">
-                        <span class="material-symbols-outlined">volume_off</span>
-                    </button>
-                </div>
-            </footer>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator">
-            <span>Scroll</span>
-            <div class="scroll-line"></div>
-        </div>
-
-    </section>
-
-    <!-- ======== CINEMATIC NARRATIVE SECTIONS ======== -->
-    <div class="scroll-narrative">
-
-        <!-- Chapter I — The Concept -->
-        <section class="chapter">
-            <div class="chapter-bg-number reveal">01</div>
-            <div class="chapter-inner">
-                <div class="chapter-label reveal">
-                    <span class="es-only">Capítulo I</span>
-                    <span class="en-only">Chapter I</span>
-                </div>
-                <h2 class="chapter-heading reveal reveal-delay-1">
-                    <span class="es-only">Un portfolio que no se lee.<br>Se habita.</span>
-                    <span class="en-only">A portfolio not to be read,<br>but inhabited.</span>
-                </h2>
-                <div class="chapter-divider reveal reveal-delay-2"></div>
-                <p class="chapter-body reveal reveal-delay-2">
-                    <span class="es-only">
-                        Más allá de esta página existe un <em>espacio tridimensional</em> construido 
-                        pieza a pieza, una habitación digital donde cada objeto cuenta una historia. 
-                        No encontrarás listas ni slideshows. Encontrarás un lugar por el que caminar, 
-                        mirar alrededor y descubrir quién soy a través de lo que he construido.
-                    </span>
-                    <span class="en-only">
-                        Beyond this page lies a <em>three-dimensional space</em> built piece by piece, 
-                        a digital room where every object tells a story. You won't find lists or slideshows. 
-                        You will find a place to walk through, look around, and discover who I am through what I've built.
-                    </span>
-                </p>
-            </div>
-        </section>
-
-        <!-- Chapter I removed pull quote -->
-
-        <!-- Chapter II — How it works (Asymmetrical) -->
-        <section class="chapter align-right" id="chapter-dynamics">
-            <div class="chapter-bg-number reveal">02</div>
-            
-            <div class="chapter-illustration" id="compass-container">
-                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="spatial-compass-svg" id="spatial-compass">
-                    <defs>
-                        <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="rgba(255,255,255,1)" />
-                            <stop offset="30%" stop-color="rgba(255,255,255,0.4)" />
-                            <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-                        </radialGradient>
-                    </defs>
-
-                    <!-- Background Base Grid (Static) -->
-                    <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
-                        <line x1="100" y1="0" x2="100" y2="200" />
-                        <line x1="0" y1="100" x2="200" y2="100" />
-                        <line x1="29" y1="29" x2="171" y2="171" />
-                        <line x1="29" y1="171" x2="171" y2="29" />
-                        <circle cx="100" cy="100" r="95" stroke-dasharray="1 4" />
-                    </g>
-
-                    <!-- Text overlays -->
-                    <text x="100" y="12" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="6" text-anchor="middle" letter-spacing="2">Z-AXIS</text>
-                    <text x="188" y="102" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="6" text-anchor="end" letter-spacing="2">X</text>
-
-                    <!-- Layer 1: Outer Tracker Ring (Rotates Fast) -->
-                    <g class="compass-layer" id="compass-outer">
-                        <circle cx="100" cy="100" r="85" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2 6" />
-                        <circle cx="100" cy="100" r="81" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" />
-                        <!-- Target brackets on outer ring -->
-                        <path d="M 100 10 L 100 20 M 100 180 L 100 190 M 10 100 L 20 100 M 180 100 L 190 100" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
-                    </g>
-
-                    <!-- Layer 2: Middle Data Ring (Rotates Opposite) -->
-                    <g class="compass-layer" id="compass-middle">
-                        <circle cx="100" cy="100" r="60" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="60 10" />
-                        <!-- Orbital satellites -->
-                        <circle cx="100" cy="40" r="2.5" fill="#fff" />
-                        <circle cx="100" cy="160" r="2.5" fill="#fff" />
-                        <circle cx="40" cy="100" r="1.5" fill="rgba(255,255,255,0.6)" />
-                        <circle cx="160" cy="100" r="1.5" fill="rgba(255,255,255,0.6)" />
-                    </g>
-                    
-                    <!-- Layer 3: Inner Camera Reticle (Rotates Slow) -->
-                    <g class="compass-layer" id="compass-inner">
-                        <circle cx="100" cy="100" r="30" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
-                        <!-- Camera corners (focus brackets) -->
-                        <path d="M 82 72 L 72 72 L 72 82" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
-                        <path d="M 118 72 L 128 72 L 128 82" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
-                        <path d="M 82 128 L 72 128 L 72 118" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
-                        <path d="M 118 128 L 128 128 L 128 118" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" fill="none" />
-                        
-                        <!-- Small crosshair -->
-                        <line x1="95" y1="100" x2="105" y2="100" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" />
-                        <line x1="100" y1="95" x2="100" y2="105" stroke="rgba(255,255,255,0.5)" stroke-width="0.5" />
-                    </g>
-
-                    <!-- Center Core (Static) -->
-                    <circle cx="100" cy="100" r="2" fill="#fff" />
-                    <circle cx="100" cy="100" r="18" fill="url(#coreGlow)" class="compass-glow" />
-                </svg>
-            </div>
-            <div class="chapter-inner">
-                <div class="chapter-label reveal">
-                    <span class="es-only">Capítulo II</span>
-                    <span class="en-only">Chapter II</span>
-                </div>
-                <h2 class="chapter-heading reveal reveal-delay-1">
-                    <span class="es-only">Dinámica del Espacio</span>
-                    <span class="en-only">Space Dynamics</span>
-                </h2>
-                <div class="chapter-divider reveal reveal-delay-2"></div>
-                <p class="chapter-body reveal reveal-delay-2">
-                    <span class="es-only">
-                        Al pulsar <em>Explorar</em>, entrarás en una escena 3D interactiva renderizada 
-                        en tiempo real. Controlas un personaje que puede moverse libremente por el 
-                        espacio. La cámara sigue tus pasos. Los objetos reaccionan a tu presencia.
-                    </span>
-                    <span class="en-only">
-                        Upon pressing <em>Explore</em>, you'll enter an interactive 3D scene rendered in real-time. 
-                        You control a character that moves freely through the space. The camera follows your steps. 
-                        Objects react to your presence.
-                    </span>
-                </p>
-
-                <div class="controls-grid reveal reveal-delay-3">
-                    <div class="control-card">
-                        <div class="card-keys">
-                            <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
-                        </div>
-                        <div class="card-label">
-                            <span class="es-only">Movimiento del personaje por el espacio</span>
-                            <span class="en-only">Character movement through space</span>
-                        </div>
-                    </div>
-                    <div class="control-card">
-                        <div class="card-keys">
-                            <kbd>Ratón</kbd>
-                        </div>
-                        <div class="card-label">
-                            <span class="es-only">Controla la dirección de la cámara</span>
-                            <span class="en-only">Controls the camera direction</span>
-                        </div>
-                    </div>
-                    <div class="control-card">
-                        <div class="card-keys">
-                            <kbd>Click</kbd>
-                        </div>
-                        <div class="card-label">
-                            <span class="es-only">Interactúa con los objetos del entorno</span>
-                            <span class="en-only">Interact with environment objects</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Chapter II removed pull quote -->
-
-        <!-- Chapter III — What you'll find -->
-        <section class="chapter">
-            <div class="chapter-bg-number reveal">03</div>
-            <div class="chapter-inner">
-                <div class="chapter-label reveal">
-                    <span class="es-only">Capítulo III</span>
-                    <span class="en-only">Chapter III</span>
-                </div>
-                <h2 class="chapter-heading reveal reveal-delay-1">
-                    <span class="es-only">La Colección</span>
-                    <span class="en-only">The Collection</span>
-                </h2>
-                <div class="chapter-divider reveal reveal-delay-2"></div>
-                <p class="chapter-body reveal reveal-delay-2">
-                    <span class="es-only">
-                        Un estudio digital con iluminación de galería. Cada rincón contiene 
-                        fragmentos de mi trayectoria: proyectos, habilidades técnicas, 
-                        datos de contacto y alguna sorpresa escondida para quien se detenga a observar.
-                    </span>
-                    <span class="en-only">
-                        A digital studio with gallery lighting. Every corner holds fragments of my journey: 
-                        projects, technical skills, contact information, and hidden surprises for those who pause to look.
-                    </span>
-                </p>
-
-                <ul class="feature-list reveal reveal-delay-3">
-                    <li class="feature-item">
-                        <div class="feature-icon">
-                            <span class="material-symbols-outlined">person</span>
-                        </div>
-                        <div class="feature-text">
-                            <h3><span class="es-only">Sobre mí</span><span class="en-only">About me</span></h3>
-                            <p>
-                                <span class="es-only">Quién soy, de dónde vengo y qué me mueve como creador.</span>
-                                <span class="en-only">Who I am, where I come from, and what drives me as a creator.</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="feature-item">
-                        <div class="feature-icon">
-                            <span class="material-symbols-outlined">folder_open</span>
-                        </div>
-                        <div class="feature-text">
-                            <h3><span class="es-only">Proyectos</span><span class="en-only">Projects</span></h3>
-                            <p>
-                                <span class="es-only">Trabajos seleccionados, cada uno con su historia y contexto técnico.</span>
-                                <span class="en-only">Selected works, each with its story and technical context.</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="feature-item">
-                        <div class="feature-icon">
-                            <span class="material-symbols-outlined">school</span>
-                        </div>
-                        <div class="feature-text">
-                            <h3><span class="es-only">Habilidades</span><span class="en-only">Skills</span></h3>
-                            <p>
-                                <span class="es-only">Tecnologías, herramientas y disciplinas que domino.</span>
-                                <span class="en-only">Technologies, tools, and disciplines I master.</span>
-                            </p>
-                        </div>
-                    </li>
-                    <li class="feature-item">
-                        <div class="feature-icon">
-                            <span class="material-symbols-outlined">mail</span>
-                        </div>
-                        <div class="feature-text">
-                            <h3><span class="es-only">Contacto</span><span class="en-only">Contact</span></h3>
-                            <p>
-                                <span class="es-only">Formas de conectar, colaborar o simplemente conversar.</span>
-                                <span class="en-only">Ways to connect, collaborate, or simply chat.</span>
-                            </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Final CTA -->
-        <section class="chapter-cta">
-            <div class="reveal">
-                <h2 class="cta-heading">
-                    <span class="es-only">¿Preparado?</span>
-                    <span class="en-only">Ready?</span>
-                </h2>
-                <p class="cta-sub">
-                    <span class="es-only">La experiencia espera al otro lado</span>
-                    <span class="en-only">The experience awaits on the other side</span>
-                </p>
-                <a href="scene.html" class="cta-enter-btn" id="enter-experience-bottom" aria-label="Enter the experience">
-                    <span class="es-only">Entrar al estudio</span>
-                    <span class="en-only">Enter the studio</span>
-                    <span class="material-symbols-outlined">arrow_forward</span>
-                </a>
-            </div>
-        </section>
-
+    <div id="press-start-screen">
+        <div class="press-start-text">PRESS ANY BUTTON</div>
     </div>
 
-    <!-- Import Map for Three.js -->
+    <main>
+        <div id="canvas-container"></div>
+
+        <div id="menu-container">
+            <nav id="main-menu">
+                <div class="menu-item active" data-action="start">
+                    START EXPERIENCE
+                </div>
+                <div class="menu-item" data-action="controls">
+                    CONTROLS / GUIDE
+                </div>
+                <div class="menu-item" data-action="archive">
+                    ARCHIVE / ABOUT
+                </div>
+            </nav>
 
 
-    <!-- Main JS Application script -->
+
+            <div id="panel-controls" class="info-panel">
+                <div class="panel-header">Controls</div>
+                <div class="panel-body">
+                    <div class="info-row"><span class="info-label">[ W A S D ]</span><span class="info-value">MOVE
+                            CHARACTER</span></div>
+                    <div class="info-row"><span class="info-label">[ MOUSE DRAG ]</span><span class="info-value">CAMERA
+                            ORBIT</span></div>
+                    <div class="info-row"><span class="info-label">[ L CLICK ]</span><span
+                            class="info-value">INTERACT</span></div>
+                </div>
+            </div>
+
+            <div id="panel-archive" class="info-panel">
+                <div class="panel-header">Profile</div>
+                <div class="panel-body">
+                    <div class="info-row"><span class="info-label">NAME</span><span class="info-value">CARLOS
+                            MALAGÓN</span></div>
+                    <div class="info-row"><span class="info-label">CLASS</span><span class="info-value">CREATIVE
+                            TECHNOLOGIST</span></div>
+                    <div class="info-row"><span class="info-label">SPEC</span><span class="info-value">UI/UX & 3D
+                            EXPERIENCES</span></div>
+                </div>
+            </div>
+        </div> <!-- Cerramos el menu-container correctamente -->
+
+        <div id="quick-actions">
+            <svg id="toggle-sound" class="action-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path id="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <line id="sound-mute-line" x1="1" y1="1" x2="23" y2="23" style="display:none; stroke-width: 2;"></line>
+            </svg>
+
+            <svg id="toggle-menu" class="action-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line id="menu-hidden-line" x1="1" y1="1" x2="23" y2="23" style="display:none; stroke-width: 2;"></line>
+            </svg>
+        </div>
+    </main>
+
+    <audio id="bg-music" src="assets/music/The Hush of the Game.mp3" loop preload="auto"></audio>
+
+    <!-- JS Logic -->
 </body>
 
 </html>

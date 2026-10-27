@@ -23,7 +23,7 @@ Estudiante de **Ingeniería de Sistemas Audiovisuales y Multimedia** con base t�
 
 ## Formación
 ### Ingeniería de Sistemas Audiovisuales y Multimedia — Universidad Rey Juan Carlos (URJC)
-**13/09/2021 – Actualidad** · Fuenlabrada, Madrid  
+**13/09/2021 – 2026** · Fuenlabrada, Madrid  
 **EQF 6** :contentReference[oaicite:7]{index=7}  
 
 ### Bachillerato de Ciencias — IES Calderón de la Barca

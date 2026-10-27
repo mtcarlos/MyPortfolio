@@ -431,6 +431,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     openMusicPlayer();
                 } else if (path === 'arcade-system') {
                     openArcadeSystem();
+                } else if (path === 'forest-world') {
+                    // Transition to Forest World
+                    audioManager.play('click');
+                    const transitionEl = document.createElement('div');
+                    transitionEl.style.cssText = 'position:fixed;inset:0;background:#020818;z-index:10000;opacity:0;transition:opacity 0.8s ease;';
+                    document.body.appendChild(transitionEl);
+                    requestAnimationFrame(() => { transitionEl.style.opacity = '1'; });
+                    setTimeout(() => { window.location.href = 'forest.html'; }, 900);
                 } else {
                     const anchorId = this.getAttribute('data-anchor');
                     if (anchorId) {

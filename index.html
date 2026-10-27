@@ -45,13 +45,14 @@
     <meta name="twitter:title" content="Carlos Malagón — Creative Technologist | Interactive 3D Portfolio">
     <meta name="twitter:description"
         content="[PRESS ANY BUTTON] Enter the interactive 3D environment. Explore projects in UI/UX, 3D Web, and Creative Technology.">
-    <meta name="twitter:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.jpg">
+    <meta name="twitter:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="assets/images/MiLogo.png">
     <link rel="apple-touch-icon" href="assets/images/MiLogo.png">
 
-    <!-- Precarga de fuentes y estilos -->
+    <!-- Precarga de recursos y siguiente escena (Punto 4) -->
+    <link rel="prefetch" href="scene.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Montserrat:wght@200;400&display=swap"
@@ -67,7 +68,8 @@
       "url": "https://mtcarlos.github.io/MyPortfolio/",
       "image": "https://mtcarlos.github.io/MyPortfolio/assets/images/MiLogo.png",
       "sameAs": [
-        "https://github.com/mtcarlos"
+        "https://github.com/mtcarlos",
+        "https://www.linkedin.com/in/carlos-malagon-tenorio"
       ],
       "knowsAbout": [
         "Creative Technology",
@@ -383,6 +385,8 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
 
+
+
         /* Y2K PlayStation HUD Footer */
         .hud-footer {
             position: absolute;
@@ -578,7 +582,8 @@
                 </div>
             </nav>
 
-            <!-- Cinematic Panels -->
+
+
             <div id="panel-controls" class="info-panel">
                 <div class="panel-header">Controls</div>
                 <div class="panel-body">
@@ -1256,7 +1261,8 @@
                 // 4. Pantalla de carga en negro
                 setTimeout(() => {
                     document.getElementById('loading-text').textContent = 'SYSTEM OVERRIDE // ENTERING STUDIO...';
-                    document.querySelector('.progress-bar-container').style.display = 'none';
+                    const logoLoader = document.querySelector('.logo-loader-container');
+                    if (logoLoader) logoLoader.style.display = 'none';
                     loaderScreen.style.backgroundColor = 'black';
                     loaderScreen.style.display = 'flex';
                     loaderScreen.style.opacity = '1';
@@ -1371,10 +1377,14 @@
             }
         });
 
-        window.addEventListener('mousedown', () => {
+        window.addEventListener('mousedown', (e) => {
             if (!isMenuActive) {
                 startMenuSequence();
             } else if (isPanelOpen) {
+                // Si el usuario hace click en enlaces de descarga o botones interactivos, no cerrar
+                if (e.target.closest('a') || e.target.closest('button')) {
+                    return;
+                }
                 closeCurrentPanel();
             }
         });

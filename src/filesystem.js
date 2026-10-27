@@ -42,7 +42,7 @@ export const fileSystem = {
         content: `
             <h3>Ingeniería de Sistemas Audiovisuales y Multimedia</h3>
             <p><strong>Universidad Rey Juan Carlos (URJC)</strong><br>
-            2021 – Actualidad · Fuenlabrada, Madrid<br>
+            2021 – 2026 · Fuenlabrada, Madrid<br>
             <em>EQF 6</em></p>
             <hr>
             <h3>Bachillerato de Ciencias</h3>
@@ -53,7 +53,7 @@ export const fileSystem = {
         contentEn: `
             <h3>Audiovisual Systems and Multimedia Engineering</h3>
             <p><strong>Rey Juan Carlos University (URJC)</strong><br>
-            2021 – Present · Fuenlabrada, Madrid<br>
+            2021 – 2026 · Fuenlabrada, Madrid<br>
             <em>EQF 6</em></p>
             <hr>
             <h3>Science Baccalaureate</h3>

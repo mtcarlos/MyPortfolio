@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Título y SEO -->
+    <title>Carlos Malagón — Bosque al Atardecer | 3D Experience</title>
+    <meta name="title" content="Carlos Malagón — Bosque al Atardecer | 3D Experience">
+    <meta name="description"
+        content="Explora el bosque encantado al atardecer en 3D — parte del portfolio interactivo de Carlos Malagón.">
+    <meta name="author" content="Carlos Malagón">
+    <meta name="robots" content="index, follow">
+
+    <!-- Color de la barra del navegador -->
+    <meta name="theme-color" content="#2b1418">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="./assets/MiLogo-CoEk_RM9.png">
+    <link rel="apple-touch-icon" href="./assets/MiLogo-CoEk_RM9.png">
+
+    <!-- Iconos de Material Symbols para el botón de regreso -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        /* ─── RESET ──────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #2b1418;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
+            cursor: default;
+        }
+
+        /* ─── CANVAS ──────────────────────────────────────── */
+        #forest-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ─── LOADER ──────────────────────────────────────── */
+        #forest-loader {
+            position: fixed;
+            inset: 0;
+            background: #221016;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease;
+        }
+
+        .forest-loader-logo {
+            width: 100px;
+            margin-bottom: 1.8rem;
+            opacity: 0.5;
+            filter: drop-shadow(0 0 12px rgba(255, 140, 60, 0.4));
+        }
+
+        .forest-loader-bar {
+            width: 180px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .forest-loader-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff7a30, #ffb347);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 122, 48, 0.6);
+        }
+
+        /* ─── TRANSITION OVERLAY ──────────────────────────── */
+        #transition-overlay {
+            position: fixed;
+            inset: 0;
+            background: #221016;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.7s ease;
+        }
+
+        #transition-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ─── BOTÓN VOLVER (Minimalista, sin textos) ───────── */
+        #back-to-studio {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(35, 18, 25, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 170, 110, 0.25);
+            border-radius: 50%;
+            color: rgba(255, 220, 190, 0.85);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            outline: none;
+        }
+
+        #back-to-studio:hover {
+            background: rgba(50, 22, 30, 0.75);
+            border-color: rgba(255, 170, 110, 0.7);
+            color: #ffffff;
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255, 130, 50, 0.4);
+        }
+
+        #back-to-studio .material-symbols-outlined {
+            font-size: 22px;
+        }
+    </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+  <script type="module" crossorigin src="./assets/forest-DWSkD4ch.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="./assets/UnrealBloomPass-CfNIN112.js">
+</head>
+
+<body>
+    <!-- Overlay para transiciones suaves -->
+    <div id="transition-overlay" class="active"></div>
+
+    <!-- Pantalla de carga inicial (desaparece sola) -->
+    <div id="forest-loader">
+        <img src="./assets/MiLogo-CoEk_RM9.png" class="forest-loader-logo" alt="Loading">
+        <div class="forest-loader-bar">
+            <div class="forest-loader-fill" id="forest-loader-fill"></div>
+        </div>
+    </div>
+
+    <!-- Canvas 3D -->
+    <canvas id="forest-canvas"></canvas>
+
+    <!-- Botón minimalista de volver (solo icono) -->
+    <button id="back-to-studio" title="Volver al Estudio" aria-label="Volver al Estudio">
+        <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+
+    <!-- Three.js importmap -->
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('transition-overlay');
+                if (overlay) overlay.classList.remove('active');
+            }, 250);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -3,8 +3,55 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Portfolio Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Título principal y SEO Base -->
+    <title>Carlos Malagón — 3D Studio & Interactive Environment</title>
+    <meta name="title" content="Carlos Malagón — 3D Studio & Interactive Environment">
+    <meta name="description"
+        content="Explore the immersive 3D interactive studio of Carlos Malagón. Creative Technologist specializing in UI/UX, WebXR, and interactive engineering.">
+    <meta name="keywords"
+        content="Carlos Malagón, Creative Technologist, 3D Web, WebXR, A-Frame, Three.js, Virtual OS, Interactive Studio">
+    <meta name="author" content="Carlos Malagón">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mtcarlos.github.io/MyPortfolio/scene.html">
+
+    <!-- Color de la barra del navegador en móviles -->
+    <meta name="theme-color" content="#050811">
+    <meta name="msapplication-navbutton-color" content="#050811">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Carlos Malagón Portfolio">
+    <meta property="og:url" content="https://mtcarlos.github.io/MyPortfolio/scene.html">
+    <meta property="og:title" content="Carlos Malagón — 3D Studio & Interactive Environment">
+    <meta property="og:description"
+        content="Explore the immersive 3D interactive studio of Carlos Malagón. Creative Technologist specializing in UI/UX, WebXR, and interactive engineering.">
+    <meta property="og:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+    <meta property="og:image:secure_url" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Carlos Malagón - 3D Studio & Interactive Environment">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="es_ES">
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://mtcarlos.github.io/MyPortfolio/scene.html">
+    <meta name="twitter:title" content="Carlos Malagón — 3D Studio & Interactive Environment">
+    <meta name="twitter:description"
+        content="Explore the immersive 3D interactive studio of Carlos Malagón. Creative Technologist specializing in UI/UX, WebXR, and interactive engineering.">
+    <meta name="twitter:image" content="https://mtcarlos.github.io/MyPortfolio/assets/images/og-preview.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="assets/images/MiLogo.png">
+    <link rel="apple-touch-icon" href="assets/images/MiLogo.png">
+
+    <!-- Precarga de fuentes y librerías -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -20,6 +67,22 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="./src/main.js"></script>
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Carlos Malagón",
+      "jobTitle": "Creative Technologist",
+      "url": "https://mtcarlos.github.io/MyPortfolio/",
+      "image": "https://mtcarlos.github.io/MyPortfolio/assets/images/MiLogo.png",
+      "sameAs": [
+        "https://github.com/mtcarlos",
+        "https://www.linkedin.com/in/carlos-malagon-tenorio"
+      ]
+    }
+    </script>
 
     <script>
         AFRAME.registerComponent('play-video-on-hover', {
@@ -57,6 +120,45 @@
                         }
                     });
                 });
+            }
+        });
+
+        // Proximity-based door trigger for natural forest transition
+        AFRAME.registerComponent('door-proximity', {
+            schema: {
+                target: { type: 'selector', default: '#door' },
+                triggerDistance: { type: 'number', default: 1.8 }
+            },
+            init: function () {
+                this.triggered = false;
+            },
+            tick: function () {
+                if (this.triggered) return;
+                const target = this.data.target;
+                if (!target) return;
+
+                const rigPos = this.el.object3D.position;
+                const doorPos = target.object3D.position;
+
+                // Distancia horizontal plana al centro de la puerta
+                const dx = rigPos.x - doorPos.x;
+                const dz = rigPos.z - doorPos.z;
+                const dist = Math.hypot(dx, dz);
+
+                // Cuando el caballero toca / se aproxima a la puerta
+                if (dist < this.data.triggerDistance) {
+                    this.triggered = true;
+                    // Transición suave idéntica a la de forest.html
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = 'position:fixed;inset:0;background:#3d2319;z-index:99999;opacity:0;pointer-events:all;transition:opacity 0.75s ease;';
+                    document.body.appendChild(overlay);
+                    requestAnimationFrame(() => {
+                        overlay.style.opacity = '1';
+                    });
+                    setTimeout(() => {
+                        window.location.href = 'forest.html';
+                    }, 750);
+                }
             }
         });
     </script>
@@ -390,7 +492,7 @@
         <!-- Physics Body Container -->
         <a-entity id="rig" position="0 2 0"
             dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 60; angularDamping: 1.0;" character-controller
-            smart-camera="target: #rig">
+            smart-camera="target: #rig" door-proximity>
 
             <!-- Character Model -->
             <a-entity id="character" gltf-model="#character-model" rotation="0 180 0" position="0 -0.5 0"
@@ -714,7 +816,7 @@
             gltf-model="#living-room-model" position="2.5 0.1 2.5" rotation="0 90 0" scale="0.8 0.8 0.8"
             shadow="cast: true; receive: true"></a-entity>
 
-        <!-- Door on Front Wall -->
+        <!-- Door on Front Wall (Non-clickable, proximity-based natural entry) -->
         <a-entity id="door" gltf-model="#door-model" position="-2.5 0 4.9" rotation="0 180 0" scale="1 1 1"
             shadow="cast: true; receive: true"></a-entity>
 
